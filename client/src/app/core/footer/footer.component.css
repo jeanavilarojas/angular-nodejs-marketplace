@@ -1,21 +1,18 @@
 .footer {
-  position: fixed;
-  bottom: 0;
   width: 100%;
   height: auto;
   text-align: center;
   background-color: #21252b;
-  color: #fff;
+  color: white !important;
 }
 
 .container {
   margin: 0 auto;
 }
 
-.title-center {
+.title {
   flex: 1 1 auto;
   text-align: center;
-  font-weight: normal;
   padding-top: 20px;
   padding-bottom: 20px;
 }
@@ -23,16 +20,6 @@
 .divider {
   width: 100%;
   border: none;
-  border-top: 1px solid #fff;
+  border-top: 1px solid white;
   margin: 0px;
-}
-
-.footer-top {
-  font-size: 15px;
-  font-weight: normal;
-}
-
-.footer-bottom {
-  font-size: 15px;
-  font-weight: normal;
 }

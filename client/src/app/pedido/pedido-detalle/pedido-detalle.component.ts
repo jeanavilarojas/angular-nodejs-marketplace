@@ -12,7 +12,7 @@ export class PedidoDetalleComponent {
   pedido: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private gService: GenericService, private route: ActivatedRoute) {}
+  constructor(private gService: GenericService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     let id = this.route.snapshot.paramMap.get('id');

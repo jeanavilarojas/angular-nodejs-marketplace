@@ -5,29 +5,29 @@
     <span class="navbar-spacer"></span>
 
     <div>
-      <a mat-button [routerLink]="'/inicio'" [ngClass]="'nav-link'">Inicio</a>
-      <a mat-button [routerLink]="'/acerca-de'" [ngClass]="'nav-link'">Acerca de</a>
-      <a mat-button [routerLink]="'/contacto'" [ngClass]="'nav-link'">Contacto</a>
+      <a mat-button aria-label="Inicio" [routerLink]="'/inicio'" [ngClass]="'nav-link'">Inicio</a>
+      <a mat-button aria-label="Acerca de" [routerLink]="'/acerca-de'" [ngClass]="'nav-link'">Acerca de</a>
+      <a mat-button aria-label="Contacto" [routerLink]="'/contacto'" [ngClass]="'nav-link'">Contacto</a>
     </div>
 
-    <button mat-icon-button matTooltip="Buscar">
+    <button mat-icon-button aria-label="Buscar" matTooltip="Buscar">
       <mat-icon class="navbar-icon">search</mat-icon>
     </button>
-    <button mat-icon-button [matTooltip]="tooltipText" [matMenuTriggerFor]="usuarioMenu">
+    <button mat-icon-button aria-label="Cuenta" [matTooltip]="tooltipText" [matMenuTriggerFor]="usuarioMenu">
       <mat-icon class="navbar-icon">account_circle</mat-icon>
     </button>    
-    <button mat-icon-button matTooltip="Carrito">
+    <button mat-icon-button aria-label="Carrito" matTooltip="Carrito">
       <mat-icon class="navbar-icon">local_mall</mat-icon>
     </button>
 
     <mat-menu #usuarioMenu="matMenu">
-      <button mat-menu-item *ngIf="!isAutenticated" (click)="login()">
+      <button mat-menu-item  aria-label="Iniciar sesión" *ngIf="!isAutenticated" (click)="login()">
         <span>Iniciar sesión</span>
       </button>
-      <button mat-menu-item *ngIf="isAutenticated" (click)="perfil()">
+      <button mat-menu-item aria-label="Perfil" *ngIf="isAutenticated" (click)="perfil()">
         <span>Perfil</span>
       </button>
-      <button mat-menu-item *ngIf="isAutenticated" (click)="logout()">
+      <button mat-menu-item aria-label="Cerrar sesión" *ngIf="isAutenticated" (click)="logout()">
         <span>Cerrar sesión</span>
       </button>
     </mat-menu>
@@ -37,24 +37,20 @@
   <mat-toolbar-row class="navbar-bottom">
     <span class="navbar-spacer"></span>
     <div>
-      <a mat-button [routerLink]="'/pedido'" [ngClass]="'nav-link'">Pedidos cliente</a>
-      <a mat-button [routerLink]="'/producto'" [ngClass]="'nav-link'">Productos cliente</a>
-      <a mat-button [routerLink]="'/pedido-vendedor'" [ngClass]="'nav-link'">Pedidos vendedor</a>
-      <a mat-button [routerLink]="'/producto-vendedor'" [ngClass]="'nav-link'">Productos vendedor</a>
+      <a mat-button aria-label="Pedidos" [routerLink]="'/pedido'" [ngClass]="'nav-link'">Pedidos cliente</a>
+      <a mat-button aria-label="Productos" [routerLink]="'/producto'" [ngClass]="'nav-link'">Productos cliente</a>
+      <a mat-button aria-label="Pedidos" [routerLink]="'/pedido-vendedor'" [ngClass]="'nav-link'">Pedidos vendedor</a>
+      <a mat-button aria-label="Productos" [routerLink]="'/producto-vendedor'" [ngClass]="'nav-link'">Productos vendedor</a>
       
-      <!-- <mat-menu #pedidosMenu="matMenu">
+      <!-- <mat-menu #mantenimientosMenu="matMenu">
         <button mat-menu-item [routerLink]="'/pedido'" [ngClass]="'nav-link'">
-          Pedidos cliente
+          Productos
         </button>
-        <button
-          mat-menu-item
-          [routerLink]="'/pedido-vendedor'"
-          [ngClass]="'nav-link'"
-        >
-          Pedidos vendedor
+        <button mat-menu-item [routerLink]="'/pedido-vendedor'" [ngClass]="'nav-link'">
+          Usuarios
         </button>
       </mat-menu>
-      <a mat-button [matMenuTriggerFor]="pedidosMenu">Pedidos</a>  -->
+      <a mat-button [matMenuTriggerFor]="mantenimientosMenu">Mantenimientos</a> -->
     </div>
   </mat-toolbar-row>
 </mat-toolbar>

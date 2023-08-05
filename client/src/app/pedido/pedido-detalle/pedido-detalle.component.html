@@ -1,14 +1,14 @@
 <div class="grid-container">
-  <h1 class="mat-h1">Mis pedidos</h1>
-  <div *ngFor="let pedido of pedido" class="pedido-card"> <!-- Cambio "datos" a "pedido" -->
+  <h1>Mis pedidos</h1>
+  <div *ngFor="let pedido of pedido" class="pedido-card">
     <div class="pedido-header">
-      <h2 class="mat-h2">Pedido {{ pedido.id }}</h2>
-      <p>Fecha: {{ pedido.fecha | date }}</p>
-      <p>Estado: {{ pedido.estado }}</p>
+      <h2>Pedido {{ pedido.id }}</h2>
+      <p><b>Fecha: </b>{{ pedido.fecha | date }}</p>
+      <p><b>Estado: </b>{{ pedido.estado }}</p>
     </div>
     <div class="pedido-content">
       <div class="producto-item" *ngFor="let producto of pedido.productos">
-        <h4 class="mat-h4 producto-nombre">{{ producto.producto.nombre }}</h4>
+        <h2><b>{{ producto.producto.nombre }}</b></h2>
         <p>Cantidad: {{ producto.cantidad }}</p>
         <p>Precio unitario: {{ producto.producto.precio | currency : "₡" }}</p>
         <p>Subtotal: {{ producto.subtotal | currency : "₡" }}</p>
@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="pedido-footer">
-      <h4 class="mat-h4 pedido-total">Total del pedido: {{ pedido.total | currency : "₡" }}</h4>
+      <h2 class="pedido-total"><b>Total del pedido: {{ pedido.total | currency : "₡" }}</b></h2>
     </div>
   </div>
 </div>

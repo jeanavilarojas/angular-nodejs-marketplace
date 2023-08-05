@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/share/authentication.service';
 import { CartService } from 'src/app/share/cart.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -17,8 +17,8 @@ export class HeaderComponent implements OnInit {
   isTrue: number = 0;
 
   constructor(
-    private cartService: CartService,
     private authService: AuthenticationService,
+    private cartService: CartService,
     private router: Router
   ) { }
 
@@ -46,17 +46,17 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  // Método que redirecciona a iniciar sesión
+  // Redireccionar a iniciar sesión
   login() {
     this.router.navigate(['usuario/login']);
   }
 
-  // Método que redirecciona al perfil del usuario
+  // Redireccionar al perfil del usuario
   perfil() {
     this.router.navigate(['usuario/perfil']);
   }
 
-  // Método que cierra la sesión del usuario
+  // Cerrar la sesión del usuario
   logout() {
     this.sesion = false;
     localStorage.clear();

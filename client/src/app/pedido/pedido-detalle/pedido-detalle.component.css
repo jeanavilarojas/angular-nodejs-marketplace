@@ -15,8 +15,13 @@
   align-items: center;
 }
 
+.pedido-header h2, p {
+  margin: 0px;
+}
+
 .pedido-content {
   display: flex;
+  margin: 10px;
 }
 
 .producto-item {
@@ -24,8 +29,8 @@
   padding: 10px;
 }
 
-.producto-nombre {
-  font-weight: bold;
+.producto-item h2 {
+  margin: 0px;
 }
 
 .pedido-footer {
@@ -35,6 +40,5 @@
 }
 
 .pedido-total {
-  font-weight: bold;
-  margin: 0;
+  margin: 0px;
 }
