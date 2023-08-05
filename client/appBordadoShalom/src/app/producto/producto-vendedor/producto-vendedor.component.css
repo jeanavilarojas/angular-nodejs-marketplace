@@ -1,0 +1,39 @@
+.grid-container {
+  padding: 20px;
+}
+
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 17px;
+}
+
+.encabezado h1 {
+  margin-bottom: 0%;
+}
+
+.encabezado button {
+  display: flex;
+  align-items: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  background-color: #f2f2f2;
+  padding: 10px;
+  text-align: left;
+  font-weight: bold;
+}
+
+tbody td {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}

@@ -1,0 +1,30 @@
+<div class="grid-container">
+  <h1 class="mat-h1">Mis pedidos</h1>
+  <div *ngFor="let pedido of datos" class="pedido-card">
+    <div class="pedido-header">
+      <h2 class="mat-h2">Pedido {{ pedido.id }}</h2>
+      <p>Fecha: {{ pedido.fecha | date }}</p>
+      <p>Estado: {{ pedido.estado }}</p>
+    </div>
+    <div class="pedido-content">
+      <div class="producto-item">
+        <h4 class="mat-h4 producto-nombre">Productos:</h4>
+        <ul *ngIf="pedido.productos">
+          <li *ngFor="let item of pedido.productos"><a [routerLink]="['/producto-detalle', item.producto.id]"> {{ item.producto.nombre }} </a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="pedido-footer">
+      <h4 class="mat-h4 pedido-total">Total del pedido: {{ pedido.total | currency : "₡" }}</h4>
+      <button
+        mat-button
+        matTooltip="Detalle pedido"
+        aria-label="Detalle pedido"
+        (click)="detallePedido(pedido.id)"
+      >
+        Ver Detalle
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

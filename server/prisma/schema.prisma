@@ -1,0 +1,159 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id             Int          @id @default(autoincrement())
+  nombre         String
+  apellidos      String
+  identificacion String       @unique
+  telefono       String       @unique
+  correo         String       @unique
+  contrasenna    String
+  estado         Boolean      @default(true)
+  roles          Rol[]
+  direcciones    Direccion[]
+  metodosPago    MetodoPago[]
+  pedidos        Pedido[]
+  productos      Producto[]
+  preguntas      Pregunta[]
+  respuestas     Respuesta[]
+  evaluaciones   Evaluacion[]
+}
+
+model Rol {
+  id          Int       @id @default(autoincrement())
+  descripcion String
+  usuarios    Usuario[]
+}
+
+model Direccion {
+  id              Int      @id @default(autoincrement())
+  provincia       String
+  canton          String
+  distrito        String
+  direccionExacta String
+  codigoPostal    String
+  telefono        String
+  usuarioId       Int
+  usuario         Usuario  @relation(fields: [usuarioId], references: [id])
+  compras         Compra[]
+}
+
+model MetodoPago {
+  id              Int      @id @default(autoincrement())
+  tipoPago        String
+  proveedor       String
+  numeroCuenta    String
+  fechaExpiracion String
+  usuarioId       Int
+  usuario         Usuario  @relation(fields: [usuarioId], references: [id])
+  compras         Compra[]
+}
+
+model Categoria {
+  id          Int        @id @default(autoincrement())
+  descripcion String
+  productos   Producto[]
+}
+
+model Foto {
+  id         Int      @id @default(autoincrement())
+  url        String   @db.LongText
+  productoId Int
+  producto   Producto @relation(fields: [productoId], references: [id])
+}
+
+model Pregunta {
+  id          Int        @id @default(autoincrement())
+  fecha       DateTime   @default(now())
+  descripcion String
+  productoId  Int
+  producto    Producto   @relation(fields: [productoId], references: [id])
+  clienteId   Int
+  cliente     Usuario    @relation(fields: [clienteId], references: [id])
+  respuestas  Respuesta?
+}
+
+model Respuesta {
+  id          Int      @id @default(autoincrement())
+  fecha       DateTime @default(now())
+  descripcion String
+  preguntaId  Int      @unique
+  pregunta    Pregunta @relation(fields: [preguntaId], references: [id])
+  vendedorId  Int
+  vendedor    Usuario  @relation(fields: [vendedorId], references: [id])
+}
+
+model Producto {
+  id          Int                @id @default(autoincrement())
+  nombre      String
+  descripcion String
+  precio      Float
+  cantidad    Int
+  estado      String // Nuevo, Usado-Como nuevo, Usado-Buen estado, Usado-Aceptable 
+  vendedorId  Int
+  vendedor    Usuario            @relation(fields: [vendedorId], references: [id])
+  categorias  Categoria[]
+  fotos       Foto[]
+  preguntas   Pregunta[]
+  pedidos     PedidoOnProducto[]
+}
+
+model Pedido {
+  id        Int                @id @default(autoincrement())
+  fecha     DateTime           @default(now())
+  total     Int
+  estado    String // Pendiente, en progreso, entregado o finalizado
+  usuarioId Int
+  usuario   Usuario            @relation(fields: [usuarioId], references: [id])
+  compra    Compra?
+  productos PedidoOnProducto[]
+}
+
+model PedidoOnProducto {
+  cantidad   Int
+  subtotal   Float
+  total      Float
+  pedidoId   Int
+  pedido     Pedido   @relation(fields: [pedidoId], references: [id])
+  productoId Int
+  producto   Producto @relation(fields: [productoId], references: [id])
+
+  @@id([pedidoId, productoId])
+}
+
+model Compra {
+  id           Int         @id @default(autoincrement())
+  cantidad     Int
+  subtotal     Float
+  impuestos    Float
+  total        Float
+  estado       String // Pendiente, en progreso, entregado o finalizado
+  direccionId  Int
+  direccion    Direccion   @relation(fields: [direccionId], references: [id])
+  metodoPagoId Int
+  metodoPago   MetodoPago  @relation(fields: [metodoPagoId], references: [id])
+  pedido       Pedido      @relation(fields: [id], references: [id])
+  evaluacion   Evaluacion?
+}
+
+model Evaluacion {
+  id                   Int      @id @default(autoincrement())
+  calificacionCliente  Float
+  comentarioCliente    String
+  calificacionVendedor Float
+  comentarioVendedor   String
+  compraId             Int      @unique
+  compra               Compra   @relation(fields: [compraId], references: [id])
+  usuarioId            Int?
+  usuario              Usuario? @relation(fields: [usuarioId], references: [id])
+}

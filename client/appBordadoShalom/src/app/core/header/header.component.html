@@ -1,0 +1,60 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row class="navbar-top">
+    <img src="./assets/images/logo.png" alt="Logo" class="navbar-logo" />
+    <span class="navbar-title text-bold">Bordados Shalom</span>
+    <span class="navbar-spacer"></span>
+
+    <div>
+      <a mat-button [routerLink]="'/inicio'" [ngClass]="'nav-link'">Inicio</a>
+      <a mat-button [routerLink]="'/acerca-de'" [ngClass]="'nav-link'">Acerca de</a>
+      <a mat-button [routerLink]="'/contacto'" [ngClass]="'nav-link'">Contacto</a>
+    </div>
+
+    <button mat-icon-button matTooltip="Buscar">
+      <mat-icon class="navbar-icon">search</mat-icon>
+    </button>
+    <button mat-icon-button [matTooltip]="tooltipText" [matMenuTriggerFor]="usuarioMenu">
+      <mat-icon class="navbar-icon">account_circle</mat-icon>
+    </button>    
+    <button mat-icon-button matTooltip="Carrito">
+      <mat-icon class="navbar-icon">local_mall</mat-icon>
+    </button>
+
+    <mat-menu #usuarioMenu="matMenu">
+      <button mat-menu-item *ngIf="!isAutenticated" (click)="login()">
+        <span>Iniciar sesión</span>
+      </button>
+      <button mat-menu-item *ngIf="isAutenticated" (click)="perfil()">
+        <span>Perfil</span>
+      </button>
+      <button mat-menu-item *ngIf="isAutenticated" (click)="logout()">
+        <span>Cerrar sesión</span>
+      </button>
+    </mat-menu>
+    
+  </mat-toolbar-row>
+
+  <mat-toolbar-row class="navbar-bottom">
+    <span class="navbar-spacer"></span>
+    <div>
+      <a mat-button [routerLink]="'/pedido'" [ngClass]="'nav-link'">Pedidos cliente</a>
+      <a mat-button [routerLink]="'/producto'" [ngClass]="'nav-link'">Productos cliente</a>
+      <a mat-button [routerLink]="'/pedido-vendedor'" [ngClass]="'nav-link'">Pedidos vendedor</a>
+      <a mat-button [routerLink]="'/producto-vendedor'" [ngClass]="'nav-link'">Productos vendedor</a>
+      
+      <!-- <mat-menu #pedidosMenu="matMenu">
+        <button mat-menu-item [routerLink]="'/pedido'" [ngClass]="'nav-link'">
+          Pedidos cliente
+        </button>
+        <button
+          mat-menu-item
+          [routerLink]="'/pedido-vendedor'"
+          [ngClass]="'nav-link'"
+        >
+          Pedidos vendedor
+        </button>
+      </mat-menu>
+      <a mat-button [matMenuTriggerFor]="pedidosMenu">Pedidos</a>  -->
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>

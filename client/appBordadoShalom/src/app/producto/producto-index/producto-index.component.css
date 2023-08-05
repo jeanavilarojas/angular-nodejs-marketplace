@@ -1,0 +1,11 @@
+.grid-container {
+  padding: 20px;
+}
+
+.dashboard-card-content div {
+  margin-bottom: 5px;
+}
+
+.example-card {
+  min-width: 400px;
+}

@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 75vh;
+}
+
+.error-image {
+  width: 300px;
+  height: auto;
+  margin-bottom: 20px;
+}
