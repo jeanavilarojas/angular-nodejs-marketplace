@@ -45,7 +45,6 @@ export class ProductoIndexComponent {
     return this.sanitizer.bypassSecurityTrustUrl(base64Image);
   }
 
-
   // Direccionar a la página de detalle
   detalleProducto(id: number) {
     this.router.navigate(['/producto-detalle', id]);

@@ -4,7 +4,6 @@ const prisma = new PrismaClient();
 // Obtener pedidos
 module.exports.get = async (request, response, next) => {
   const pedidos = await prisma.pedido.findMany({
-    orderBy: { fecha: "asc" },
     include: { usuario: true },
   });
   response.json(pedidos);
@@ -57,12 +56,19 @@ module.exports.getByCliente = async (request, response, next) => {
 module.exports.getByVendedor = async (request, response, next) => {
   let vendedorId = parseInt(request.params.vendedorId);
   const pedidos = await prisma.pedido.findMany({
-    where: { vendedorId: vendedorId },
+    where: {
+      productos: {
+        some: {
+          producto: {
+            vendedorId: vendedorId,
+          }
+        }
+      },
+    },
     orderBy: {
       fecha: "asc",
     },
     include: {
-      usuario: true,
       productos: {
         select: {
           cantidad: true,

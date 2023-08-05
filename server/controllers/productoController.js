@@ -50,7 +50,20 @@ module.exports.getByVendedor = async (request, response, next) => {
   let vendedorId = parseInt(request.params.vendedorId);
   const productos = await prisma.producto.findMany({
     where: { vendedorId: vendedorId },
-    include: { categorias: true, preguntas: true },
+    include: {
+      categorias: true,
+      fotos: true,
+      preguntas: {
+        include: {
+          cliente: true,
+          respuestas: {
+            include: {
+              vendedor: true, // Incluimos al vendedor asociado a la respuesta
+            },
+          },
+        },
+      },
+    },
   });
   response.json(productos);
 };

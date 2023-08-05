@@ -2,10 +2,16 @@
   padding: 20px;
 }
 
-.dashboard-card-content div {
-  margin-bottom: 5px;
+.grid-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
 }
 
-.example-card {
-  min-width: 400px;
+.product-card {
+  width: 100%;
+}
+
+.dashboard-card-content .price {
+  margin-bottom: 5px;
 }
