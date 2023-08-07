@@ -224,6 +224,11 @@ async function main() {
       estado: "Nuevo",
       vendedor: { connect: { id: 2 } },
       categorias: { connect: [{ id: 1 }, { id: 5 }] },
+      fotos: {
+        create: {
+          url: Buffer.from(fs.readFileSync("images/cuello-redondo.jpg")).toString("base64"),
+        }
+      },
     },
     include: {
       categorias: true,
@@ -242,6 +247,11 @@ async function main() {
       estado: "Nuevo",
       vendedor: { connect: { id: 3 } },
       categorias: { connect: [{ id: 1 }, { id: 4 }] },
+      fotos: {
+        create: {
+          url: Buffer.from(fs.readFileSync("images/tipo-polo.jpg")).toString("base64"),
+        }
+      },
     },
     include: {
       categorias: true,
@@ -260,6 +270,11 @@ async function main() {
       estado: "Nuevo",
       vendedor: { connect: { id: 2 } },
       categorias: { connect: [{ id: 2 }, { id: 4 }] },
+      fotos: {
+        create: {
+          url: Buffer.from(fs.readFileSync("images/tipo-dry-fit.jpg")).toString("base64"),
+        }
+      },
     },
     include: {
       categorias: true,
@@ -278,6 +293,11 @@ async function main() {
       estado: "Nuevo",
       vendedor: { connect: { id: 3 } },
       categorias: { connect: [{ id: 2 }, { id: 4 }, { id: 5 }] },
+      fotos: {
+        create: {
+          url: Buffer.from(fs.readFileSync("images/gorra-dry-fit.jpg")).toString("base64"),
+        }
+      },
     },
     include: {
       categorias: true,
@@ -296,6 +316,11 @@ async function main() {
       estado: "Nuevo",
       vendedor: { connect: { id: 2 } },
       categorias: { connect: [{ id: 3 }, { id: 4 }] },
+      fotos: {
+        create: {
+          url: Buffer.from(fs.readFileSync("images/manga-larga.jpg")).toString("base64"),
+        }
+      },
     },
     include: {
       categorias: true,
@@ -314,72 +339,16 @@ async function main() {
       estado: "Nuevo",
       vendedor: { connect: { id: 3 } },
       categorias: { connect: [{ id: 3 }, { id: 5 }] },
+      fotos: {
+        create: {
+          url: Buffer.from(fs.readFileSync("images/estilo-columbia.jpg")).toString("base64"),
+        }
+      },
     },
     include: {
       categorias: true,
       fotos: true,
       preguntas: true,
-    },
-  });
-
-  // Fotos
-  await prisma.foto.create({
-    // Instancia de la foto 1
-    data: {
-      url: Buffer.from(fs.readFileSync("images/cuello-redondo.jpg")).toString("base64"),
-      producto: {
-        connect: { id: 1 },
-      },
-    },
-  });
-
-  await prisma.foto.create({
-    // Instancia de la foto 2
-    data: {
-      url: Buffer.from(fs.readFileSync("images/tipo-polo.jpg")).toString("base64"),
-      producto: {
-        connect: { id: 2 },
-      },
-    },
-  });
-
-  await prisma.foto.create({
-    // Instancia de la foto 3
-    data: {
-      url: Buffer.from(fs.readFileSync("images/tipo-dry-fit.jpg")).toString("base64"),
-      producto: {
-        connect: { id: 3 },
-      },
-    },
-  });
-
-  await prisma.foto.create({
-    // Instancia de la foto 4
-    data: {
-      url: Buffer.from(fs.readFileSync("images/gorra-dry-fit.jpg")).toString("base64"),
-      producto: {
-        connect: { id: 4 },
-      },
-    },
-  });
-
-  await prisma.foto.create({
-    // Instancia de la foto 5
-    data: {
-      url: Buffer.from(fs.readFileSync("images/manga-larga.jpg")).toString("base64"),
-      producto: {
-        connect: { id: 5 },
-      },
-    },
-  });
-
-  await prisma.foto.create({
-    // Instancia de la foto 6
-    data: {
-      url: Buffer.from(fs.readFileSync("images/estilo-columbia.jpg")).toString("base64"),
-      producto: {
-        connect: { id: 6 },
-      },
     },
   });
 

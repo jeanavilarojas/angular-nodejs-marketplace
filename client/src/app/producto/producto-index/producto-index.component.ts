@@ -34,14 +34,8 @@ export class ProductoIndexComponent {
   }
 
   // Obtener las fotos del producto
-  getImageUrl(url) {
-    const binary = atob(url);
-    const len = binary.length;
-    const bytes = new Uint8Array(len);
-    for (let i = 0; i < len; i++) {
-      bytes[i] = binary.charCodeAt(i);
-    }
-    const base64Image = 'data:image/jpeg;base64,' + btoa(String.fromCharCode.apply(null, bytes));
+  obtenerImagen(url) {
+    const base64Image = 'data:image/jpeg;base64,' + url;
     return this.sanitizer.bypassSecurityTrustUrl(base64Image);
   }
 

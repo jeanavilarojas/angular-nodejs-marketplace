@@ -1,44 +1,8 @@
-<!-- <div class="grid-container">
-  <h1>Productos</h1>
-  <mat-grid-list [cols]="4" rowHeight="12em" gutterSize="10px">
-    <mat-grid-tile *ngFor="let item of datos">
-      <mat-card class="example-card">
-        <mat-card-header>
-          <mat-card-title>{{ item.nombre }}</mat-card-title>
-          <mat-card-subtitle>{{ item.categoriasString }}</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content class="dashboard-card-content">
-          <img mat-card-image [src]="'datos:image/jpeg;base64,' + item.fotos[0].image" alt="Imagen del producto"/>
-          <div>{{ item.precio | currency : "₡" }}</div>
-          <mat-divider></mat-divider>
-        </mat-card-content>
-        <mat-card-actions>
-          <button
-            mat-button
-            matTooltip="Detalle del producto"
-            aria-label="Detalle del producto"
-            (click)="detalleProducto(item.id)"
-          >
-            <mat-icon>info</mat-icon>
-          </button>
-          <button
-            mat-button
-            matTooltip="Comprar producto"
-            aria-label="Comprar producto"
-          >
-            <mat-icon>add_shopping_cart</mat-icon>
-          </button>
-        </mat-card-actions>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
-</div> -->
-
 <div class="grid-container">
   <h1>Productos</h1>
   <div class="grid-list">
     <mat-card class="product-card" *ngFor="let item of datos">
-      <img mat-card-image [src]="'datos:image/jpeg;base64,' + item.fotos[0].image" alt="Imagen del producto"/>
+      <img mat-card-image [src]="obtenerImagen(item.fotos[0].url)" alt="Imagen del producto"/>
       <mat-card-header>
         <mat-card-title>{{ item.nombre }}</mat-card-title>
         <mat-card-subtitle>{{ item.categoriasString }}</mat-card-subtitle>
