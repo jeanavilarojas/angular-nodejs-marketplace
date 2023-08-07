@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { DomSanitizer } from '@angular/platform-browser';
 import { GenericService } from 'src/app/share/generic.service';
 
 @Component({
@@ -12,8 +13,8 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
   productoId: number;
   producto: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
-
-  constructor(private route: ActivatedRoute, private gService: GenericService) {}
+  
+  constructor(private route: ActivatedRoute, private gService: GenericService, private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params) => {
@@ -40,6 +41,12 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
       return this.producto.categorias.map((categoria) => categoria.descripcion).join(', ');
     }
     return '';
+  }
+
+  // Obtener las fotos del producto
+  obtenerImagen(url) {
+    const base64Image = 'data:image/jpeg;base64,' + url;
+    return this.sanitizer.bypassSecurityTrustUrl(base64Image);
   }
 
   // Obtener respuesta asociada a una pregunta

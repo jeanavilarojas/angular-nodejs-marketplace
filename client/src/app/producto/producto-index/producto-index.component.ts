@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GenericService } from 'src/app/share/generic.service';
 

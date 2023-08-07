@@ -2,7 +2,7 @@
   <h1>Productos</h1>
   <div class="grid-list">
     <mat-card class="product-card" *ngFor="let item of datos">
-      <img mat-card-image [src]="obtenerImagen(item.fotos[0].url)" alt="Imagen del producto"/>
+      <img mat-card-image [src]="obtenerImagen(item.fotos[0].url)" alt="Foto de {{ item.nombre }}"/>
       <mat-card-header>
         <mat-card-title>{{ item.nombre }}</mat-card-title>
         <mat-card-subtitle>{{ item.categoriasString }}</mat-card-subtitle>
