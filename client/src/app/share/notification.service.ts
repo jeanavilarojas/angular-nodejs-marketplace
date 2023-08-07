@@ -21,7 +21,8 @@ export class NotificacionService {
     this.options.tapToDismiss = false;
     this.options.closeButton = true;
     this.options.newestOnTop = true;
-    this.options.disableTimeOut = true;
+    this.options.timeOut = 5000;
+    // disableTimeOut = true;
     this.options.positionClass = 'toast-top-right';
   }
 

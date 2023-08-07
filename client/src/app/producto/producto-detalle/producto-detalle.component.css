@@ -2,6 +2,10 @@
   padding: 20px;
 }
 
+.contenedor-detalle{
+  padding: 20px 200px 20px 200px;
+}
+
 .producto-card {
   background-color: #f5f5f5;
   border-radius: 8px;
@@ -63,4 +67,9 @@
   padding: 20px;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: black;
 }

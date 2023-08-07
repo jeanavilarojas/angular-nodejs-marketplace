@@ -24,6 +24,10 @@
   margin: 10px;
 }
 
+.pedido-content a {
+  color: #303030;
+}
+
 .producto-item {
   flex: 1 1 50%;
   padding: 10px;

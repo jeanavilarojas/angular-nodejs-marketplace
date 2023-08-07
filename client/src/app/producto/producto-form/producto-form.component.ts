@@ -12,21 +12,13 @@ import { GenericService } from 'src/app/share/generic.service';
 export class ProductoFormComponent implements OnInit {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
-  //Titulo
   titleForm: string = 'Crear';
-  //Lista categorias
   categoriasList: any;
-  //Producto a actualizar
   productoInfo: any;
-  //Respuesta del API crear/modificar
   respProducto: any;
-  //Sí es submit
   submitted = false;
-  //Nombre del formulario
   productoForm: FormGroup;
-  //id del Producto
   idProducto: number = 0;
-  //Sí es crear
   isCreate: boolean = true;
 
   constructor(
@@ -62,26 +54,35 @@ export class ProductoFormComponent implements OnInit {
             })
           });
       }
-
     });
   }
-  //Crear Formulario
+
+  // Crear formulario
   formularioReactive() {
     //[null, Validators.required]
     this.productoForm = this.fb.group({
       id: [null, null],
       nombre: [null, Validators.compose([
         Validators.required,
-        Validators.minLength(3)
+        Validators.minLength(5)
       ])],
-      descripcion: [null, Validators.required],
-      precio: [null, Validators.required],
-      categorias: [null, Validators.required],
+      descripcion: [null, Validators.compose([
+        Validators.required,
+        Validators.minLength(5)
+      ])],
+      precio: [null, Validators.compose([
+        Validators.required,
+        Validators.pattern(/^\d+(\.\d{1,2})?$/)
+      ])],
+      cantidad: [null, Validators.compose([
+        Validators.required,
+        Validators.pattern(/^[1-9]\d*$/)
+      ])],
       estado: [null, Validators.required],
-      cantidad: [null, Validators.required],
-
+      categorias: [null, Validators.required],
     })
   }
+  
   listacategorias() {
     this.categoriasList = null;
     this.gService
@@ -91,6 +92,14 @@ export class ProductoFormComponent implements OnInit {
         // console.log(data);
         this.categoriasList = data;
       });
+  }
+
+  // Método para manejar el cambio de archivo
+  onFileChange(event: any): void {
+    if (event.target.files && event.target.files.length) {
+      const file = event.target.files[0];
+      this.productoForm.get('imagen').setValue(file);
+    }
   }
 
   public errorHandling = (control: string, error: string) => {
@@ -143,13 +152,16 @@ export class ProductoFormComponent implements OnInit {
         });
       });
   }
+
   onReset() {
     this.submitted = false;
     this.productoForm.reset();
   }
+
   onBack() {
     this.router.navigate(['/producto-vendedor']);
   }
+
   ngOnDestroy() {
     this.destroy$.next(true);
     // Desinscribirse
