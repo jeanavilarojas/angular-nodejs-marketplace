@@ -40,34 +40,27 @@
   <div class="preguntas-respuestas">
     <div class="encabezado">
       <h2>Preguntas y Respuestas</h2>
-      <button mat-button aria-label="Agregar pregunta">
-        Agregar pregunta
+      <button mat-button aria-label="Agregar pregunta">Agregar pregunta
         <mat-icon>add</mat-icon>
       </button>
     </div>
-    <div
-      *ngFor="let pregunta of producto.preguntas"
-      class="pregunta-respuesta-card"
-    >
+    <div *ngFor="let pregunta of producto.preguntas" class="pregunta-respuesta-card">
       <div class="pregunta">
         <div class="pregunta-respuesta-header">
-          <p><b>Usuario:</b> {{ obtenerNombreCliente(pregunta) }}</p>
+          <p><b>Usuario:</b> {{ pregunta.cliente.nombre }}</p>
           <p><b>Fecha:</b> {{ pregunta.fecha | date }}</p>
         </div>
-        <p class="pregunta-respuesta pregunta-seccion">
+        <p class="pregunta-respuesta">
           <b>Pregunta:</b> {{ pregunta.descripcion }}
         </p>
       </div>
       <div class="respuesta">
-        <div *ngIf="pregunta.respuestas" class="pregunta-respuesta-header">
-          <p><b>Vendedor:</b> {{ obtenerNombreVendedor(pregunta) }}</p>
+        <div class="pregunta-respuesta-header">
+          <p><b>Vendedor:</b> {{ pregunta.respuestas.vendedor.nombre }}</p>
           <p><b>Fecha:</b> {{ pregunta.respuestas.fecha | date }}</p>
         </div>
-        <p
-          *ngIf="pregunta.respuestas"
-          class="pregunta-respuesta respuesta-seccion"
-        >
-          <b>Respuesta:</b> {{ obtenerRespuesta(pregunta) }}
+        <p class="pregunta-respuesta">
+          <b>Respuesta:</b> {{ pregunta.respuestas.descripcion }}
         </p>
       </div>
     </div>

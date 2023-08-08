@@ -41,6 +41,11 @@ export class GenericService {
     );
   }
 
+  createFormData(route: string, formData: FormData): Observable<any> {
+    const url = `${this.urlAPI}/${route}`; // Usar this.urlAPI en lugar de this.baseUrl
+    return this.http.post(url, formData);
+  }  
+
   // Obtener
   get(endopoint: string, filtro: any): Observable<any | any[]> {
     return this.http.get<any | any[]>(this.urlAPI + endopoint + `/${filtro}`);

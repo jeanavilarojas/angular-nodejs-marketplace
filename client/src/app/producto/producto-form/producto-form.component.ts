@@ -10,7 +10,6 @@ import { GenericService } from 'src/app/share/generic.service';
   styleUrls: ['./producto-form.component.css'],
 })
 export class ProductoFormComponent implements OnInit {
-
   destroy$: Subject<boolean> = new Subject<boolean>();
   titleForm: string = 'Crear';
   categoriasList: any;
@@ -29,8 +28,8 @@ export class ProductoFormComponent implements OnInit {
   ) {
     this.formularioReactive();
     this.listacategorias();
-
   }
+
   ngOnInit(): void {
     //Verificar si se envio un id por parametro para crear formulario para actualizar
     this.activeRouter.params.subscribe((params: Params) => {
@@ -80,9 +79,10 @@ export class ProductoFormComponent implements OnInit {
       ])],
       estado: [null, Validators.required],
       categorias: [null, Validators.required],
+      fotos: [null]
     })
   }
-  
+
   listacategorias() {
     this.categoriasList = null;
     this.gService
@@ -94,40 +94,73 @@ export class ProductoFormComponent implements OnInit {
       });
   }
 
-  // Método para manejar el cambio de archivo
-  onFileChange(event: any): void {
-    if (event.target.files && event.target.files.length) {
-      const file = event.target.files[0];
-      this.productoForm.get('imagen').setValue(file);
-    }
-  }
-
   public errorHandling = (control: string, error: string) => {
     return this.productoForm.controls[control].hasError(error);
   };
+
   //Crear producto
   crearProducto(): void {
-    //Establecer submit verdadero
     this.submitted = true;
-    //Verificar validación
+
     if (this.productoForm.invalid) {
       return;
     }
-    //Obtener id Categorias del Formulario y Crear arreglo con {id: value}
-    let gFormat: any = this.productoForm.get('categorias').value.map(x => ({ ['id']: x }))
-    //Asignar valor al formulario
-    this.productoForm.patchValue({ categoria: gFormat });
-    console.log(this.productoForm.value);
-    //Accion API create enviando toda la informacion del formulario
-    this.gService.create('producto', this.productoForm.value)
-      .pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
-        //Obtener respuesta
+
+    const formData = new FormData();
+
+    // Agregar datos del formulario al formData
+    formData.append('nombre', this.productoForm.value.nombre);
+    formData.append('descripcion', this.productoForm.value.descripcion);
+    formData.append('precio', this.productoForm.value.precio);
+    formData.append('cantidad', this.productoForm.value.cantidad);
+    formData.append('estado', this.productoForm.value.estado);
+    formData.append('categorias', JSON.stringify(this.productoForm.value.categorias));
+
+    // Agregar imágenes al formData
+    for (let i = 0; i < this.productoForm.value.fotos.length; i++) {
+      formData.append('fotos', this.productoForm.value.fotos[i]);
+    }
+
+    // Llamar al servicio para crear el producto
+    this.gService.createFormData('producto', formData)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
         this.respProducto = data;
         this.router.navigate(['/producto-vendedor'], {
           queryParams: { create: 'true' }
         });
       });
   }
+
+  onFileChange(event: any): void {
+    if (event.target.files && event.target.files.length) {
+      const file = event.target.files[0];
+      this.productoForm.patchValue({ fotos: file }); // Almacena el archivo en el FormGroup
+    }
+  }
+
+  // crearProducto(): void {
+  //   //Establecer submit verdadero
+  //   this.submitted = true;
+  //   //Verificar validación
+  //   if (this.productoForm.invalid) {
+  //     return;
+  //   }
+  //   //Obtener id Categorias del Formulario y Crear arreglo con {id: value}
+  //   let gFormat: any = this.productoForm.get('categorias').value.map(x => ({ ['id']: x }))
+  //   //Asignar valor al formulario
+  //   this.productoForm.patchValue({ categoria: gFormat });
+  //   console.log(this.productoForm.value);
+  //   //Accion API create enviando toda la informacion del formulario
+  //   this.gService.create('producto', this.productoForm.value)
+  //     .pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
+  //       //Obtener respuesta
+  //       this.respProducto = data;
+  //       this.router.navigate(['/producto-vendedor'], {
+  //         queryParams: { create: 'true' }
+  //       });
+  //     });
+  // }
 
   //Actualizar Producto
   actualizarProducto() {

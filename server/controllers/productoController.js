@@ -7,16 +7,6 @@ module.exports.get = async (request, response, next) => {
     include: {
       categorias: true,
       fotos: true,
-      preguntas: {
-        include: {
-          cliente: true,
-          respuestas: {
-            include: {
-              vendedor: true, // Incluimos al vendedor asociado a la respuesta
-            },
-          },
-        },
-      },
     },
   });
   response.json(productos);
@@ -35,7 +25,7 @@ module.exports.getById = async (request, response, next) => {
           cliente: true,
           respuestas: {
             include: {
-              vendedor: true, // Incluimos al vendedor asociado a la respuesta
+              vendedor: true,
             },
           },
         },
@@ -53,16 +43,6 @@ module.exports.getByVendedor = async (request, response, next) => {
     include: {
       categorias: true,
       fotos: true,
-      preguntas: {
-        include: {
-          cliente: true,
-          respuestas: {
-            include: {
-              vendedor: true, // Incluimos al vendedor asociado a la respuesta
-            },
-          },
-        },
-      },
     },
   });
   response.json(productos);
@@ -71,7 +51,7 @@ module.exports.getByVendedor = async (request, response, next) => {
 // Crear un producto
 module.exports.create = async (request, response, next) => {
   let producto = request.body;
-  const categoriasIds = producto.categorias.map((categoria) => ({
+  const categoriasId = producto.categorias.map((categoria) => ({
     id: categoria,
   }));
   const newProducto = await prisma.producto.create({
@@ -79,19 +59,28 @@ module.exports.create = async (request, response, next) => {
       nombre: producto.nombre,
       descripcion: producto.descripcion,
       precio: parseFloat(producto.precio),
-      estado: producto.estado,
-      fotos: producto.fotos,
       cantidad: parseInt(producto.cantidad),
+      estado: producto.estado,
       categorias: {
-        connect: categoriasIds,
+        connect: categoriasId,
       },
       vendedor: {
-        connect: {
-          id: 2,
-        },
+        connect: { id: 2 },
       },
     },
   });
+
+  // Guardar imágenes y crear registros de fotos
+  const fotos = request.files['fotos']; // Asumiendo que estás usando una librería para manejar archivos, como 'multer'
+    
+  for (let i = 0; i < fotos.length; i++) {
+    await prisma.foto.create({
+      data: {
+        productoId: newProducto.id,
+        url: fotos[i].path, // Asumiendo que `fotos[i].path` contiene la ruta al archivo de imagen
+      },
+    });
+  }
   response.json(newProducto);
 };
 
@@ -99,7 +88,7 @@ module.exports.create = async (request, response, next) => {
 module.exports.update = async (request, response, next) => {
   let producto = request.body;
   let idProducto = parseInt(request.params.id);
-  //Obtener producto viejo
+  // Obtener producto viejo
   const productoViejo = await prisma.producto.findUnique({
     where: { id: idProducto },
     include: {
@@ -126,9 +115,8 @@ module.exports.update = async (request, response, next) => {
       nombre: producto.nombre,
       descripcion: producto.descripcion,
       precio: parseFloat(producto.precio),
-      estado: producto.estado,
-      foto: producto.foto,
       cantidad: parseInt(producto.cantidad),
+      estado: producto.estado,
       categorias: {
         disconnect: categoriasADesconectar,
         connect: categoriasAConectar,
