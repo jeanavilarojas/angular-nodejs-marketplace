@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const upload = require("../middleware/multerConfig");
 
 //Controlador con las acciones de las rutas
 const productoController = require("../controllers/productoController");
@@ -9,7 +10,7 @@ const productoController = require("../controllers/productoController");
 router.get("/", productoController.get);
 router.get("/:id", productoController.getById);
 router.get("/vendedor/:vendedorId", productoController.getByVendedor);
-router.post("/", productoController.create);
-router.put("/:id", productoController.update);
+router.post("/", upload.array("fotos", 5), productoController.create);
+router.put("/:id", upload.array("fotos", 5), productoController.update);
 
 module.exports = router;

@@ -65,7 +65,12 @@ model Categoria {
   productos   Producto[]
 }
 
-
+model Foto {
+  id         Int      @id @default(autoincrement())
+  url        String   @db.LongText
+  productoId Int
+  producto   Producto @relation(fields: [productoId], references: [id])
+}
 
 model Pregunta {
   id          Int        @id @default(autoincrement())

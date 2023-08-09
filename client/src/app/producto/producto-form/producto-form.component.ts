@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from 'src/app/share/authentication.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
@@ -17,6 +18,8 @@ export class ProductoFormComponent implements OnInit {
   respProducto: any;
   submitted = false;
   productoForm: FormGroup;
+  currentUser: any;
+  idUsuario: number;
   idProducto: number = 0;
   isCreate: boolean = true;
 
@@ -24,10 +27,13 @@ export class ProductoFormComponent implements OnInit {
     private fb: FormBuilder,
     private gService: GenericService,
     private router: Router,
-    private activeRouter: ActivatedRoute
+    private activeRouter: ActivatedRoute,
+    private authService: AuthenticationService
   ) {
     this.formularioReactive();
-    this.listacategorias();
+    this.listaCategorias();
+    this.idUsuario = this.authService.usuarioId;
+    console.log(this.idUsuario);
   }
 
   ngOnInit(): void {
@@ -37,10 +43,11 @@ export class ProductoFormComponent implements OnInit {
       if (this.idProducto != undefined) {
         this.isCreate = false;
         this.titleForm = "Actualizar";
-        //Obtener producto a actualizar del API
+        // Obtener producto a actualizar del API
         this.gService.get('producto', this.idProducto).pipe(takeUntil(this.destroy$))
           .subscribe((data: any) => {
             this.productoInfo = data;
+            console.log(data);
             //Establecer los valores en cada una de las entradas del formulario
             this.productoForm.setValue({
               id: this.productoInfo.id,
@@ -48,12 +55,16 @@ export class ProductoFormComponent implements OnInit {
               descripcion: this.productoInfo.descripcion,
               precio: this.productoInfo.precio,
               estado: this.productoInfo.estado,
+              vendedorId: this.productoInfo.vendedorId,
               cantidad: this.productoInfo.cantidad,
-              categorias: this.productoInfo.categorias.map(({ id }) => id)
-            })
+              categorias: this.productoInfo.categorias.map(({ id }) => id),
+              fotos: "",
+            });
           });
       }
     });
+    this.authService.currentUser.subscribe((x) => (this.currentUser = x));
+    this.idUsuario=this.currentUser.user.id;
   }
 
   // Crear formulario
@@ -78,12 +89,14 @@ export class ProductoFormComponent implements OnInit {
         Validators.pattern(/^[1-9]\d*$/)
       ])],
       estado: [null, Validators.required],
+      vendedorId: [null, Validators.required],
       categorias: [null, Validators.required],
-      fotos: [null]
+      fotos: [null, Validators.required],
     })
   }
 
-  listacategorias() {
+  // Listar las categorías
+  listaCategorias() {
     this.categoriasList = null;
     this.gService
       .list('categoria')
@@ -94,37 +107,68 @@ export class ProductoFormComponent implements OnInit {
       });
   }
 
+  // Manejo de errores
   public errorHandling = (control: string, error: string) => {
     return this.productoForm.controls[control].hasError(error);
   };
 
+  onFileChange(event: any) {
+    const files = event.target.files;
+    if (files.length > 0) {
+      const imageArray: File[] = [];
+      for (const file of files) {
+        imageArray.push(file);
+      }
+      // Limitar la cantidad de imágenes a 5 antes de asignar al formulario
+      const maxImages = 5;
+      const imagesToUpload = imageArray.slice(0, maxImages);
+      this.productoForm.patchValue({ fotos: imagesToUpload });
+    }
+  }
+
+  countSelectedImages(): number {
+    const myFileControl = this.productoForm.get('fotos');
+    return myFileControl.value ? myFileControl.value.length : 0;
+  }
+
   //Crear producto
   crearProducto(): void {
+    //Establecer submit verdadero
     this.submitted = true;
-
+    this.productoForm.patchValue({ vendedorId: this.idUsuario });
+    //Verificar validación
     if (this.productoForm.invalid) {
       return;
     }
 
     const formData = new FormData();
+    const formValue = this.productoForm.value;
 
-    // Agregar datos del formulario al formData
-    formData.append('nombre', this.productoForm.value.nombre);
-    formData.append('descripcion', this.productoForm.value.descripcion);
-    formData.append('precio', this.productoForm.value.precio);
-    formData.append('cantidad', this.productoForm.value.cantidad);
-    formData.append('estado', this.productoForm.value.estado);
-    formData.append('categorias', JSON.stringify(this.productoForm.value.categorias));
+    // Agregar los datos al FormData
+    Object.keys(formValue).forEach((key) => {
+      const value = formValue[key];
 
-    // Agregar imágenes al formData
-    for (let i = 0; i < this.productoForm.value.fotos.length; i++) {
-      formData.append('fotos', this.productoForm.value.fotos[i]);
-    }
-
-    // Llamar al servicio para crear el producto
-    this.gService.createFormData('producto', formData)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data: any) => {
+      if (key === 'fotos') {
+        const files: File[] = value as File[];
+        for (const file of files) {
+          formData.append('fotos', file, file.name);
+        }
+      } else {
+        // Agregar otros valores al FormData
+        formData.append(key, value);
+      }
+    });
+    
+    //Obtener id Categorias del Formulario y Crear arreglo con {id: value}
+    let gFormat: any = this.productoForm.get('categorias').value.map(x => ({ ['id']: x }))
+    
+    //Asignar valor al formulario
+    this.productoForm.patchValue({ categoria: gFormat });
+    console.log(this.productoForm.value);
+    //Accion API create enviando toda la informacion del formulario
+    this.gService.create('producto', formData)
+      .pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
+        //Obtener respuesta
         this.respProducto = data;
         this.router.navigate(['/producto-vendedor'], {
           queryParams: { create: 'true' }
@@ -132,16 +176,10 @@ export class ProductoFormComponent implements OnInit {
       });
   }
 
-  onFileChange(event: any): void {
-    if (event.target.files && event.target.files.length) {
-      const file = event.target.files[0];
-      this.productoForm.patchValue({ fotos: file }); // Almacena el archivo en el FormGroup
-    }
-  }
-
   // crearProducto(): void {
   //   //Establecer submit verdadero
   //   this.submitted = true;
+  //   this.productoForm.patchValue({ UsuarioID: this.idUsuario });
   //   //Verificar validación
   //   if (this.productoForm.invalid) {
   //     return;

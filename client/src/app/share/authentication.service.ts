@@ -17,16 +17,21 @@ export class AuthenticationService {
   //Variable observable para gestionar la información del usuario
   public currentUser: Observable<any>;
   //Booleano para estado de usuario autenticado
-  private authenticated = new BehaviorSubject<boolean>(false);
-  //Inyectar cliente HTTP para las solicitudes al API
+  private authenticated = new BehaviorSubject<boolean>(false); 
+  usuarioId: number;
 
-  constructor(private http: HttpClient, private cartService: CartService) {
+  //Inyectar cliente HTTP para las solicitudes al API
+  constructor(private http: HttpClient, private cartService:CartService) {
     //Obtener los datos del usuario en localStorage, si existe
     this.currentUserSubject = new BehaviorSubject<any>(
       JSON.parse(localStorage.getItem('currentUser'))
     );
     //Establecer un observable para acceder a los datos del usuario
     this.currentUser = this.currentUserSubject.asObservable();
+    this.currentUser.subscribe((data) => {
+      this.usuarioId = data.user.id
+    })
+    console.log(this.currentUser)
   }
 
   //Obtener el valor del usuario actual

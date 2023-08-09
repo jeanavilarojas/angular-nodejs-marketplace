@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const upload = require('../middleware/multerConfig');
 
 // Obtener productos
 module.exports.get = async (request, response, next) => {
@@ -50,78 +51,98 @@ module.exports.getByVendedor = async (request, response, next) => {
 
 // Crear un producto
 module.exports.create = async (request, response, next) => {
-  let producto = request.body;
-  const categoriasId = producto.categorias.map((categoria) => ({
-    id: categoria,
-  }));
-  const newProducto = await prisma.producto.create({
-    data: {
-      nombre: producto.nombre,
-      descripcion: producto.descripcion,
-      precio: parseFloat(producto.precio),
-      cantidad: parseInt(producto.cantidad),
-      estado: producto.estado,
-      categorias: {
-        connect: categoriasId,
-      },
-      vendedor: {
-        connect: { id: 2 },
-      },
-    },
-  });
+  try {
+    let producto = request.body;
+    const imagenes = request.files;
 
-  // Guardar imágenes y crear registros de fotos
-  const fotos = request.files['fotos']; // Asumiendo que estás usando una librería para manejar archivos, como 'multer'
-    
-  for (let i = 0; i < fotos.length; i++) {
-    await prisma.foto.create({
+    const newProducto = await prisma.producto.create({
       data: {
-        productoId: newProducto.id,
-        url: fotos[i].path, // Asumiendo que `fotos[i].path` contiene la ruta al archivo de imagen
+        nombre: producto.nombre,
+        descripcion: producto.descripcion,
+        precio: parseFloat(producto.precio),
+        cantidad: parseInt(producto.cantidad),
+        estado: producto.estado,
+        vendedorId: parseInt(producto.vendedorId),
+        categorias: {
+          connect: categorias.map((categoria) => ({ id: categoria })),
+        },
       },
     });
+
+    // Guardar imágenes y crear registros de fotos
+    if (imagenes && imagenes.length > 0) {
+      const imagenesData = imagenes.map((url) => ({
+        url: "http://localhost:3000/" + url.destination + "/" + url.filename,
+        productoId: newProducto.id,
+      }));
+      await prisma.foto.createMany({
+        data: imagenesData,
+      });
+    }
+    response.json(newProducto);
+  } catch (error) {
+    next(error);
   }
-  response.json(newProducto);
 };
 
 // Actualizar un producto
 module.exports.update = async (request, response, next) => {
-  let producto = request.body;
-  let idProducto = parseInt(request.params.id);
-  // Obtener producto viejo
-  const productoViejo = await prisma.producto.findUnique({
-    where: { id: idProducto },
-    include: {
-      categorias: {
-        select: {
-          id: true,
+  try {
+    let producto = request.body;
+    let productoId = parseInt(request.params.id);
+    const imagenes = request.files;
+
+    // Obtener el producto actual
+    const productoActual = await prisma.producto.findUnique({
+      where: { id: productoId },
+      include: {
+        categorias: {
+          select: {
+            id: true,
+          },
         },
       },
-    },
-  });
+    });
 
-  const categoriasADesconectar = productoViejo.categorias.map((categoria) => ({
-    id: categoria.id,
-  }));
-  const categoriasAConectar = producto.categorias.map((categoriaId) => ({
-    id: categoriaId,
-  }));
+    const desconectarCategorias = productoActual.categorias.map(
+      (categoria) => ({
+        id: categoria.id,
+      })
+    );
+    const conectarCategorias = producto.categorias.map((categoriaId) => ({
+      id: categoriaId,
+    }));
 
-  const newProducto = await prisma.producto.update({
-    where: {
-      id: idProducto,
-    },
-    data: {
-      nombre: producto.nombre,
-      descripcion: producto.descripcion,
-      precio: parseFloat(producto.precio),
-      cantidad: parseInt(producto.cantidad),
-      estado: producto.estado,
-      categorias: {
-        disconnect: categoriasADesconectar,
-        connect: categoriasAConectar,
+    // Actualizar el producto principal
+    const updatedProducto = await prisma.producto.update({
+      where: {
+        id: productoId,
       },
-    },
-  });
-  response.json(newProducto);
+      data: {
+        nombre: producto.nombre,
+        descripcion: producto.descripcion,
+        precio: parseFloat(producto.precio),
+        cantidad: parseInt(producto.cantidad),
+        estado: producto.estado,
+        categorias: {
+          disconnect: desconectarCategorias,
+          connect: conectarCategorias,
+        },
+      },
+    });
+
+    // Guardar imágenes y crear registros de fotos
+    if (imagenes && imagenes.length > 0) {
+      const imagenesData = imagenes.map((url) => ({
+        url: "http://localhost:3000/" + url.destination + "/" + url.filename,
+        productoId: productoId,
+      }));
+      await prisma.foto.createMany({
+        data: imagenesData,
+      });
+    }
+    response.json(updatedProducto);
+  } catch (error) {
+    next(error);
+  }
 };

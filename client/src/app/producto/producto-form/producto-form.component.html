@@ -86,8 +86,21 @@
           </div>      
         </div>
 
-        <input type="file" (change)="onFileChange($event)" accept="image/*" formControlName="fotos">
-
+        <div class="row">
+          <div class="col">
+            <input type="file" formControlName="fotos" accept="image/*" (change)="onFileChange($event)" multiple>Seleccione hasta 5 imágenes
+            <mat-error *ngIf="errorHandling('fotos', 'required')">La imagen es requerida</mat-error>
+            <mat-error *ngIf="countSelectedImages() > 5">No puede seleccionar más de 5 imágenes</mat-error>
+          </div>
+        </div>
+        <div class="row" *ngIf="productoForm.get('fotos').value && productoForm.get('fotos').value.length > 0">
+          <div class="col">
+            <strong>Archivos seleccionados:</strong>
+            <ul>
+              <li *ngFor="let file of productoForm.get('fotos').value">{{ file.name }}</li>
+            </ul>
+          </div>
+        </div>
       </mat-card-content>
       <mat-card-actions>
         <button mat-button aria-label="Crear producto" type="submit">Añadir producto
