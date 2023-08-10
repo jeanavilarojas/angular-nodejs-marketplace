@@ -88,16 +88,17 @@
 
         <div class="row">
           <div class="col">
-            <input type="file" formControlName="fotos" accept="image/*" (change)="onFileChange($event)" multiple>Seleccione hasta 5 imágenes
-            <mat-error *ngIf="errorHandling('fotos', 'required')">La imagen es requerida</mat-error>
-            <mat-error *ngIf="countSelectedImages() > 5">No puede seleccionar más de 5 imágenes</mat-error>
+            <input type="file" formControlName="myFile" accept="image/*" (change)="onFileChange($event)" multiple>
+            Seleccione hasta 5 imágenes
+            <mat-error *ngIf="errorHandling('myFile', 'required')">La foto es requerida</mat-error>
+            <mat-error *ngIf="countSelectedImages() > 5">No puede seleccionar más de 5 fotos</mat-error>
           </div>
         </div>
-        <div class="row" *ngIf="productoForm.get('fotos').value && productoForm.get('fotos').value.length > 0">
+        <div class="row" *ngIf="productoForm.get('myFile').value && productoForm.get('myFile').value.length > 0">
           <div class="col">
             <strong>Archivos seleccionados:</strong>
             <ul>
-              <li *ngFor="let file of productoForm.get('fotos').value">{{ file.name }}</li>
+              <li *ngFor="let file of productoForm.get('myFile').value">{{ file.name }}</li>
             </ul>
           </div>
         </div>

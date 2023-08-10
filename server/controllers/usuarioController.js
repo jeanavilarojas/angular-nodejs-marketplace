@@ -13,9 +13,9 @@ module.exports.get = async (request, response, next) => {
 
 // Obtener usuario por Id
 module.exports.getById = async (request, response, next) => {
-  let id = parseInt(request.params.id);
+  let usuarioId = parseInt(request.params.usuarioId);
   const usuario = await prisma.usuario.findUnique({
-    where: { id: id },
+    where: { usuarioId: usuarioId },
     include: { roles: true },
   });
   response.json(usuario);
@@ -23,30 +23,27 @@ module.exports.getById = async (request, response, next) => {
 
 // Crear un usuario
 module.exports.register = async (request, response, next) => {
-  const userData = request.body;
-  const rolesId = usuario.roles.map((rol) => ({
-    id: rol,
-  }));
-  let salt = bcrypt.genSaltSync(10);
-  let hash = bcrypt.hashSync(userData.contrasenna, salt);
-  const user = await prisma.usuario.create({
-    data: {
-      nombre: userData.nombre,
-      apellidos: userData.apellidos,
-      identificacion: userData.identificacion,
-      telefono: userData.telefono,
-      correo: userData.correo,
-      contrasenna: hash,
-      roles: {
-        connect: rolesId,
+  try {
+    let usuario = request.body;
+    let salt = bcrypt.genSaltSync(10);
+    let hash = bcrypt.hashSync(usuario.contrasenna, salt);
+    const createUsuario = await prisma.usuario.create({
+      data: {
+        nombre: usuario.nombre,
+        apellidos: usuario.apellidos,
+        identificacion: usuario.identificacion,
+        telefono: usuario.telefono,
+        correo: usuario.correo,
+        contrasenna: hash,
+        roles: {
+          connect: roles.map((rol) => ({ id: rol })),
+        },
       },
-    },
-  });
-  response.status(200).json({
-    status: true,
-    message: "Usuario registrado satisfactoriamente",
-    data: user,
-  });
+    });
+    response.json(createUsuario);
+  } catch (error) {
+    next(error);
+  }
 };
 
 // Actualizar un usuario
@@ -90,47 +87,44 @@ module.exports.update = async (request, response, next) => {
 
 // Iniciar sesión
 module.exports.login = async (request, response, next) => {
-  let userReq = request.body;
-  console.log(userReq);
+  let solicitud = request.body;
+  console.log(solicitud);
   // Buscar el usuario según el correo dado
-  const user = await prisma.usuario.findUnique({
-    where: { correo: userReq.correo },
+  const usuario = await prisma.usuario.findUnique({
+    where: { correo: solicitud.correo },
+    include: { roles: true },
   });
   // Por si no lo encuentra según su correo
-  if (!user) {
+  if (!usuario) {
     response.status(401).send({
       success: false,
-      message: "Usuario ingresado no existe",
+      message: "El usuario ingresado no existe",
     });
   }
   // Verificar la contraseña
-  const checkPassword = bcrypt.compareSync(
-    userReq.contrasenna,
-    user.contrasenna
+  const verificarContrasenna = bcrypt.compareSync(
+    solicitud.contrasenna,
+    usuario.contrasenna
   );
-  if (checkPassword) {
-    // Si el usuario es correcto: correo y contraseña
-    // Crear el token
+  if (verificarContrasenna) {
+    // Si el usuario es correcto (correo y contraseña)
     const payload = {
-      correo: user.correo,
-      roles: user.roles,
+      correo: usuario.correo,
+      roles: usuario.roles,
     };
-    // Crea el token con el payload y el tiempo de expiración
+    // Crear el token con el payload y el tiempo de expiración
     const token = jwt.sign(payload, process.env.SECRET_KEY, {
       expiresIn: process.env.JWT_EXPIRE,
     });
     response.json({
       success: true,
       message: "Usuario registrado satisfactoriamente",
-      data: {
-        user,
-        token,
-      },
+      data: { usuario, token },
     });
   } else {
     response.status(401).send({
       success: false,
-      message: "Contraseña incorrecta",
+      message: "Por favor verifique los datos ingresados",
     });
   }
 };

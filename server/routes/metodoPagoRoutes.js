@@ -8,5 +8,8 @@ const metodoPagoController = require("../controllers/metodoPagoController");
 // locahost:3000/metodoPago/
 router.get("/", metodoPagoController.get);
 router.get("/:id", metodoPagoController.getById);
+router.get("/usuario/:usuarioId", metodoPagoController.getByUsuario);
+router.post("/", metodoPagoController.create);
+router.put("/:id", metodoPagoController.update);
 
 module.exports = router;

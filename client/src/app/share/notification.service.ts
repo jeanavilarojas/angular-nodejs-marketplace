@@ -28,11 +28,6 @@ export class NotificacionService {
 
   /* Presentar mensaje de notificación Toast Type: success, info, warning, error */
   public mensaje(titulo: string, mensaje: string, tipo: TipoMessage) {
-    this.toastr.show(
-      mensaje,
-      titulo,
-      this.options,
-      'toast-' + TipoMessage[tipo]
-    );
+    this.toastr.show(mensaje, titulo, this.options, 'toast-' + TipoMessage[tipo]);
   }
 }

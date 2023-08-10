@@ -1,6 +1,7 @@
 const dotEnv = require("dotenv");
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
+const { request, response } = require("express");
 const cors = require("cors");
 const logger = require("morgan");
 const app = express();
@@ -8,8 +9,8 @@ const prism = new PrismaClient();
 
 //---Archivos de rutas---
 const categoriasRoutes = require("./routes/categoriaRoutes");
-const direccionesRoutes = require("./routes/direccionRoutes")
-const metodosPagoRoutes = require("./routes/metodoPagoRoutes")
+const direccionesRoutes = require("./routes/direccionRoutes");
+const metodosPagoRoutes = require("./routes/metodoPagoRoutes");
 const pedidosRoutes = require("./routes/pedidoRoutes");
 const preguntasRoutes = require("./routes/preguntaRoutes");
 const productosRoutes = require("./routes/productoRoutes");
@@ -32,8 +33,9 @@ app.use(
     extended: true,
   })
 );
-// Configurar el middleware para servir archivos estáticos desde la carpeta 'public'
-app.use(express.static("public"));
+
+// Configurar el middleware para guardar fotos a la carpeta 'images'
+app.use("/images/", express.static("images"));
 
 //---- Definir rutas ----
 app.use("/categoria/", categoriasRoutes);

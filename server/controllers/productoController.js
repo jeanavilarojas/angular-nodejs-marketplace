@@ -1,6 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const upload = require('../middleware/multerConfig');
+const upload = require("../middleware/multerConfig");
 
 // Obtener productos
 module.exports.get = async (request, response, next) => {
@@ -113,11 +113,9 @@ module.exports.update = async (request, response, next) => {
       id: categoriaId,
     }));
 
-    // Actualizar el producto principal
-    const updatedProducto = await prisma.producto.update({
-      where: {
-        id: productoId,
-      },
+    // Actualizar el producto actual
+    const updateProducto = await prisma.producto.update({
+      where: { id: productoId },
       data: {
         nombre: producto.nombre,
         descripcion: producto.descripcion,
@@ -128,6 +126,7 @@ module.exports.update = async (request, response, next) => {
           disconnect: desconectarCategorias,
           connect: conectarCategorias,
         },
+        include: { foto: true },
       },
     });
 
@@ -135,13 +134,13 @@ module.exports.update = async (request, response, next) => {
     if (imagenes && imagenes.length > 0) {
       const imagenesData = imagenes.map((url) => ({
         url: "http://localhost:3000/" + url.destination + "/" + url.filename,
-        productoId: productoId,
+        productoId: updateProducto.id,
       }));
       await prisma.foto.createMany({
         data: imagenesData,
       });
     }
-    response.json(updatedProducto);
+    response.json(updateProducto);
   } catch (error) {
     next(error);
   }

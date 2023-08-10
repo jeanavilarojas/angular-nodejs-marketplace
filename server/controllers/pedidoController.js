@@ -34,9 +34,7 @@ module.exports.getByCliente = async (request, response, next) => {
   let clienteId = parseInt(request.params.usuarioId);
   const pedidos = await prisma.pedido.findMany({
     where: { usuarioId: clienteId },
-    orderBy: {
-      fecha: "asc",
-    },
+    orderBy: { fecha: "asc" },
     include: {
       usuario: true,
       productos: {
@@ -61,13 +59,11 @@ module.exports.getByVendedor = async (request, response, next) => {
         some: {
           producto: {
             vendedorId: vendedorId,
-          }
-        }
+          },
+        },
       },
     },
-    orderBy: {
-      fecha: "asc",
-    },
+    orderBy: { fecha: "asc" },
     include: {
       productos: {
         select: {

@@ -49,7 +49,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSelectModule,
     MatRadioModule,
     ReactiveFormsModule
-
   ],
 })
 export class ProductoModule { }

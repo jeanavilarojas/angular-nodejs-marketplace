@@ -54,17 +54,17 @@ export class ProductoFormComponent implements OnInit {
               nombre: this.productoInfo.nombre,
               descripcion: this.productoInfo.descripcion,
               precio: this.productoInfo.precio,
+              cantidad: this.productoInfo.cantidad,
               estado: this.productoInfo.estado,
               vendedorId: this.productoInfo.vendedorId,
-              cantidad: this.productoInfo.cantidad,
               categorias: this.productoInfo.categorias.map(({ id }) => id),
-              fotos: "",
+              myFile: "",
             });
           });
       }
     });
     this.authService.currentUser.subscribe((x) => (this.currentUser = x));
-    this.idUsuario=this.currentUser.user.id;
+    this.idUsuario = this.currentUser.user.id;
   }
 
   // Crear formulario
@@ -91,8 +91,8 @@ export class ProductoFormComponent implements OnInit {
       estado: [null, Validators.required],
       vendedorId: [null, Validators.required],
       categorias: [null, Validators.required],
-      fotos: [null, Validators.required],
-    })
+      myFile: [null, Validators.required],
+    });
   }
 
   // Listar las categorías
@@ -112,25 +112,6 @@ export class ProductoFormComponent implements OnInit {
     return this.productoForm.controls[control].hasError(error);
   };
 
-  onFileChange(event: any) {
-    const files = event.target.files;
-    if (files.length > 0) {
-      const imageArray: File[] = [];
-      for (const file of files) {
-        imageArray.push(file);
-      }
-      // Limitar la cantidad de imágenes a 5 antes de asignar al formulario
-      const maxImages = 5;
-      const imagesToUpload = imageArray.slice(0, maxImages);
-      this.productoForm.patchValue({ fotos: imagesToUpload });
-    }
-  }
-
-  countSelectedImages(): number {
-    const myFileControl = this.productoForm.get('fotos');
-    return myFileControl.value ? myFileControl.value.length : 0;
-  }
-
   //Crear producto
   crearProducto(): void {
     //Establecer submit verdadero
@@ -147,32 +128,35 @@ export class ProductoFormComponent implements OnInit {
     // Agregar los datos al FormData
     Object.keys(formValue).forEach((key) => {
       const value = formValue[key];
-
-      if (key === 'fotos') {
+      if (key === 'myFile') {
         const files: File[] = value as File[];
         for (const file of files) {
-          formData.append('fotos', file, file.name);
+          formData.append('myFile', file, file.name);
         }
+      } else if (key === 'publicar') {
+        formData.append(key, JSON.stringify(value));
       } else {
         // Agregar otros valores al FormData
         formData.append(key, value);
       }
     });
-    
+
     //Obtener id Categorias del Formulario y Crear arreglo con {id: value}
-    let gFormat: any = this.productoForm.get('categorias').value.map(x => ({ ['id']: x }))
-    
+    // let gFormat: any = this.productoForm.get('categorias').value.map(x => ({ ['id']: x }))
+
     //Asignar valor al formulario
-    this.productoForm.patchValue({ categoria: gFormat });
+    // this.productoForm.patchValue({ categoria: gFormat });
+    
     console.log(this.productoForm.value);
     //Accion API create enviando toda la informacion del formulario
     this.gService.create('producto', formData)
       .pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
         //Obtener respuesta
         this.respProducto = data;
-        this.router.navigate(['/producto-vendedor'], {
-          queryParams: { create: 'true' }
-        });
+        this.router.navigate(['/producto-vendedor',this.idUsuario]);
+        // this.router.navigate(['/producto-vendedor'], {
+        //   queryParams: { create: 'true' }
+        // });
       });
   }
 
@@ -201,26 +185,50 @@ export class ProductoFormComponent implements OnInit {
   // }
 
   //Actualizar Producto
-  actualizarProducto() {
+  actualizarProducto(): void {
     //Establecer submit verdadero
     this.submitted = true;
+    //Validar el usuario vendedor
+    this.productoForm.patchValue({ vendedorId: this.idUsuario });
+    console.log(this.productoForm);
     //Verificar validación
     if (this.productoForm.invalid) {
       return;
     }
+
+    const formData = new FormData();
+    const formValue = this.productoForm.value;
+
+    // Agregar los datos al FormData
+    Object.keys(formValue).forEach((key) => {
+      const value = formValue[key];
+
+      if (key === 'myFile') {
+        // If the key is 'myFile', it contains an array of files, so we need to handle it differently
+        const files: File[] = value as File[];
+        for (const file of files) {
+          formData.append('myFile', file, file.name);
+        }
+      } else if (key === 'publicar') {
+        formData.append(key, JSON.stringify(value));
+      } else {
+        // Agregar otros valores al FormData
+        formData.append(key, value);
+      }
+    });
+
     //Obtener id Categorias del Formulario y Crear arreglo con {id: value}
-    let gFormat: any = this.productoForm.get('categorias').value.map(x => ({ ['id']: x }));
+    // let gFormat: any = this.productoForm.get('categorias').value.map(x => ({ ['id']: x }));
+    
     //Asignar valor al formulario 
-    this.productoForm.patchValue({ categoria: gFormat });
+    // this.productoForm.patchValue({ categoria: gFormat });
     console.log(this.productoForm.value);
     //Accion API create enviando toda la informacion del formulario
     this.gService.update('producto', this.productoForm.value)
       .pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
         //Obtener respuesta
         this.respProducto = data;
-        this.router.navigate(['/producto-vendedor'], {
-          queryParams: { update: 'true' }
-        });
+        this.router.navigate(['/producto-vendedor',this.idUsuario]);
       });
   }
 
@@ -237,5 +245,23 @@ export class ProductoFormComponent implements OnInit {
     this.destroy$.next(true);
     // Desinscribirse
     this.destroy$.unsubscribe();
+  }
+
+  onFileChange(event: any) {
+    const files = event.target.files;
+    if (files.length > 0) {
+      const imageArray: File[] = [];
+      for (const file of files) {
+        imageArray.push(file);
+      }
+      const maxImages = 5; // Limitar la cantidad de imágenes a 5
+      const imagesToUpload = imageArray.slice(0, maxImages);
+      this.productoForm.patchValue({ myFile: imagesToUpload });
+    }
+  }
+
+  countSelectedImages(): number {
+    const myFileControl = this.productoForm.get('myFile');
+    return myFileControl.value ? myFileControl.value.length : 0;
   }
 }

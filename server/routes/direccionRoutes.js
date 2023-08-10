@@ -8,5 +8,8 @@ const direccionController = require("../controllers/direccionController");
 // locahost:3000/direccion/
 router.get("/", direccionController.get);
 router.get("/:id", direccionController.getById);
+router.get("/usuario/:usuarioId", direccionController.getByUsuario);
+router.post("/", direccionController.create);
+router.put("/:id", direccionController.update);
 
 module.exports = router;
