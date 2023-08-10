@@ -13,7 +13,7 @@ export class GenericService {
   currentUser: any;
 
   //Inyectar cliente HTTP para las solicitudes al API
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // Listar
   list(endopoint: string): Observable<any> {
@@ -22,23 +22,17 @@ export class GenericService {
 
   // Listar pedidos by cliente
   listByCliente(endopoint: string, usuarioId: number): Observable<any> {
-    return this.http.get<any>(
-      `${this.urlAPI}${endopoint}/usuario/${usuarioId}`
-    );
+    return this.http.get<any>(`${this.urlAPI}${endopoint}/usuario/${usuarioId}`);
   }
 
   // Listar productos by vendedor
   listByVendedor(endopoint: string, vendedorId: number): Observable<any> {
-    return this.http.get<any>(
-      `${this.urlAPI}${endopoint}/vendedor/${vendedorId}`
-    );
+    return this.http.get<any>(`${this.urlAPI}${endopoint}/vendedor/${vendedorId}`);
   }
 
   // Obtener preguntas y respuestas por ID de producto
   getPreguntasRespuestasByProductoId(endopoint: string, productoId: number): Observable<any[]> {
-    return this.http.get<any[]>(
-      `${this.urlAPI}${endopoint}/producto/${productoId}`
-    );
+    return this.http.get<any[]>(`${this.urlAPI}${endopoint}/producto/${productoId}`);
   }
 
   // Obtener

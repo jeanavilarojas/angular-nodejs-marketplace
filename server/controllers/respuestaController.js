@@ -18,3 +18,27 @@ module.exports.getById = async (request, response, next) => {
   });
   response.json(respuesta);
 };
+
+// Crear una respuesta
+module.exports.create = async (request, response, next) => {
+  try {
+    const respuesta = request.body;
+    const pregunta = await prisma.pregunta.findUnique({
+      where: { id: respuesta.preguntaId },
+      select: { productoId: true },
+    });
+    if (!pregunta) {
+      return response.status(404).json({ error: "Pregunta no encontrada" });
+    }
+    const createRespuesta = await prisma.respuesta.create({
+      data: {
+        descripcion: respuesta.descripcion,
+        pregunta: { connect: { id: respuesta.preguntaId } },
+        vendedorId: respuesta.vendedorId,
+      },
+    });
+    response.json(createRespuesta);
+  } catch (error) {
+    next(error);
+  }
+};

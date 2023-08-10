@@ -1,0 +1,13 @@
+.grid-container {
+  padding: 20px;
+}
+
+.user-detail {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h2 {
+  margin-top: 20px;
+}

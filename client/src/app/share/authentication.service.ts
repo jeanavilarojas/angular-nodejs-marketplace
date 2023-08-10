@@ -29,7 +29,7 @@ export class AuthenticationService {
     //Establecer un observable para acceder a los datos del usuario
     this.currentUser = this.currentUserSubject.asObservable();
     this.currentUser.subscribe((data) => {
-      this.usuarioId = data.user.id
+      this.usuarioId = data.usuario.id
     })
     console.log(this.currentUser)
   }
@@ -50,20 +50,20 @@ export class AuthenticationService {
   }
 
   //Crear usuario
-  createUser(user: any): Observable<any> {
-    return this.http.post<any>(this.ServerUrl + 'usuario/register', user);
+  createUser(usuario: any): Observable<any> {
+    return this.http.post<any>(this.ServerUrl + 'usuario/register', usuario);
   }
 
   // Login
-  loginUser(user: any): Observable<any> {
-    return this.http.post<any>(this.ServerUrl + 'usuario/login', user).pipe(
-      map((user) => {
+  loginUser(usuario: any): Observable<any> {
+    return this.http.post<any>(this.ServerUrl + 'usuario/login', usuario).pipe(
+      map((usuario) => {
         // almacene los detalles del usuario y el token jwt
         // en el almacenamiento local para mantener al usuario conectado entre las actualizaciones de la página
-        localStorage.setItem('currentUser', JSON.stringify(user.data));
+        localStorage.setItem('currentUser', JSON.stringify(usuario.data));
         this.authenticated.next(true);
-        this.currentUserSubject.next(user.data);
-        return user;
+        this.currentUserSubject.next(usuario.data);
+        return usuario;
       })
     );
   }

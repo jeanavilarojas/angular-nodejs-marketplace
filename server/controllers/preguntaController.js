@@ -18,3 +18,20 @@ module.exports.getById = async (request, response, next) => {
   });
   response.json(pregunta);
 };
+
+// Crear una pregunta
+module.exports.create = async (request, response, next) => {
+  try {
+    const pregunta = request.body;
+    const createPregunta = await prisma.pregunta.create({
+      data: {
+        descripcion: pregunta.descripcion,
+        productoId: pregunta.productoId,
+        clienteId: pregunta.clienteId,
+      },
+    });
+    response.json(createPregunta);
+  } catch (error) {
+    next(error);
+  }
+};
