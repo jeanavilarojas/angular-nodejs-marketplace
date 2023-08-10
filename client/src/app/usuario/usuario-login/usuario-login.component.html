@@ -9,8 +9,8 @@
           <mat-form-field class="full-width">
             <mat-label>Correo electrónico</mat-label>
             <input matInput type="email" placeholder="Correo electrónico" formControlName="correo" />
-            <mat-error *ngIf="errorHandling('correo', 'required')">El correo electrónico es <strong>requerido</strong></mat-error>
-            <mat-error *ngIf="errorHandling('correo', 'email')">Verifique el <strong>formato</strong> del correo electrónico</mat-error>
+            <mat-error *ngIf="errorHandling('correo', 'required')">El correo electrónico es requerido</mat-error>
+            <mat-error *ngIf="errorHandling('correo', 'email')">Verifique el formato del correo electrónico</mat-error>
           </mat-form-field>
         </div>
       </div>
@@ -20,9 +20,9 @@
             <mat-label>Contraseña</mat-label>
             <input matInput [type]="hide ? 'password' : 'text'" placeholder="Contraseña" formControlName="contrasenna" />
             <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-              <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+              <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
             </button>
-            <mat-error *ngIf="errorHandling('contrasenna', 'required')">La contraseña es <strong>requerida</strong></mat-error>
+            <mat-error *ngIf="errorHandling('contrasenna', 'required')">La contraseña es requerida</mat-error>
           </mat-form-field>
         </div>
       </div>

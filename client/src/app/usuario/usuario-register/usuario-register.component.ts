@@ -3,16 +3,15 @@ import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { NotificacionService } from 'src/app/share/notification.service';
 import { AuthenticationService } from 'src/app/share/authentication.service';
 import { GenericService } from 'src/app/share/generic.service';
 
 @Component({
-  selector: 'app-user-create',
-  templateUrl: './user-create.component.html',
-  styleUrls: ['./user-create.component.css'],
+  selector: 'app-usuario-register',
+  templateUrl: './usuario-register.component.html',
+  styleUrls: ['./usuario-register.component.css']
 })
-export class UserCreateComponent implements OnInit {
+export class UsuarioRegisterComponent implements OnInit {
   hide = true;
   usuario: any;
   rolesList: any[];
@@ -47,7 +46,7 @@ export class UserCreateComponent implements OnInit {
     return this.formCreate.get('roles') as FormArray;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   submitForm() {
     this.makeSubmit = true;

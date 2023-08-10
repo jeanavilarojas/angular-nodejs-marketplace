@@ -1,0 +1,97 @@
+<form [formGroup]="formCreate" (ngSubmit)="submitForm()" novalidate>
+  <mat-card class="shipping-card">
+    <mat-card-header>
+      <mat-card-title>Crear Usuario </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label>Nombre</mat-label>
+            <input matInput type="text" placeholder="Nombre" formControlName="nombre" />
+            <mat-error *ngIf="errorHandling('nombre', 'required')">El nombre es requerido</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label>Apellidos</mat-label>
+            <input matInput type="text" placeholder="Apellidos" formControlName="apellidos" />
+            <mat-error *ngIf="errorHandling('apellidos', 'required')">Los apellidos son requeridos</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label>Identificación</mat-label>
+            <input matInput type="text" placeholder="Identificación" formControlName="identificacion" />
+            <mat-error *ngIf="errorHandling('identificacion', 'required')">La identificación es requerida</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label>Teléfono</mat-label>
+            <input matInput type="text" placeholder="Teléfono" formControlName="telefono" />
+            <mat-error *ngIf="errorHandling('telefono', 'required')">El teléfono es requerido</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label>Correo electrónico</mat-label>
+            <input matInput type="text" placeholder="Correo electrónico" formControlName="correo"/>
+            <mat-error *ngIf="errorHandling('correo', 'required')">El correo electrónico es requerido</mat-error>
+            <mat-error *ngIf="errorHandling('correo', 'email')">Verifique el formato del correo electrónico</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label>Contraseña</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'" placeholder="Contraseña" formControlName="contrasenna" />
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+            </button>
+            <mat-error *ngIf="errorHandling('contrasenna', 'required')">La contraseña es requerida</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label>Rol</mat-label>
+            <mat-select placeholder="Roles" formArrayName="roles" multiple>
+              <mat-option *ngFor="let r of rolesList; let i = index" [value]="r.id">{{ r.descripcion }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="errorHandling('roles', 'required')">El rol es requerido</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- <div class="row">
+          <div class="col" *ngIf="rolesList">
+            <mat-form-field class="full-width">
+              <mat-label>Rol</mat-label>
+              <mat-select placeholder="Roles" formControlName="roles" multiple>
+                <mat-option *ngFor="let r of rolesList" [value]="r.id">
+                  {{r.descripcion}}
+                </mat-option>
+              </mat-select>
+              <mat-error>
+                El rol es <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div> -->
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit">Registrar</button>
+      <button mat-raised-button color="accent" type="button" (click)="onReset()">Cancelar</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

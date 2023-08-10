@@ -27,8 +27,8 @@ export class HeaderComponent implements OnInit {
     this.authService.currentUser.subscribe((x) => {
       this.currentUser = x;
       // Actualizar el texto del tooltip si el usuario está logueado
-      if (this.currentUser && this.currentUser.user) {
-        this.tooltipText = this.currentUser.user.nombre + ' ' + this.currentUser.user.apellidos;
+      if (this.currentUser && this.currentUser.usuario) {
+        this.tooltipText = this.currentUser.usuario.nombre + ' ' + this.currentUser.usuario.apellidos;
       } else {
         this.tooltipText = 'Cuenta';
       }
@@ -53,7 +53,7 @@ export class HeaderComponent implements OnInit {
 
   // Redireccionar al perfil del usuario
   perfil() {
-    this.router.navigate(['usuario/perfil']);
+    this.router.navigate(['usuario/detalle']);
   }
 
   // Cerrar la sesión del usuario

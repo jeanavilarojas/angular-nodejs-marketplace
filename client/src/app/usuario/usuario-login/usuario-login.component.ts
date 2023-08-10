@@ -5,11 +5,11 @@ import { AuthenticationService } from 'src/app/share/authentication.service';
 import { NotificacionService, TipoMessage } from 'src/app/share/notification.service';
 
 @Component({
-  selector: 'app-user-login',
-  templateUrl: './user-login.component.html',
-  styleUrls: ['./user-login.component.css']
+  selector: 'app-usuario-login',
+  templateUrl: './usuario-login.component.html',
+  styleUrls: ['./usuario-login.component.css']
 })
-export class UserLoginComponent implements OnInit {
+export class UsuarioLoginComponent implements OnInit {
   hide = true;
   formulario: FormGroup;
   makeSubmit: boolean = false;

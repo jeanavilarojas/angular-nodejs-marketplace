@@ -8,9 +8,10 @@ import { ToastrModule } from 'ngx-toastr';
 import { CoreModule } from './core/core.module';
 import { HomeModule } from './home/home.module';
 import { ShareModule } from './share/share.module';
+import { DireccionModule } from './direccion/direccion.module';
+import { MetodopagoModule } from './metodopago/metodopago.module';
 import { PedidoModule } from './pedido/pedido.module';
 import { ProductoModule } from './producto/producto.module';
-import { UserModule } from './user/user.module';
 import { UsuarioModule } from './usuario/usuario.module';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -24,9 +25,10 @@ import { AppRoutingModule } from './app-routing.module';
     CoreModule,
     HomeModule,
     ShareModule,
+    DireccionModule,
+    MetodopagoModule,
     PedidoModule,
     ProductoModule,
-    UserModule,
     UsuarioModule,
     // Siempre de último
     AppRoutingModule,
