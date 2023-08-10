@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-//Controlador con las acciones de las rutas
+// Controlador con las acciones de las rutas
 const usuarioController = require("../controllers/usuarioController");
 
-//Rutas de usuarios
-//locahost:3000/usuario/
+// Rutas de usuarios
+// locahost:3000/usuario/
 router.get("/", usuarioController.get);
 router.get("/:id", usuarioController.getById);
 router.post("/register", usuarioController.register);

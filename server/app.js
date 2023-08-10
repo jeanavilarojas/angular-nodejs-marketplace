@@ -8,9 +8,12 @@ const prism = new PrismaClient();
 
 //---Archivos de rutas---
 const categoriasRoutes = require("./routes/categoriaRoutes");
+const direccionesRoutes = require("./routes/direccionRoutes")
+const metodosPagoRoutes = require("./routes/metodoPagoRoutes")
 const pedidosRoutes = require("./routes/pedidoRoutes");
-const productosRoutes = require("./routes/productoRoutes");
 const preguntasRoutes = require("./routes/preguntaRoutes");
+const productosRoutes = require("./routes/productoRoutes");
+const respuestasRoutes = require("./routes/respuestaRoutes");
 const rolRoutes = require("./routes/rolRoutes");
 const usuariosRoutes = require("./routes/usuarioRoutes");
 
@@ -34,9 +37,12 @@ app.use(express.static("public"));
 
 //---- Definir rutas ----
 app.use("/categoria/", categoriasRoutes);
+app.use("/direccion/", direccionesRoutes);
+app.use("/metodoPago/", metodosPagoRoutes);
 app.use("/pedido/", pedidosRoutes);
-app.use("/producto/", productosRoutes);
 app.use("/pregunta/", preguntasRoutes);
+app.use("/producto/", productosRoutes);
+app.use("/respuesta/", respuestasRoutes);
 app.use("/rol/", rolRoutes);
 app.use("/usuario/", usuariosRoutes);
 
