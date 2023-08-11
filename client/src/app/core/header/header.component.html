@@ -6,7 +6,7 @@
 
     <div>
       <a mat-button aria-label="Inicio" [routerLink]="'/inicio'" [ngClass]="'nav-link'">Inicio</a>
-      <a mat-button aria-label="Acerca de" [routerLink]="'/acerca-de'" [ngClass]="'nav-link'">Acerca de</a>
+      <a mat-button aria-label="Acerca de" [routerLink]="'/acerca'" [ngClass]="'nav-link'">Acerca de</a>
       <a mat-button aria-label="Contacto" [routerLink]="'/contacto'" [ngClass]="'nav-link'">Contacto</a>
     </div>
 
@@ -30,27 +30,21 @@
       <button mat-menu-item aria-label="Cerrar sesión" *ngIf="isAutenticated" (click)="logout()">
         <span>Cerrar sesión</span>
       </button>
-    </mat-menu>
-    
+    </mat-menu>  
   </mat-toolbar-row>
 
   <mat-toolbar-row class="navbar-bottom">
     <span class="navbar-spacer"></span>
     <div>
-      <a mat-button aria-label="Pedidos" [routerLink]="'/pedido'" [ngClass]="'nav-link'">Pedidos cliente</a>
-      <a mat-button aria-label="Productos" [routerLink]="'/producto'" [ngClass]="'nav-link'">Productos cliente</a>
-      <a mat-button aria-label="Pedidos" [routerLink]="'/pedido-vendedor'" [ngClass]="'nav-link'">Pedidos vendedor</a>
-      <a mat-button aria-label="Productos" [routerLink]="'/producto-vendedor'" [ngClass]="'nav-link'">Productos vendedor</a>
-      
-      <!-- <mat-menu #mantenimientosMenu="matMenu">
-        <button mat-menu-item [routerLink]="'/pedido'" [ngClass]="'nav-link'">
-          Productos
-        </button>
-        <button mat-menu-item [routerLink]="'/pedido-vendedor'" [ngClass]="'nav-link'">
-          Usuarios
-        </button>
+      <a mat-button aria-label="Pedidos" [routerLink]="'/pedidos/cliente'" [ngClass]="'nav-link'">Pedidos cliente</a>
+      <a mat-button aria-label="Productos" [routerLink]="'/productos/cliente'" [ngClass]="'nav-link'">Productos cliente</a>
+      <a mat-button aria-label="Pedidos" [routerLink]="'/pedidos/vendedor'" [ngClass]="'nav-link'">Pedidos vendedor</a>
+      <a mat-button aria-label="Productos" [routerLink]="'/productos/vendedor'" [ngClass]="'nav-link'">Productos vendedor</a>      
+      <mat-menu #mantenimientosMenu="matMenu">
+        <button mat-menu-item [routerLink]="'/productos/administrador'" [ngClass]="'nav-link'">Productos</button>
+        <button mat-menu-item [routerLink]="'/usuarios/administrador'" [ngClass]="'nav-link'">Usuarios</button>
       </mat-menu>
-      <a mat-button [matMenuTriggerFor]="mantenimientosMenu">Mantenimientos</a> -->
+      <a mat-button [matMenuTriggerFor]="mantenimientosMenu">Mantenimientos</a>
     </div>
   </mat-toolbar-row>
 </mat-toolbar>

@@ -31,7 +31,7 @@ export class PedidoIndexComponent {
 
   // Direccionar a la página de detalle
   detallePedido(id: number) {
-    this.router.navigate(['/pedido-detalle', id]);
+    this.router.navigate(['/pedido/detalle', id]);
   }
 
   obtenerNombresProductos(productos: any[]): string {

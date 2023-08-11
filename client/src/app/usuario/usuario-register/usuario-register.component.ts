@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from 'src/app/share/authentication.service';
+import { NotificacionService } from 'src/app/share/notification.service';
 import { GenericService } from 'src/app/share/generic.service';
 
 @Component({
@@ -14,7 +15,7 @@ import { GenericService } from 'src/app/share/generic.service';
 export class UsuarioRegisterComponent implements OnInit {
   hide = true;
   usuario: any;
-  rolesList: any[];
+  rolesList: any;
   formCreate: FormGroup;
   makeSubmit: boolean = false;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -28,41 +29,33 @@ export class UsuarioRegisterComponent implements OnInit {
     this.reactiveForm();
   }
 
+  ngOnInit(): void { }
+
   reactiveForm() {
     this.formCreate = this.fb.group({
-      nombre: ['', [Validators.required]],
-      apellidos: ['', [Validators.required]],
-      identificacion: ['', [Validators.required]],
-      telefono: ['', [Validators.required]],
-      correo: ['', [Validators.required, Validators.email]],
-      contrasenna: ['', [Validators.required]],
-      roles: this.fb.array([], Validators.required), // FormArray para roles
+      nombre: [null, [Validators.required]],
+      apellidos: [null, [Validators.required]],
+      identificacion: [null, [Validators.required]],
+      telefono: [null, [Validators.required]],
+      correo: [null, [Validators.required, Validators.email]],
+      contrasenna: [null, [Validators.required]],
+      roles: [null, Validators.required],
     });
     this.listaRoles();
   }
-
-  // Obtener el FormArray de roles
-  get rolesFormArray() {
-    return this.formCreate.get('roles') as FormArray;
-  }
-
-  ngOnInit(): void { }
 
   submitForm() {
     this.makeSubmit = true;
     if (this.formCreate.invalid) {
       return;
     }
-    this.authService.createUser(this.formCreate.value).subscribe((respuesta: any) => {
+    const formData = { ...this.formCreate.value, roles: this.formCreate.value.roles.map((rol) => parseInt(rol)), };
+    this.authService.createUser(formData).subscribe((respuesta: any) => {
       this.usuario = respuesta;
       this.router.navigate(['/usuario/login'], {
         queryParams: { register: 'true' },
       });
     });
-  }
-
-  onReset() {
-    this.formCreate.reset();
   }
 
   listaRoles() {
@@ -82,4 +75,8 @@ export class UsuarioRegisterComponent implements OnInit {
       (this.makeSubmit || this.formCreate.controls[control].touched)
     );
   };
+
+  onReset() {
+    this.formCreate.reset();
+  }
 }

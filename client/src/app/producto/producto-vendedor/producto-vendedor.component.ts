@@ -29,17 +29,18 @@ export class ProductoVendedorComponent {
       });
   }
 
+  // Crear un producto nuevo
+  crearProducto() {
+    this.router.navigate(['/producto/crear']);
+  }
+
   // Direccionar a la página de detalle
   detalleProducto(id: number) {
-    this.router.navigate(['/producto-detalle', id]);
+    this.router.navigate(['/producto/detalle', id]);
   }
 
   // Editar el producto seleccionado
   actualizarProducto(id: number) {
-    this.router.navigate(['/producto/update', id]);
-  }
-
-  crearProducto() {
-    this.router.navigate(['/producto/create']);
+    this.router.navigate(['/producto/actualizar', id]);
   }
 }

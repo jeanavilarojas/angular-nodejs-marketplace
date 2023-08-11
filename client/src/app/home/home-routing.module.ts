@@ -4,7 +4,7 @@ import { AcercaDeComponent } from './acerca-de/acerca-de.component';
 import { ContactoComponent } from './contacto/contacto.component';
 
 const routes: Routes = [
-  { path: 'acerca-de', component: AcercaDeComponent },
+  { path: 'acerca', component: AcercaDeComponent },
   { path: 'contacto', component: ContactoComponent },
 ];
 

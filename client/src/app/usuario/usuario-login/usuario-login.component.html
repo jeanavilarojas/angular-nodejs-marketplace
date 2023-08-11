@@ -1,35 +1,26 @@
 <form [formGroup]="formulario" (ngSubmit)="submitForm()" novalidate>
-  <mat-card class="shipping-card">
-    <mat-card-header>
-      <mat-card-title>Login Usuario</mat-card-title>
-    </mat-card-header>
+  <mat-card class="login-card">
     <mat-card-content>
-      <div class="row">
-        <div class="col">
-          <mat-form-field class="full-width">
-            <mat-label>Correo electrónico</mat-label>
-            <input matInput type="email" placeholder="Correo electrónico" formControlName="correo" />
-            <mat-error *ngIf="errorHandling('correo', 'required')">El correo electrónico es requerido</mat-error>
-            <mat-error *ngIf="errorHandling('correo', 'email')">Verifique el formato del correo electrónico</mat-error>
-          </mat-form-field>
-        </div>
+      <h2 class="form-title">Iniciar sesión</h2>
+      <mat-form-field class="full-width">
+        <mat-label>Correo electrónico</mat-label>
+        <input matInput type="email" placeholder="Correo electrónico" formControlName="correo" />
+        <mat-error *ngIf="errorHandling('correo', 'required')">El correo electrónico es requerido</mat-error>
+        <mat-error *ngIf="errorHandling('correo', 'email')">Verifique el formato del correo electrónico</mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Contraseña</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" placeholder="Contraseña" formControlName="contrasenna" />
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+        <mat-error *ngIf="errorHandling('contrasenna', 'required')">La contraseña es requerida</mat-error>
+      </mat-form-field>
+      <div class="button-container">
+        <button mat-button class="login-button" type="submit">Iniciar sesión</button>
+        <button mat-button class="cancel-button" type="button" (click)="onReset()">Cancelar</button>
       </div>
-      <div class="row">
-        <div class="col">
-          <mat-form-field class="full-width">
-            <mat-label>Contraseña</mat-label>
-            <input matInput [type]="hide ? 'password' : 'text'" placeholder="Contraseña" formControlName="contrasenna" />
-            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-              <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
-            </button>
-            <mat-error *ngIf="errorHandling('contrasenna', 'required')">La contraseña es requerida</mat-error>
-          </mat-form-field>
-        </div>
-      </div>
+      <p class="register-link">¿No tienes una cuenta? <a href="usuario/registro">Regístrate aquí</a></p>
     </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="primary" type="submit">Login</button>
-      <button mat-raised-button color="accent" type="button" (click)="onReset()">Cancelar</button>
-    </mat-card-actions>
   </mat-card>
 </form>

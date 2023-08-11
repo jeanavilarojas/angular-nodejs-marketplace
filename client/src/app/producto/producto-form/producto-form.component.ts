@@ -64,7 +64,7 @@ export class ProductoFormComponent implements OnInit {
       }
     });
     this.authService.currentUser.subscribe((x) => (this.currentUser = x));
-    this.idUsuario = this.currentUser.user.id;
+    this.idUsuario = this.currentUser.usuario.id;
   }
 
   // Crear formulario
@@ -114,10 +114,11 @@ export class ProductoFormComponent implements OnInit {
 
   //Crear producto
   crearProducto(): void {
-    //Establecer submit verdadero
+    // Establecer submit verdadero
     this.submitted = true;
     this.productoForm.patchValue({ vendedorId: this.idUsuario });
-    //Verificar validación
+
+    // Verificar validación
     if (this.productoForm.invalid) {
       return;
     }
@@ -128,12 +129,14 @@ export class ProductoFormComponent implements OnInit {
     // Agregar los datos al FormData
     Object.keys(formValue).forEach((key) => {
       const value = formValue[key];
+
       if (key === 'myFile') {
+        // If the key is 'myFile', it contains an array of files, so we need to handle it differently
         const files: File[] = value as File[];
         for (const file of files) {
           formData.append('myFile', file, file.name);
         }
-      } else if (key === 'publicar') {
+      } else if (key === 'categorias') {
         formData.append(key, JSON.stringify(value));
       } else {
         // Agregar otros valores al FormData
@@ -141,48 +144,17 @@ export class ProductoFormComponent implements OnInit {
       }
     });
 
-    //Obtener id Categorias del Formulario y Crear arreglo con {id: value}
-    // let gFormat: any = this.productoForm.get('categorias').value.map(x => ({ ['id']: x }))
-
     //Asignar valor al formulario
-    // this.productoForm.patchValue({ categoria: gFormat });
-    
     console.log(this.productoForm.value);
-    //Accion API create enviando toda la informacion del formulario
+    // Acción API create enviando toda la información del formulario
     this.gService.create('producto', formData)
-      .pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
-        //Obtener respuesta
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
         this.respProducto = data;
-        this.router.navigate(['/producto-vendedor',this.idUsuario]);
-        // this.router.navigate(['/producto-vendedor'], {
-        //   queryParams: { create: 'true' }
-        // });
+        this.router.navigate(['/producto-vendedor', this.idUsuario]);
+        console.log(data)
       });
   }
-
-  // crearProducto(): void {
-  //   //Establecer submit verdadero
-  //   this.submitted = true;
-  //   this.productoForm.patchValue({ UsuarioID: this.idUsuario });
-  //   //Verificar validación
-  //   if (this.productoForm.invalid) {
-  //     return;
-  //   }
-  //   //Obtener id Categorias del Formulario y Crear arreglo con {id: value}
-  //   let gFormat: any = this.productoForm.get('categorias').value.map(x => ({ ['id']: x }))
-  //   //Asignar valor al formulario
-  //   this.productoForm.patchValue({ categoria: gFormat });
-  //   console.log(this.productoForm.value);
-  //   //Accion API create enviando toda la informacion del formulario
-  //   this.gService.create('producto', this.productoForm.value)
-  //     .pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
-  //       //Obtener respuesta
-  //       this.respProducto = data;
-  //       this.router.navigate(['/producto-vendedor'], {
-  //         queryParams: { create: 'true' }
-  //       });
-  //     });
-  // }
 
   //Actualizar Producto
   actualizarProducto(): void {
@@ -219,7 +191,7 @@ export class ProductoFormComponent implements OnInit {
 
     //Obtener id Categorias del Formulario y Crear arreglo con {id: value}
     // let gFormat: any = this.productoForm.get('categorias').value.map(x => ({ ['id']: x }));
-    
+
     //Asignar valor al formulario 
     // this.productoForm.patchValue({ categoria: gFormat });
     console.log(this.productoForm.value);
@@ -228,7 +200,7 @@ export class ProductoFormComponent implements OnInit {
       .pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
         //Obtener respuesta
         this.respProducto = data;
-        this.router.navigate(['/producto-vendedor',this.idUsuario]);
+        this.router.navigate(['/producto-vendedor', this.idUsuario]);
       });
   }
 

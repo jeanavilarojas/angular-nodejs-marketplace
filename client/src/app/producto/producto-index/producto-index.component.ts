@@ -41,7 +41,7 @@ export class ProductoIndexComponent {
 
   // Direccionar a la página de detalle
   detalleProducto(id: number) {
-    this.router.navigate(['/producto-detalle', id]);
+    this.router.navigate(['/producto/detalle', id]);
   }
 
   ngOnDestroy() {

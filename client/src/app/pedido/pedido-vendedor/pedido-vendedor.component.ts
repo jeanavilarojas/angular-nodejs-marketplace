@@ -24,11 +24,7 @@ export class PedidoVendedorComponent implements OnInit {
       });
   }
 
-    // Direccionar a la página de editar
-    // *** FALTA ARREGLAR ***
-    // *** FALTA ARREGLAR ***
-    // *** FALTA ARREGLAR ***
-    editarPedido(id: number) {
-      this.router.navigate(['/producto-detalle', id]);
-    }
+  editarPedido(id: number) {
+    this.router.navigate(['/pedido/detalle', id]);
+  }
 }

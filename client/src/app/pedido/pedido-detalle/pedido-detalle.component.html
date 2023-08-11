@@ -8,7 +8,7 @@
     </div>
     <div class="pedido-content">
       <div class="producto-item" *ngFor="let producto of pedido.productos">
-        <h2><b><a [routerLink]="['/producto-detalle', producto.producto.id]">{{ producto.producto.nombre }}</a></b></h2>
+        <h2><b><a [routerLink]="['/producto/detalle', producto.producto.id]">{{ producto.producto.nombre }}</a></b></h2>
         <p>Cantidad: {{ producto.cantidad }}</p>
         <p>Precio unitario: {{ producto.producto.precio | currency : "₡" }}</p>
         <p>Subtotal: {{ producto.subtotal | currency : "₡" }}</p>

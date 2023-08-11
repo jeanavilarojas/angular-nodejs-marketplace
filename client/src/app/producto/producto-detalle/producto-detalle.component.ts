@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GenericService } from 'src/app/share/generic.service';
@@ -35,7 +35,7 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
   producto: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private route: ActivatedRoute, private gService: GenericService, private sanitizer: DomSanitizer) { }
+  constructor(private route: ActivatedRoute, private router: Router, private gService: GenericService, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params) => {
@@ -69,7 +69,11 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
     const base64Image = 'data:image/jpeg;base64,' + url;
     return this.sanitizer.bypassSecurityTrustUrl(base64Image);
   }
-
+//Crear Pregunta
+crearPregunta() {
+  this.router.navigate(['/pregunta/create',this.productoId] 
+  );
+}
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

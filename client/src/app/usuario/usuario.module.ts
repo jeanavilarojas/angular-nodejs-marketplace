@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { UsuarioRoutingModule } from './usuario-routing.module';
+import { UsuarioAllComponent } from './usuario-all/usuario-all.component';
 import { UsuarioIndexComponent } from './usuario-index/usuario-index.component';
-import { UsuarioDetalleComponent } from './usuario-detalle/usuario-detalle.component';
 import { UsuarioLoginComponent } from './usuario-login/usuario-login.component';
 import { UsuarioRegisterComponent } from './usuario-register/usuario-register.component';
 
@@ -17,8 +17,8 @@ import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
+    UsuarioAllComponent,
     UsuarioIndexComponent,
-    UsuarioDetalleComponent,
     UsuarioLoginComponent,
     UsuarioRegisterComponent
   ],

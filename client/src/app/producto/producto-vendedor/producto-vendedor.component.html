@@ -1,7 +1,7 @@
 <div class="grid-container">
   <div class="encabezado">
     <h1>Mis productos</h1>
-    <button mat-button aria-label="Crear producto" [routerLink]="'/producto/create'">Añadir producto
+    <button mat-button aria-label="Crear producto" (click)="crearProducto()">Añadir producto
       <mat-icon>add</mat-icon>
     </button>
   </div>
@@ -22,8 +22,7 @@
         <td>{{ producto.precio | currency : "₡" }}</td>
         <td>{{ producto.cantidad }}</td>
         <td>
-          <button
-            mat-icon-button aria-label="Detalle producto" matTooltip="Detalle producto" (click)="detalleProducto(producto.id)">
+          <button mat-icon-button aria-label="Detalle producto" matTooltip="Detalle producto" (click)="detalleProducto(producto.id)">
             <mat-icon>info</mat-icon>
           </button>
           <button mat-icon-button aria-label="Editar producto" matTooltip="Editar producto" (click)="actualizarProducto(producto.id)">

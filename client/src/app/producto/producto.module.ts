@@ -22,6 +22,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDialogModule } from '@angular/material/dialog';
+import { PreguntaFormComponent } from './producto-detalle/pregunta-form/pregunta-form.component';
+import { RespuestaFormComponent } from './producto-detalle/respuesta-form/respuesta-form.component';
+import { ProductoAllComponent } from './producto-all/producto-all.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +32,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     ProductoDetalleComponent,
     ProductoVendedorComponent,
     ProductoFormComponent,
+    PreguntaFormComponent,
+    RespuestaFormComponent,
+    ProductoAllComponent,
   ],
   imports: [
     CommonModule,

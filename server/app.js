@@ -51,5 +51,5 @@ app.use("/usuario/", usuariosRoutes);
 // Servidor
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
-  console.log("Presione CTRL-C para deternerlo\n");
+  console.log("Presione 'CTRL + C' para deternerlo\n");
 });

@@ -31,6 +31,7 @@ module.exports.register = async (request, response, next) => {
     let usuario = request.body;
     let salt = bcrypt.genSaltSync(10);
     let hash = bcrypt.hashSync(usuario.contrasenna, salt);
+    const roles = usuario.roles.map((rol) => parseInt(rol));
     const createUsuario = await prisma.usuario.create({
       data: {
         nombre: usuario.nombre,
@@ -52,20 +53,20 @@ module.exports.register = async (request, response, next) => {
 
 // Actualizar un usuario
 module.exports.update = async (request, response, next) => {
+  const usuario = request.body;
   const idUsuario = parseInt(request.params.id);
-  const usuarioData = request.body;
   let updateData = {
-    nombre: usuarioData.nombre,
-    apellidos: usuarioData.apellidos,
-    identificacion: usuarioData.identificacion,
-    telefono: usuarioData.telefono,
-    correo: usuarioData.correo,
+    nombre: usuario.nombre,
+    apellidos: usuario.apellidos,
+    identificacion: usuario.identificacion,
+    telefono: usuario.telefono,
+    correo: usuario.correo,
   };
 
   // Verificar si el usuario proporcionó una nueva contraseña
-  if (usuarioData.contrasenna) {
+  if (usuario.contrasenna) {
     const saltRounds = 10;
-    const hashedPassword = bcrypt.hashSync(usuarioData.contrasenna, saltRounds);
+    const hashedPassword = bcrypt.hashSync(usuario.contrasenna, saltRounds);
     updateData.contrasenna = hashedPassword;
   }
 

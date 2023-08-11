@@ -5,9 +5,9 @@ import { PedidoDetalleComponent } from './pedido-detalle/pedido-detalle.componen
 import { PedidoVendedorComponent } from './pedido-vendedor/pedido-vendedor.component';
 
 const routes: Routes = [
-  { path: 'pedido', component: PedidoIndexComponent },
-  { path: 'pedido-detalle/:id', component: PedidoDetalleComponent },
-  { path: 'pedido-vendedor', component: PedidoVendedorComponent },
+  { path: 'pedidos/cliente', component: PedidoIndexComponent },
+  { path: 'pedidos/vendedor', component: PedidoVendedorComponent },
+  { path: 'pedido/detalle/:id', component: PedidoDetalleComponent },
 ];
 
 @NgModule({

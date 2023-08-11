@@ -40,9 +40,10 @@
   <div class="preguntas-respuestas">
     <div class="encabezado">
       <h2>Preguntas y Respuestas</h2>
-      <button mat-button aria-label="Agregar pregunta">Agregar pregunta
+      <button mat-button aria-label="Agregar pregunta" (click)="crearPregunta()">Agregar pregunta
         <mat-icon>add</mat-icon>
       </button>
+
     </div>
     <div *ngFor="let pregunta of producto.preguntas" class="pregunta-respuesta-card">
       <div class="pregunta">

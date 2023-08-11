@@ -10,7 +10,7 @@
       <div class="producto-item">
         <h2><b>Producto(s):</b></h2>
         <ul *ngIf="pedido.productos">
-          <li *ngFor="let item of pedido.productos"><a [routerLink]="['/producto-detalle', item.producto.id]">{{ item.producto.nombre }}</a></li>
+          <li *ngFor="let item of pedido.productos"><a [routerLink]="['/producto/detalle', item.producto.id]">{{ item.producto.nombre }}</a></li>
         </ul>
       </div>
     </div>
