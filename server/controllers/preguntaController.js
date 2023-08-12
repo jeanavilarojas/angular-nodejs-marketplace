@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 // Obtener preguntas
 module.exports.get = async (request, response, next) => {
   const preguntas = await prisma.pregunta.findMany({
-    include: { respuestas: true, cliente: true },
+    include: { cliente: true, respuestas: true },
   });
   response.json(preguntas);
 };
@@ -14,7 +14,7 @@ module.exports.getById = async (request, response, next) => {
   let id = parseInt(request.params.id);
   const pregunta = await prisma.pregunta.findUnique({
     where: { id: id },
-    include: { respuestas: true, cliente: true },
+    include: { cliente: true, respuestas: true },
   });
   response.json(pregunta);
 };

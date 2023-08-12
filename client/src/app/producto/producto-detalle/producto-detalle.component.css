@@ -2,7 +2,7 @@
   padding: 20px;
 }
 
-.contenedor-detalle{
+.contenedor-detalle {
   padding: 20px 300px 20px 300px;
 }
 
@@ -52,6 +52,14 @@
 
 .pregunta-respuesta {
   margin: 5px 0;
+}
+
+button.agregar-respuesta {
+  background-color: #dddddd;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
 .encabezado {

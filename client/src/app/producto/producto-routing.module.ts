@@ -3,9 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProductoAllComponent } from './producto-all/producto-all.component';
 import { ProductoIndexComponent } from './producto-index/producto-index.component';
 import { ProductoDetalleComponent } from './producto-detalle/producto-detalle.component';
-import { ProductoVendedorComponent } from './producto-vendedor/producto-vendedor.component';
 import { ProductoFormComponent } from './producto-form/producto-form.component';
-import { PreguntaFormComponent } from './producto-detalle/pregunta-form/pregunta-form.component';
+import { ProductoPreguntaComponent } from './producto-pregunta/producto-pregunta.component';
+import { ProductoRespuestaComponent } from './producto-respuesta/producto-respuesta.component';
+import { ProductoVendedorComponent } from './producto-vendedor/producto-vendedor.component';
 
 const routes: Routes = [
   { path: 'productos/administrador', component: ProductoAllComponent },
@@ -14,7 +15,8 @@ const routes: Routes = [
   { path: 'producto/detalle/:id', component: ProductoDetalleComponent },
   { path: 'producto/crear', component: ProductoFormComponent },
   { path: 'producto/actualizar/:id', component: ProductoFormComponent },
-  { path: 'pregunta/crear/:idProducto', component: PreguntaFormComponent },
+  { path: 'pregunta/:id', component: ProductoPreguntaComponent },
+  { path: 'respuesta/:id', component: ProductoRespuestaComponent },
 ];
 
 @NgModule({

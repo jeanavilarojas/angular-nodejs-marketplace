@@ -40,10 +40,9 @@
   <div class="preguntas-respuestas">
     <div class="encabezado">
       <h2>Preguntas y Respuestas</h2>
-      <button mat-button aria-label="Agregar pregunta" (click)="crearPregunta()">Agregar pregunta
+      <button mat-button aria-label="Agregar pregunta" (click)="crearPregunta(producto.id)">Agregar pregunta
         <mat-icon>add</mat-icon>
       </button>
-
     </div>
     <div *ngFor="let pregunta of producto.preguntas" class="pregunta-respuesta-card">
       <div class="pregunta">
@@ -55,7 +54,7 @@
           <b>Pregunta:</b> {{ pregunta.descripcion }}
         </p>
       </div>
-      <div class="respuesta">
+      <div class="respuesta" *ngIf="pregunta.respuestas">
         <div class="pregunta-respuesta-header">
           <p><b>Vendedor:</b> {{ pregunta.respuestas.vendedor.nombre }}</p>
           <p><b>Fecha:</b> {{ pregunta.respuestas.fecha | date }}</p>
@@ -64,6 +63,9 @@
           <b>Respuesta:</b> {{ pregunta.respuestas.descripcion }}
         </p>
       </div>
+      <button mat-button aria-label="Agregar respuesta" class="agregar-respuesta" *ngIf="!pregunta.respuestas?.id" (click)="crearRespuesta(pregunta.id)">Agregar respuesta
+        <mat-icon>add</mat-icon>
+      </button>
     </div>
   </div>
 </div>
