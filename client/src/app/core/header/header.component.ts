@@ -53,7 +53,7 @@ export class HeaderComponent implements OnInit {
 
   // Redireccionar al perfil del usuario
   perfil() {
-    this.router.navigate(['usuario/detalle']);
+    this.router.navigate(['usuario/perfil']);
   }
 
   // Cerrar la sesión del usuario

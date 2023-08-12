@@ -63,16 +63,42 @@ export class UsuarioLoginComponent implements OnInit {
     this.formulario.reset();
   }
 
+  // submitForm() {
+  //   this.makeSubmit = true;
+  //   if (this.formulario.invalid) {
+  //     return;
+  //   }
+  //   this.authService.loginUser(this.formulario.value)
+  //     .subscribe((respuesta: any) => {
+  //       this.router.navigate(['/']);
+  //     })
+  // }
+
   submitForm() {
-    this.makeSubmit = true;
-    if (this.formulario.invalid) {
-      return;
-    }
-    this.authService.loginUser(this.formulario.value)
-      .subscribe((respuesta: any) => {
-        this.router.navigate(['/']);
-      })
+  this.makeSubmit = true;
+  if (this.formulario.invalid) {
+    return;
   }
+  
+  this.authService.loginUser(this.formulario.value).subscribe(
+    (usuario: any) => {
+      // Verificar el estado del usuario en la respuesta
+      if (usuario.data.usuario.estado === true) {
+        this.router.navigate(['/']);
+      } else {
+        this.notificacion.mensaje(
+          'Usuario',
+          'Acceso denegado: El usuario está inactivo',
+          TipoMessage.warning
+        );
+      }
+    },
+    (error: any) => {
+      // Manejar error de inicio de sesión, si es necesario
+      console.error('Error en inicio de sesión:', error);
+    }
+  );
+}
 
   // Manejar errores de formulario en Angular
   public errorHandling = (control: string, error: string) => {

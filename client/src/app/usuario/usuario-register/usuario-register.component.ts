@@ -64,7 +64,7 @@ export class UsuarioRegisterComponent implements OnInit {
       .list('rol')
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
-        this.rolesList = data;
+        this.rolesList = data.filter((rol: any) => rol.descripcion !== 'Administrador'); // Este filter es para que no muestre el rol de administrador
       });
   }
 

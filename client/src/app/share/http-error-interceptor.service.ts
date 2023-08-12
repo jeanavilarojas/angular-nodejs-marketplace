@@ -55,7 +55,7 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
             message = 'Solicitud incorrecta';
             break;
           case 401:
-            message = 'No autorizado';
+            message = 'Acceso denegado: Credenciales inválidas o usuario inactivo';
             break;
           case 403:
             message = 'Acceso denegado';
@@ -65,7 +65,7 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
             break;
         }
         //Mostrar un mensaje de error
-        this.noti.mensaje('Error', error.status + ' ' + message, TipoMessage.error);
+        this.noti.mensaje('Error' + ' ' + error.status, message, TipoMessage.error);
         throw new Error(error.message);
       })
     );

@@ -94,42 +94,66 @@ module.exports.update = async (request, response, next) => {
 module.exports.login = async (request, response, next) => {
   let solicitud = request.body;
   console.log(solicitud);
-  // Buscar el usuario según el correo dado
-  const usuario = await prisma.usuario.findUnique({
-    where: { correo: solicitud.correo },
-    include: { roles: true },
-  });
-  // Por si no lo encuentra según su correo
-  if (!usuario) {
-    response.status(401).send({
+
+  try {
+    // Buscar el usuario según el correo dado
+    const usuario = await prisma.usuario.findUnique({
+      where: { correo: solicitud.correo },
+      include: { roles: true },
+    });
+
+    // Por si no lo encuentra según su correo
+    if (!usuario) {
+      return response.status(401).send({
+        success: false,
+        message: "Acceso denegado: El usuario no existe",
+      });
+    }
+
+    // Verificar la contraseña
+    const verificarContrasenna = bcrypt.compareSync(
+      solicitud.contrasenna,
+      usuario.contrasenna
+    );
+
+    if (verificarContrasenna) {
+      // Verificar el estado del usuario
+      if (!usuario.estado) {
+        return response.status(401).send({
+          success: false,
+          message: "Acceso denegado: El usuario está inactivo",
+        });
+      }
+
+      // Si el usuario es correcto (correo, contraseña y estado activo)
+      const payload = {
+        correo: usuario.correo,
+        roles: usuario.roles,
+      };
+
+      // Crear el token con el payload y el tiempo de expiración
+      const token = jwt.sign(payload, process.env.SECRET_KEY, {
+        expiresIn: process.env.JWT_EXPIRE,
+      });
+
+      return response.json({
+        success: true,
+        message: "Inicio de sesión exitoso",
+        data: { usuario, token },
+      });
+    } else {
+      return response.status(401).send({
+        success: false,
+        message: "Acceso denegado: Verifique los datos ingresados",
+      });
+    }
+  } catch (error) {
+    console.error("Error en inicio de sesión:", error);
+    return response.status(500).send({
       success: false,
-      message: "El usuario ingresado no existe",
-    });
-  }
-  // Verificar la contraseña
-  const verificarContrasenna = bcrypt.compareSync(
-    solicitud.contrasenna,
-    usuario.contrasenna
-  );
-  if (verificarContrasenna) {
-    // Si el usuario es correcto (correo y contraseña)
-    const payload = {
-      correo: usuario.correo,
-      roles: usuario.roles,
-    };
-    // Crear el token con el payload y el tiempo de expiración
-    const token = jwt.sign(payload, process.env.SECRET_KEY, {
-      expiresIn: process.env.JWT_EXPIRE,
-    });
-    response.json({
-      success: true,
-      message: "Usuario registrado satisfactoriamente",
-      data: { usuario, token },
-    });
-  } else {
-    response.status(401).send({
-      success: false,
-      message: "Por favor verifique los datos ingresados",
+      message: "Error en el servidor",
     });
   }
 };
+
+

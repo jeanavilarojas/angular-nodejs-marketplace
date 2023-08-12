@@ -6,13 +6,9 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './usuario-index.component.html',
   styleUrls: ['./usuario-index.component.css']
 })
-export class UsuarioIndexComponent implements OnInit {
+export class UsuarioIndexComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router) {
-  }
-
-  ngOnInit(): void {
-    this.router.navigate(['/usuario/login'], { relativeTo: this.route });
   }
 }
