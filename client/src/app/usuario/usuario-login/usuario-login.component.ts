@@ -44,8 +44,8 @@ export class UsuarioLoginComponent implements OnInit {
       auth = params['auth'] || '';
       if (register) {
         this.notificacion.mensaje(
-          'Usuario',
-          'Usuario registrado! Especifique sus credenciales',
+          'Usuario registrado',
+          'Especifique sus credenciales',
           TipoMessage.success
         )
       }

@@ -1,0 +1,43 @@
+.grid-container {
+  padding: 20px;
+}
+
+.activo {
+  color: green;
+}
+
+.inactivo {
+  color: red;
+}
+
+.head {
+  margin: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mat-elevation-z8 {
+  overflow-x: auto;
+}
+
+table button {
+  margin: 0.5rem;
+}
+
+img {
+  margin: 0.5rem;
+  object-fit: cover;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.active {
+  color: #00a37c;
+}
+
+.inactive {
+  color: #c72020;
+}

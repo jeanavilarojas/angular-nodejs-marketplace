@@ -1,1 +1,57 @@
-<p>usuario-all works!</p>
+<div class="grid-container">
+  <div class="encabezado">
+    <h1>Usuarios</h1>
+  </div>
+  <mat-divider></mat-divider>
+  <mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">   
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Filtar por ID">ID</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.id }}</mat-cell>
+    </ng-container>
+    
+    <ng-container matColumnDef="nombre">
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Filtar por nombre">Nombre</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.nombre }} {{ element.apellidos }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="identificacion">
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Filtar por identificación">Identificación</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.identificacion }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="correo">
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Filtar por correo">Correo</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.correo }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="estado">
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Filtrar por estado">Estado</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-icon [ngClass]="{ 'activo': element.estado, 'inactivo': !element.estado }">circle</mat-icon>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="roles">
+      <mat-header-cell *matHeaderCellDef>Roles</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <span *ngIf="element.roles">
+          <span *ngFor="let object of element.roles">
+            {{ object.rol }}
+          </span>
+        </span>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="acciones">
+      <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-icon-button matTooltip="Cambiar estado" aria-label="Cambiar estado" (click)="cambiarEstado(element)">
+            <mat-icon>swap_horiz</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[10, 15, 20]" showFirstLastButtons></mat-paginator>
+</div>
