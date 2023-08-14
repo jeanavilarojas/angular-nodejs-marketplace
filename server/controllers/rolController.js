@@ -9,9 +9,9 @@ module.exports.get = async (request, response, next) => {
 
 // Obtener rol por Id
 module.exports.getById = async (request, response, next) => {
-  let id = parseInt(request.params.id);
+  let rolId = parseInt(request.params.id);
   const rol = await prisma.rol.findUnique({
-    where: { id: id },
+    where: { id: rolId },
   });
   response.json(rol);
 };

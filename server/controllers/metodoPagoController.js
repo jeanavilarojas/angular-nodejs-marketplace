@@ -11,9 +11,9 @@ module.exports.get = async (request, response, next) => {
 
 // Obtener método de pago por Id
 module.exports.getById = async (request, response, next) => {
-  let id = parseInt(request.params.id);
+  let metodoPagoId = parseInt(request.params.id);
   const metodoPago = await prisma.metodoPago.findUnique({
-    where: { id: id },
+    where: { id: metodoPagoId },
     include: { usuario: true },
   });
   response.json(metodoPago);

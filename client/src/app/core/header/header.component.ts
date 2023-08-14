@@ -12,6 +12,7 @@ export class HeaderComponent implements OnInit {
   tooltipText: string = 'Cuenta';
   isAutenticated: boolean;
   currentUser: any;
+  usuarioId: number;
   qtyItems: number = 0;
   sesion: boolean = false;
   isTrue: number = 0;
@@ -39,6 +40,8 @@ export class HeaderComponent implements OnInit {
       this.isAutenticated = valor;
     });
 
+    this.usuarioId = this.authService.usuarioId;
+
     // Suscribirse al observable que gestiona la cantidad de items del carrito
     this.cartService.countItems.subscribe((value) => {
       console.log(value);
@@ -54,6 +57,18 @@ export class HeaderComponent implements OnInit {
   // Redireccionar al perfil del usuario
   perfil() {
     this.router.navigate(['usuario/perfil']);
+  }
+
+  pedidosCliente(id:number){
+    this.router.navigate(['/pedido/cliente',id])
+  }
+
+  pedidosVendedor(id:number){
+    this.router.navigate(['/pedido/vendedor',id])
+  }
+
+  productosVendedor(id:number){
+    this.router.navigate(['/producto/vendedor',id])
   }
 
   // Cerrar la sesión del usuario

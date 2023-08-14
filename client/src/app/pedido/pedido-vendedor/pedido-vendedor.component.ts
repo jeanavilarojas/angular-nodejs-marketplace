@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GenericService } from 'src/app/share/generic.service';
 
@@ -7,24 +8,37 @@ import { GenericService } from 'src/app/share/generic.service';
   templateUrl: './pedido-vendedor.component.html',
   styleUrls: ['./pedido-vendedor.component.css'],
 })
-export class PedidoVendedorComponent implements OnInit {
-  pedidos: any[] = [];
-  userId = 2; // Id del vendedor
+export class PedidoVendedorComponent {
+  id: number;
+  pedidos: any;
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private gService: GenericService, private router: Router, private route: ActivatedRoute) { }
-
-  ngOnInit(): void {
-    this.getPedidosPorVendedor();
+  constructor(private gService: GenericService, private route: ActivatedRoute, private router: Router) {
+    let id = this.route.snapshot.paramMap.get('id');
+    this.id = +id;
+    if (!isNaN(Number(this.id))) {
+      this.listaPedidos(Number(this.id));
+    }
   }
 
-  getPedidosPorVendedor() {
-    this.gService.listByVendedor('pedido', this.userId)
-      .subscribe((data: any[]) => {
+  // Listar los pedidos del vendedor llamando al API
+  listaPedidos(id: number) {
+    this.gService
+      .get('pedido/vendedor', id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        console.log(data);
         this.pedidos = data;
       });
   }
 
+  // Direccionar a la página de editar
   editarPedido(id: number) {
     this.router.navigate(['/pedido/detalle', id]);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

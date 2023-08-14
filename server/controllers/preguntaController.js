@@ -11,9 +11,9 @@ module.exports.get = async (request, response, next) => {
 
 // Obtener pregunta por Id
 module.exports.getById = async (request, response, next) => {
-  let id = parseInt(request.params.id);
+  let preguntaId = parseInt(request.params.id);
   const pregunta = await prisma.pregunta.findUnique({
-    where: { id: id },
+    where: { id: preguntaId },
     include: { cliente: true, respuestas: true },
   });
   response.json(pregunta);

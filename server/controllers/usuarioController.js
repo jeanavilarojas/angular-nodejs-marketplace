@@ -13,9 +13,9 @@ module.exports.get = async (request, response, next) => {
 
 // Obtener usuario por Id
 module.exports.getById = async (request, response, next) => {
-  let usuarioId = parseInt(request.params.usuarioId);
+  let usuarioId = parseInt(request.params.id);
   const usuario = await prisma.usuario.findUnique({
-    where: { usuarioId: usuarioId },
+    where: { id: usuarioId },
     include: {
       roles: true,
       direcciones: true,
@@ -69,7 +69,6 @@ module.exports.update = async (request, response, next) => {
     const hashedPassword = bcrypt.hashSync(usuario.contrasenna, saltRounds);
     updateData.contrasenna = hashedPassword;
   }
-
   try {
     const updatedUsuario = await prisma.usuario.update({
       where: { id: idUsuario },
@@ -156,4 +155,18 @@ module.exports.login = async (request, response, next) => {
   }
 };
 
-
+module.exports.updateStatus = async (request, response, next) => {
+  let id = parseInt(request.params.id);
+  const usuarioActual = await prisma.usuario.findUnique({
+    where: { id: id },
+  });
+  try {
+    const updatedUsuario = await prisma.usuario.update({
+      where: { id: id },
+      data: { estado: usuarioActual.estado ? false : true },
+    });
+    response.json(updatedUsuario);
+  } catch (error) {
+    next(error);
+  }
+};

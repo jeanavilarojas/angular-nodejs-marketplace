@@ -5,8 +5,8 @@ import { PedidoDetalleComponent } from './pedido-detalle/pedido-detalle.componen
 import { PedidoVendedorComponent } from './pedido-vendedor/pedido-vendedor.component';
 
 const routes: Routes = [
-  { path: 'pedidos/cliente', component: PedidoIndexComponent },
-  { path: 'pedidos/vendedor', component: PedidoVendedorComponent },
+  { path: 'pedido/cliente/:id', component: PedidoIndexComponent },
+  { path: 'pedido/vendedor/:id', component: PedidoVendedorComponent },
   { path: 'pedido/detalle/:id', component: PedidoDetalleComponent },
 ];
 

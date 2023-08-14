@@ -9,9 +9,9 @@ module.exports.get = async (request, response, next) => {
 
 // Obtener categoria por Id
 module.exports.getById = async (request, response, next) => {
-  let id = parseInt(request.params.id);
+  let categoriaId = parseInt(request.params.id);
   const categoria = await prisma.categoria.findUnique({
-    where: { id: id },
+    where: { id: categoriaId },
   });
   response.json(categoria);
 };

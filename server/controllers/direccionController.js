@@ -11,9 +11,9 @@ module.exports.get = async (request, response, next) => {
 
 // Obtener dirección por Id
 module.exports.getById = async (request, response, next) => {
-  let id = parseInt(request.params.id);
+  let direccionId = parseInt(request.params.id);
   const direccion = await prisma.direccion.findUnique({
-    where: { id: id },
+    where: { id: direccionId },
     include: { usuario: true },
   });
   response.json(direccion);

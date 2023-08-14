@@ -8,7 +8,6 @@ import { GenericService } from 'src/app/share/generic.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { NotificacionService, TipoMessage } from 'src/app/share/notification.service';
 
-
 @Component({
   selector: 'app-usuario-all',
   templateUrl: './usuario-all.component.html',
@@ -54,9 +53,9 @@ export class UsuarioAllComponent {
       });
   }
 
-  cambiarEstado(user: any) {
+  cambiarEstado(usuario: any) {
     this.gService
-      .update('usuario/cambiarEstado', user)
+      .update('usuario/updateStatus', usuario)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
         this.obtenerUsuarios();

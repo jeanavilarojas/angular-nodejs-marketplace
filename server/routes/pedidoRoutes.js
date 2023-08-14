@@ -8,7 +8,7 @@ const pedidoController = require("../controllers/pedidoController");
 // locahost:3000/pedido/
 router.get("/", pedidoController.get);
 router.get("/:id", pedidoController.getById);
-router.get("/usuario/:usuarioId", pedidoController.getByCliente);
+router.get("/cliente/:usuarioId", pedidoController.getByCliente);
 router.get("/vendedor/:vendedorId", pedidoController.getByVendedor);
 
 module.exports = router;

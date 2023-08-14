@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GenericService } from 'src/app/share/generic.service';
 
 @Component({
@@ -9,19 +9,22 @@ import { GenericService } from 'src/app/share/generic.service';
   styleUrls: ['./pedido-index.component.css'],
 })
 export class PedidoIndexComponent {
-  datos: any; // Respuesta del API
+  id: number;
+  datos: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  userId = 5; // Id del cliente
 
-  constructor(private gService: GenericService, private router: Router) {
-    this.listaPedidos();
+  constructor(private gService: GenericService, private route: ActivatedRoute, private router: Router) {
+    let id = this.route.snapshot.paramMap.get('id');
+    this.id = +id;
+    if (!isNaN(Number(this.id))) {
+      this.listaPedidos(Number(this.id));
+    }
   }
 
   // Listar los pedidos del cliente llamando al API
-  listaPedidos() {
-    const endpoint = 'pedido';
+  listaPedidos(id: number) {
     this.gService
-      .listByCliente(endpoint, this.userId)
+      .get('pedido/cliente', id)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
         console.log(data);
@@ -32,10 +35,6 @@ export class PedidoIndexComponent {
   // Direccionar a la página de detalle
   detallePedido(id: number) {
     this.router.navigate(['/pedido/detalle', id]);
-  }
-
-  obtenerNombresProductos(productos: any[]): string {
-    return productos.map((producto) => producto.producto.nombre).join(', ');
   }
 
   ngOnDestroy() {

@@ -45,8 +45,8 @@
     <ng-container matColumnDef="acciones">
       <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <button mat-icon-button matTooltip="Cambiar estado" aria-label="Cambiar estado" (click)="cambiarEstado(element)">
-            <mat-icon>swap_horiz</mat-icon>
+        <button mat-icon-button aria-label="Cambiar estado" matTooltip="Cambiar estado" (click)="cambiarEstado(element)">
+          <mat-icon>swap_horiz</mat-icon>
         </button>
       </mat-cell>
     </ng-container>

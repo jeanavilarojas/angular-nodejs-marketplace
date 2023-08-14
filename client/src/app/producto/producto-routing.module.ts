@@ -11,7 +11,7 @@ import { ProductoVendedorComponent } from './producto-vendedor/producto-vendedor
 const routes: Routes = [
   { path: 'productos/administrador', component: ProductoAllComponent },
   { path: 'productos/cliente', component: ProductoIndexComponent },
-  { path: 'productos/vendedor', component: ProductoVendedorComponent },
+  { path: 'producto/vendedor/:id', component: ProductoVendedorComponent },
   { path: 'producto/detalle/:id', component: ProductoDetalleComponent },
   { path: 'producto/crear', component: ProductoFormComponent },
   { path: 'producto/actualizar/:id', component: ProductoFormComponent },

@@ -11,9 +11,9 @@ module.exports.get = async (request, response, next) => {
 
 // Obtener pedido por Id
 module.exports.getById = async (request, response, next) => {
-  let id = parseInt(request.params.id);
+  let pedidoId = parseInt(request.params.id);
   const pedido = await prisma.pedido.findUnique({
-    where: { id: id },
+    where: { id: pedidoId },
     include: {
       usuario: true,
       productos: {

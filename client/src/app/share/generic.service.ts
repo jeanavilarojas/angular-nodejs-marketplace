@@ -20,21 +20,6 @@ export class GenericService {
     return this.http.get<any>(this.urlAPI + endopoint);
   }
 
-  // Listar pedidos by cliente
-  listByCliente(endopoint: string, usuarioId: number): Observable<any> {
-    return this.http.get<any>(`${this.urlAPI}${endopoint}/usuario/${usuarioId}`);
-  }
-
-  // Listar productos by vendedor
-  listByVendedor(endopoint: string, vendedorId: number): Observable<any> {
-    return this.http.get<any>(`${this.urlAPI}${endopoint}/vendedor/${vendedorId}`);
-  }
-
-  // Obtener preguntas y respuestas por ID de producto
-  getPreguntasRespuestasByProductoId(endopoint: string, productoId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.urlAPI}${endopoint}/producto/${productoId}`);
-  }
-
   // Obtener
   get(endopoint: string, filtro: any): Observable<any | any[]> {
     return this.http.get<any | any[]>(this.urlAPI + endopoint + `/${filtro}`);
