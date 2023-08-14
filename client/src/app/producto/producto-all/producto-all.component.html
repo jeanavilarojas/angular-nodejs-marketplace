@@ -1,1 +1,52 @@
-<p>producto-all works!</p>
+<div class="grid-container">
+  <div class="encabezado">
+    <h1>Productos</h1>
+  </div>
+  <mat-divider></mat-divider>
+  <mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">   
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Filtar por ID">ID</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.id }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="nombre">
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Filtar por nombre">Nombre</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.nombre }}</mat-cell>
+    </ng-container>
+    
+    <ng-container matColumnDef="precio">
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Filtar por precio">Precio</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.precio | currency : "₡" }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="cantidad">
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Filtar por cantidad">Cantidad</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.cantidad }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="estado">
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Filtar por estado">Estado</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.estado }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="vendedor">
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Filtar por vendedor">Vendedor</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.vendedorId }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="acciones">
+      <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-icon-button aria-label="Detalle producto" matTooltip="Detalle producto" (click)="detalleProducto(element.id)">
+          <mat-icon>info</mat-icon>
+        </button>
+        <button mat-icon-button aria-label="Editar producto" matTooltip="Editar producto" (click)="actualizarProducto(element.id)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[10, 15, 20]" showFirstLastButtons></mat-paginator>
+</div>

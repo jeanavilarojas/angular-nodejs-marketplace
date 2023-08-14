@@ -32,14 +32,8 @@
     </ng-container>
 
     <ng-container matColumnDef="roles">
-      <mat-header-cell *matHeaderCellDef>Roles</mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <span *ngIf="element.roles">
-          <span *ngFor="let object of element.roles">
-            {{ object.rol }}
-          </span>
-        </span>
-      </mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Filtar por roles">Roles</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ obtenerRoles(element.roles) }}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="acciones">

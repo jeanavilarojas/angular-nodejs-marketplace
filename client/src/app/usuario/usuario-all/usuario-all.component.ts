@@ -20,15 +20,7 @@ export class UsuarioAllComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns = [
-    'id',
-    'nombre',
-    'identificacion',
-    'correo',
-    'estado',
-    'roles',
-    'acciones',
-  ];
+  displayedColumns = ['id', 'nombre', 'identificacion', 'correo', 'estado', 'roles', 'acciones'];
   dataSource = new MatTableDataSource<any>();
 
   constructor(
@@ -51,6 +43,10 @@ export class UsuarioAllComponent {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       });
+  }
+
+  obtenerRoles(roles: any[]): string {
+    return roles.map(rol => rol.descripcion).join(', ');
   }
 
   cambiarEstado(usuario: any) {

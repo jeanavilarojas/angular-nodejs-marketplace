@@ -24,7 +24,7 @@
 
     <ng-container matColumnDef="precio">
       <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Filtar por precio">Precio</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{ element.precio }}</mat-cell>
+      <mat-cell *matCellDef="let element">{{ element.precio | currency : "₡" }}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="cantidad">
@@ -48,39 +48,3 @@
   </mat-table>
   <mat-paginator [pageSizeOptions]="[10, 15, 20]" showFirstLastButtons></mat-paginator>
 </div>
-
-<!-- <div class="grid-container">
-  <div class="encabezado">
-    <h1>Mis productos</h1>
-    <button mat-button aria-label="Crear producto" (click)="crearProducto()">Añadir producto
-      <mat-icon>add</mat-icon>
-    </button>
-  </div>
-  <table>
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Descripción</th>
-        <th>Precio</th>
-        <th>Cantidad</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let producto of datos">
-        <td>{{ producto.nombre }}</td>
-        <td>{{ producto.descripcion }}</td>
-        <td>{{ producto.precio | currency : "₡" }}</td>
-        <td>{{ producto.cantidad }}</td>
-        <td>
-          <button mat-icon-button aria-label="Detalle producto" matTooltip="Detalle producto" (click)="detalleProducto(producto.id)">
-            <mat-icon>info</mat-icon>
-          </button>
-          <button mat-icon-button aria-label="Editar producto" matTooltip="Editar producto" (click)="actualizarProducto(producto.id)">
-            <mat-icon>edit</mat-icon>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div> -->
