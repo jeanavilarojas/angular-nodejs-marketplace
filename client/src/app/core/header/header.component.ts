@@ -55,20 +55,20 @@ export class HeaderComponent implements OnInit {
   }
 
   // Redireccionar al perfil del usuario
-  perfil() {
-    this.router.navigate(['usuario/perfil']);
+  perfil(id: number) {
+    this.router.navigate(['/usuario/perfil', id]);
   }
 
-  pedidosCliente(id:number){
-    this.router.navigate(['/pedido/cliente',id])
+  pedidosCliente(id: number) {
+    this.router.navigate(['/pedido/cliente', id])
   }
 
-  pedidosVendedor(id:number){
-    this.router.navigate(['/pedido/vendedor',id])
+  pedidosVendedor(id: number) {
+    this.router.navigate(['/pedido/vendedor', id])
   }
 
-  productosVendedor(id:number){
-    this.router.navigate(['/producto/vendedor',id])
+  productosVendedor(id: number) {
+    this.router.navigate(['/producto/vendedor', id])
   }
 
   // Cerrar la sesión del usuario

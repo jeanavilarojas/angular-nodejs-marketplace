@@ -24,7 +24,7 @@
       <button mat-menu-item  aria-label="Iniciar sesión" *ngIf="!isAutenticated" (click)="login()">
         <span>Iniciar sesión</span>
       </button>
-      <button mat-menu-item aria-label="Perfil" *ngIf="isAutenticated" (click)="perfil()">
+      <button mat-menu-item aria-label="Perfil" *ngIf="isAutenticated" (click)="perfil(usuarioId)">
         <span>Perfil</span>
       </button>
       <button mat-menu-item aria-label="Cerrar sesión" *ngIf="isAutenticated" (click)="logout()">

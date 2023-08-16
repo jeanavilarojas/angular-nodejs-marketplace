@@ -1,1 +1,58 @@
-<p>metodopago-form works!</p>
+<div class="grid-container">
+  <div class="encabezado">
+    <h1>{{ titleForm }} método de pago</h1>
+  </div>
+  <form [formGroup]="metodoForm" (ngSubmit)="isCreate ? crearMetodoPago() : actualizarMetodoPago()" novalidate>
+    <input type="hidden" formControlName="id" />
+    <input type="hidden" formControlName="usuarioId" />
+    <mat-card class="metodopago-card">
+      <mat-card-content>
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <mat-label>Tipo de pago</mat-label>
+              <mat-select formControlName="tipoPago" placeholder="Tipo de pago">
+                <mat-option value="Tarjeta de débito">Tarjeta de débito</mat-option>
+                <mat-option value="Tarjeta de credito">Tarjeta de credito</mat-option>
+              </mat-select>
+              <mat-error *ngIf="errorHandling('tipoPago', 'required')">El tipo de pago es requerido</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="full-width">
+              <mat-label>Proveedor</mat-label>
+              <mat-select formControlName="proveedor" placeholder="Proveedor">
+                <mat-option value="American Express">American Express</mat-option>
+                <mat-option value="Mastercard">Mastercard</mat-option>
+                <mat-option value="Visa">Visa</mat-option>
+              </mat-select>
+              <mat-error *ngIf="errorHandling('proveedor', 'required')">El proveedor es requerido</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input matInput formControlName="numeroCuenta" placeholder="Numero de cuenta" maxlength="19" />
+              <mat-error *ngIf="errorHandling('numeroCuenta', 'required')">El número de cuenta es requerido</mat-error>
+              <mat-error *ngIf="errorHandling('numeroCuenta', 'pattern')">El número de cuenta debe contener solo dígitos</mat-error>
+              <mat-error *ngIf="errorHandling('numeroCuenta', 'incompleteLength')">La tarjeta no ha sido completada</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input matInput formControlName="fechaExpiracion" placeholder="Fecha de expiración" maxlength="7" />
+              <mat-error *ngIf="errorHandling('fechaExpiracion', 'required')">La fecha de expiración es requerida</mat-error>
+              <mat-error *ngIf="errorHandling('fechaExpiracion', 'pattern')">Ingrese la fecha en el formato MM/YYYY</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button aria-label="Agregar método de pago" type="submit">Agregar método de pago
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

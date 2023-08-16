@@ -7,7 +7,7 @@ import { UsuarioRegisterComponent } from './usuario-register/usuario-register.co
 
 const routes: Routes = [
   { path: 'usuarios/administrador', component: UsuarioAllComponent },
-  { path: 'usuario/perfil', component: UsuarioIndexComponent },
+  { path: 'usuario/perfil/:id', component: UsuarioIndexComponent },
   { path: 'usuario/login', component: UsuarioLoginComponent },
   { path: 'usuario/registro', component: UsuarioRegisterComponent },
 ];

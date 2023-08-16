@@ -1,1 +1,46 @@
-<p>perfil works</p>
+<div class="grid-container" *ngIf="usuario">
+  <div class="encabezado">
+    <h1>Mi perfil</h1>
+  </div>
+  <div class="row">
+    <div class="col-4">
+      <h2>Información personal</h2>
+      <p><strong>Nombre:</strong> {{ usuario.nombre }} {{ usuario.apellidos }}</p>
+      <p><strong>Identificación:</strong> {{ usuario.identificacion }}</p>
+      <p><strong>Teléfono:</strong> {{ usuario.telefono }}</p>
+      <p><strong>Correo Electrónico:</strong> {{ usuario.correo }}</p>
+    </div>
+    <div class="col-8">
+      <div class="row">
+        <h2>Direcciones</h2>
+        <button mat-button aria-label="Agregar dirección" (click)="agregarDireccion()">Agregar dirección
+          <mat-icon>home</mat-icon>
+        </button>
+        <ul>
+          <li *ngFor="let direccion of usuario.direcciones">
+            <p><b>Provincia: </b>{{ direccion.provincia }}</p>
+            <p><b>Cantón: </b>{{ direccion.canton }}</p>
+            <p><b>Distrito: </b>{{ direccion.distrito }}</p>
+            <p><b>Dirección Exacta: </b>{{ direccion.direccionExacta }}</p>
+            <p><b>Código Postal: </b>{{ direccion.codigoPostal }}</p>
+            <p><b>Teléfono: </b>{{ direccion.telefono }}</p>
+          </li>
+        </ul>
+      </div>
+      <div class="row">
+        <h2>Métodos de pago</h2>
+        <button mat-button aria-label="Agregar método de pago" (click)="agregarMetodoPago()">Agregar método de pago
+          <mat-icon>credit_card</mat-icon>
+        </button>
+        <ul>
+          <li *ngFor="let metodoPago of usuario.metodosPago">
+            <p><b>Tipo de Pago: </b>{{ metodoPago.tipoPago }}</p>
+            <p><b>Proveedor: </b>{{ metodoPago.proveedor }}</p>
+            <p><b>Número de Cuenta: </b>{{ metodoPago.numeroCuenta }}</p>
+            <p><b>Fecha de Expiración: </b>{{ metodoPago.fechaExpiracion }}</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
