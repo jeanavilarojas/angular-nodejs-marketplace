@@ -20,7 +20,7 @@ export class ProductoAllComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns = ['id', 'nombre', 'precio', 'cantidad', 'estado', 'vendedor', 'acciones'];
+  displayedColumns = ['id', 'nombre', 'precio', 'cantidad', 'estado', 'vendedorId', 'acciones'];
   dataSource = new MatTableDataSource<any>();
 
   constructor(

@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpEvent, HttpRequest, HttpHandler,
-  HttpInterceptor, HttpErrorResponse
-} from '@angular/common/http';
+import { HttpEvent, HttpRequest, HttpHandler, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -13,10 +10,8 @@ import { NotificacionService, TipoMessage } from './notification.service';
   providedIn: 'root',
 })
 export class HttpErrorInterceptorService implements HttpInterceptor {
-  //Recuerde que es necesario llamarlo como Proveedor
-  //en AppModule
+  //Recuerde que es necesario llamarlo como Proveedor en AppModule
   constructor(
-
     private auth: AuthenticationService,
     private noti: NotificacionService
   ) { }

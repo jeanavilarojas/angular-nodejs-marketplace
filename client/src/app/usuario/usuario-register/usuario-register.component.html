@@ -14,13 +14,17 @@
       </mat-form-field>
       <mat-form-field class="full-width">
         <mat-label>Identificación</mat-label>
-        <input matInput type="text" placeholder="Identificación" formControlName="identificacion" />
+        <input matInput type="text" placeholder="Identificación" formControlName="identificacion" maxlength="9" />
         <mat-error *ngIf="errorHandling('identificacion', 'required')">La identificación es requerida</mat-error>
+        <mat-error *ngIf="errorHandling('identificacion', 'pattern')">La identificación debe contener solo dígitos</mat-error>
+        <mat-error *ngIf="errorHandling('identificacion', 'incompleteLength')">La identificación debe contener 9 dígitos</mat-error>
       </mat-form-field>
       <mat-form-field class="full-width">
         <mat-label>Teléfono</mat-label>
-        <input matInput type="text" placeholder="Teléfono" formControlName="telefono" />
+        <input matInput type="text" placeholder="Teléfono" formControlName="telefono" maxlength="9" />
         <mat-error *ngIf="errorHandling('telefono', 'required')">El teléfono es requerido</mat-error>
+        <mat-error *ngIf="errorHandling('telefono', 'pattern')">El teléfono debe contener solo dígitos</mat-error>
+        <mat-error *ngIf="errorHandling('telefono', 'incompleteLength')">El teléfono debe contener 8 dígitos</mat-error>
       </mat-form-field>
       <mat-form-field class="full-width">
         <mat-label>Correo electrónico</mat-label>

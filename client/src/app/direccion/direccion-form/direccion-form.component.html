@@ -12,13 +12,7 @@
             <mat-form-field class="full-width">
               <mat-label>Provincia</mat-label>
               <mat-select formControlName="provincia" placeholder="Provincia">
-                <mat-option value="San José">San José</mat-option>
-                <mat-option value="Alajuela">Alajuela</mat-option>
-                <mat-option value="Cartago">Cartago</mat-option>
-                <mat-option value="Heredia">Heredia</mat-option>
-                <mat-option value="Guanacaste">Guanacaste</mat-option>
-                <mat-option value="Puntarenas ">Puntarenas </mat-option>
-                <mat-option value="Limón">Limón</mat-option>
+                <mat-option *ngFor="let p of provincias" [value]="p.id" (onSelectionChange)="obtenerCantones(p.id)" >{{ p.nombre }}  </mat-option>
               </mat-select>
               <mat-error *ngIf="errorHandling('provincia', 'required')">La provincia es requerida</mat-error>
             </mat-form-field>
@@ -27,9 +21,7 @@
             <mat-form-field class="full-width">
               <mat-label>Cantón</mat-label>
               <mat-select formControlName="canton" placeholder="Cantón">
-                <mat-option value="Cantón 1">Cantón 1</mat-option>
-                <mat-option value="Cantón 2">Cantón 2</mat-option>
-                <mat-option value="Cantón 3">Cantón 3</mat-option>
+                <mat-option *ngFor="let c of cantones" [value]="c.id" (onSelectionChange)="obtenerDistritos(c.id, c.provinceId)">{{ c.nombre }}</mat-option>
               </mat-select>
               <mat-error *ngIf="errorHandling('canton', 'required')">El cantón es requerido</mat-error>
             </mat-form-field>
@@ -38,9 +30,7 @@
             <mat-form-field class="full-width">
               <mat-label>Distrito</mat-label>
               <mat-select formControlName="distrito" placeholder="Distrito">
-                <mat-option value="Distrito 1">Distrito 1</mat-option>
-                <mat-option value="Distrito 2">Distrito 2</mat-option>
-                <mat-option value="Distrito 3">Distrito 3</mat-option>
+                <mat-option *ngFor="let d of distritos" [value]="d.nombre">{{ d.nombre }}</mat-option>
               </mat-select>
               <mat-error *ngIf="errorHandling('distrito', 'required')">El distrito es requerido</mat-error>
             </mat-form-field>
@@ -57,14 +47,18 @@
         <div class="row">
           <div class="col">
             <mat-form-field class="full-width">
-              <input matInput formControlName="codigoPostal" placeholder="Código postal" />
+              <input matInput formControlName="codigoPostal" placeholder="Código postal" maxlength="5" />
               <mat-error *ngIf="errorHandling('codigoPostal', 'required')">El código postal es requerido</mat-error>
+              <mat-error *ngIf="errorHandling('codigoPostal', 'pattern')">El código postal debe contener solo dígitos</mat-error>
+              <mat-error *ngIf="errorHandling('codigoPostal', 'incompleteLength')">El código postal debe contener 5 dígitos</mat-error>
             </mat-form-field>
           </div>
           <div class="col">
             <mat-form-field class="full-width">
-              <input matInput formControlName="telefono" placeholder="Teléfono" />
+              <input matInput formControlName="telefono" placeholder="Teléfono" maxlength="9" />
               <mat-error *ngIf="errorHandling('telefono', 'required')">El teléfono es requerido</mat-error>
+              <mat-error *ngIf="errorHandling('telefono', 'pattern')">El teléfono debe contener solo dígitos</mat-error>
+              <mat-error *ngIf="errorHandling('telefono', 'incompleteLength')">El teléfono debe contener 8 dígitos</mat-error>
             </mat-form-field>
           </div>
         </div>

@@ -77,11 +77,9 @@ export class MetodopagoFormComponent implements OnInit, OnDestroy {
     const value = control.value;
     if (value) {
       const numericValue = value.replace(/\D/g, '');
-
       if (numericValue.length > 0 && numericValue.length < 16) {
         return { incompleteLength: true };
       }
-
       const formattedValue = numericValue.match(/.{1,4}/g)?.join('-') || '';
       control.setValue(formattedValue, { emitEvent: false });
     }
@@ -92,11 +90,9 @@ export class MetodopagoFormComponent implements OnInit, OnDestroy {
     const value = control.value;
     if (value) {
       const numericValue = value.replace(/\D/g, '');
-
       if (numericValue.length > 0 && numericValue.length < 6) {
         return { incompleteLength: true };
       }
-
       const formattedValue = numericValue.replace(/(\d{2})(\d{0,4})/, '$1/$2');
       control.setValue(formattedValue, { emitEvent: false });
     }

@@ -28,7 +28,7 @@ export class AuthGuard implements CanActivate {
   //Verificar que el rol del usuario coincida con alguno de los indicados
   checkUserLogin(route: ActivatedRouteSnapshot, url: any): boolean {
     if (this.isAuthenticated) {
-      const userRoles = this.currentUser.user.roles;
+      const userRoles = this.currentUser.usuario.roles;
       //roles.length && roles.indexOf(verify.role)===-1
       if (route.data['roles'].length && !route.data['roles'].includes(userRoles)) {
         this.router.navigate(['/usuario/login'], {

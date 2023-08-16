@@ -4,6 +4,7 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators }
 import { GenericService } from 'src/app/share/generic.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/share/authentication.service';
+import { LocationService } from 'src/app/share/location.service';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -22,15 +23,20 @@ export class DireccionFormComponent implements OnInit, OnDestroy {
   direccionForm: FormGroup;
   idDireccion: number = 0;
   isCreate: boolean = true;
+  provincias: any;
+  cantones: any;
+  distritos: any;
 
   constructor(
     private fb: FormBuilder,
     private gService: GenericService,
     private activeRouter: ActivatedRoute,
     private router: Router,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private locationService: LocationService
   ) {
     this.formularioReactive();
+    this.obtenerProvincias();
   }
 
   ngOnInit(): void {
@@ -71,9 +77,53 @@ export class DireccionFormComponent implements OnInit, OnDestroy {
       canton: [null, Validators.required],
       distrito: [null, [Validators.required]],
       direccionExacta: [null, [Validators.required]],
-      codigoPostal: [null, [Validators.required]],
-      telefono: [null, [Validators.required]],
+      codigoPostal: [null, [Validators.required, Validators.pattern('^[0-9]*$'), this.validarCodigoPostal]],
+      telefono: [null, [Validators.required, Validators.pattern('^[0-9]*$'), this.validarTelefono]],
       usuarioId: [null, Validators.required],
+    });
+  }
+
+  validarCodigoPostal(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    if (value) {
+      const numericValue = value.replace(/\D/g, '');
+      if (numericValue.length > 0 && numericValue.length < 5) {
+        return { incompleteLength: true };
+      }
+      control.setValue(numericValue, { emitEvent: false });
+    }
+    return null;
+  }
+
+  validarTelefono(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    if (value) {
+      const numericValue = value.replace(/\D/g, '');
+      if (numericValue.length > 0 && numericValue.length < 8) {
+        return { incompleteLength: true };
+      }
+      const formattedValue = numericValue.match(/.{1,4}/g)?.join('-') || '';
+      control.setValue(formattedValue, { emitEvent: false });
+    }
+    return null;
+  }
+
+  obtenerProvincias() {
+    this.locationService.obtenerProvincias().subscribe((data: any) => {
+      this.provincias = Object.entries(data).map(([id, nombre]) => ({ id, nombre }));
+    });
+  }
+
+  obtenerCantones(idProvince: string) {
+    this.locationService.obtenerCantones(idProvince).subscribe((data) => {
+      this.cantones = Object.entries(data).map(([id, nombre]) => ({ id, nombre, provinceId: idProvince }));
+    });
+    this.distritos = [];
+  }
+
+  obtenerDistritos(idProvince: string, idCanton: string) {
+    this.locationService.obtenerDistritos(idProvince, idCanton).subscribe((data) => {
+      this.distritos = Object.entries(data).map(([id, nombre]) => ({ id, nombre }));
     });
   }
 

@@ -36,7 +36,7 @@
               <input matInput formControlName="numeroCuenta" placeholder="Numero de cuenta" maxlength="19" />
               <mat-error *ngIf="errorHandling('numeroCuenta', 'required')">El número de cuenta es requerido</mat-error>
               <mat-error *ngIf="errorHandling('numeroCuenta', 'pattern')">El número de cuenta debe contener solo dígitos</mat-error>
-              <mat-error *ngIf="errorHandling('numeroCuenta', 'incompleteLength')">La tarjeta no ha sido completada</mat-error>
+              <mat-error *ngIf="errorHandling('numeroCuenta', 'incompleteLength')">El número de cuenta debe contener 16 dígitos</mat-error>
             </mat-form-field>
           </div>
           <div class="col">
