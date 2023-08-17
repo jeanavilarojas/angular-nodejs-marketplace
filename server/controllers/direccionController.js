@@ -35,9 +35,9 @@ module.exports.create = async (request, response, next) => {
     let direccion = request.body;
     const createDireccion = await prisma.direccion.create({
       data: {
-        provincia: direccion.provincia,
-        canton: direccion.canton,
-        distrito: direccion.distrito,
+        provincia: direccion.provincia.nombre,
+        canton: direccion.canton.nombre,
+        distrito: direccion.distrito.nombre,
         direccionExacta: direccion.direccionExacta,
         codigoPostal: direccion.codigoPostal,
         telefono: direccion.telefono,
@@ -58,9 +58,9 @@ module.exports.update = async (request, response, next) => {
     const updateProducto = await prisma.direccion.update({
       where: { id: direccionId },
       data: {
-        provincia: direccion.provincia,
-        canton: direccion.canton,
-        distrito: direccion.distrito,
+        provincia: direccion.provincia.nombre,
+        canton: direccion.canton.nombre,
+        distrito: direccion.distrito.nombre,
         direccionExacta: direccion.direccionExacta,
         codigoPostal: direccion.codigoPostal,
         telefono: direccion.telefono,

@@ -6,19 +6,20 @@ import { Observable } from 'rxjs';
     providedIn: 'root',
 })
 export class LocationService {
-    private apiURL = 'https://ubicaciones.paginasweb.cr';
-
     constructor(private http: HttpClient) { }
 
     obtenerProvincias(): Observable<any> {
-        return this.http.get(`${this.apiURL}/provincias.json`);
+        const url = 'https://ubicaciones.paginasweb.cr/provincias.json';
+        return this.http.get<any>(url);
     }
 
-    obtenerCantones(province: string): Observable<any> {
-        return this.http.get(`${this.apiURL}/provincia/${province}/cantones.json`);
+    obtenerCantones(provincia: string): Observable<any> {
+        const url = `https://ubicaciones.paginasweb.cr/provincia/${provincia}/cantones.json`;
+        return this.http.get<any>(url);
     }
 
-    obtenerDistritos(province: string, canton: string): Observable<any> {
-        return this.http.get(`${this.apiURL}/provincia/${province}/canton/${canton}/distritos.json`);
+    obtenerDistritos(provincia: string, canton: string): Observable<any> {
+        const url = `https://ubicaciones.paginasweb.cr/provincia/${provincia}/canton/${canton}/distritos.json`;
+        return this.http.get<any>(url);
     }
 }

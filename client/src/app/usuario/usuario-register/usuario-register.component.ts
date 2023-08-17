@@ -35,38 +35,13 @@ export class UsuarioRegisterComponent implements OnInit {
     this.formCreate = this.fb.group({
       nombre: [null, [Validators.required]],
       apellidos: [null, [Validators.required]],
-      identificacion: [null, [Validators.required, Validators.pattern('^[0-9]*$'), this.validarIdentificacion]],
-      telefono: [null, [Validators.required, Validators.pattern('^[0-9]*$'), this.validarTelefono]],
+      identificacion: [null, [Validators.required, Validators.pattern('^[0-9]*$'), Validators.minLength(9)]],
+      telefono: [null, [Validators.required, Validators.pattern('^[0-9]*$'), Validators.minLength(8)]],
       correo: [null, [Validators.required, Validators.email]],
       contrasenna: [null, [Validators.required]],
       roles: [null, Validators.required],
     });
     this.listaRoles();
-  }
-
-  validarIdentificacion(control: AbstractControl): ValidationErrors | null {
-    const value = control.value;
-    if (value) {
-      const numericValue = value.replace(/\D/g, '');
-      if (numericValue.length > 0 && numericValue.length < 9) {
-        return { incompleteLength: true };
-      }
-      control.setValue(numericValue, { emitEvent: false });
-    }
-    return null;
-  }
-
-  validarTelefono(control: AbstractControl): ValidationErrors | null {
-    const value = control.value;
-    if (value) {
-      const numericValue = value.replace(/\D/g, '');
-      if (numericValue.length > 0 && numericValue.length < 8) {
-        return { incompleteLength: true };
-      }
-      const formattedValue = numericValue.match(/.{1,4}/g)?.join('-') || '';
-      control.setValue(formattedValue, { emitEvent: false });
-    }
-    return null;
   }
 
   submitForm() {
