@@ -5,6 +5,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpErrorInterceptorService } from './share/http-error-interceptor.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { FormsModule } from '@angular/forms';
 import { CoreModule } from './core/core.module';
 import { HomeModule } from './home/home.module';
 import { ShareModule } from './share/share.module';
@@ -22,6 +23,7 @@ import { AppRoutingModule } from './app-routing.module';
     HttpClientModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    FormsModule,
     CoreModule,
     HomeModule,
     ShareModule,

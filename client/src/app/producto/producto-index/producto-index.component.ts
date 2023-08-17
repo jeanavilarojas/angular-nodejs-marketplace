@@ -1,20 +1,34 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GenericService } from 'src/app/share/generic.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-producto-index',
   templateUrl: './producto-index.component.html',
   styleUrls: ['./producto-index.component.css'],
 })
-export class ProductoIndexComponent {
-  datos: any[] = []; // Respuesta del API con las categorías formateadas
+export class ProductoIndexComponent implements OnInit {
+  datos: any[] = [];
+  categoriasList: any;
+  filtroForm: FormGroup;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private gService: GenericService, private sanitizer: DomSanitizer, private router: Router) {
+  constructor(private gService: GenericService, private sanitizer: DomSanitizer, private router: Router, private fb: FormBuilder) {
     this.listaProductos();
+    this.listaCategorias();
+  }
+
+  ngOnInit() {
+    this.filtroForm = this.fb.group({
+      filtroCategoria: [''],
+      filtroNombre: [''],
+      filtroPrecio: [''],
+    });
+    this.listaProductos();
+    this.listaCategorias();
   }
 
   // Listar los productos llamando al API
@@ -33,10 +47,42 @@ export class ProductoIndexComponent {
       });
   }
 
+  // Listar las categorías
+  listaCategorias() {
+    this.categoriasList = null;
+    this.gService
+      .list('categoria')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        this.categoriasList = data;
+      });
+  }
+
   // Obtener las fotos del producto
   obtenerImagen(url) {
     const base64Image = 'data:image/jpeg;base64,' + url;
     return this.sanitizer.bypassSecurityTrustUrl(base64Image);
+  }
+
+  ordenarProductos(productos: any[]): any[] {
+    const filtroPrecio = this.filtroForm.get('filtroPrecio').value;
+    if (filtroPrecio === 'menor') {
+      return productos.slice().sort((a, b) => a.precio - b.precio);
+    } else if (filtroPrecio === 'mayor') {
+      return productos.slice().sort((a, b) => b.precio - a.precio);
+    } else {
+      return productos;
+    }
+  }
+
+  aplicarFiltros() {
+    const filtroCategoria = this.filtroForm.get('filtroCategoria').value;
+    const filtroNombre = this.filtroForm.get('filtroNombre').value.toLowerCase();
+
+    return this.datos.filter(item =>
+      (filtroNombre === '' || item.nombre.toLowerCase().includes(filtroNombre)) &&
+      (filtroCategoria.length === 0 || item.categorias.some(cat => filtroCategoria.includes(cat.id)))
+    );
   }
 
   // Direccionar a la página de detalle
