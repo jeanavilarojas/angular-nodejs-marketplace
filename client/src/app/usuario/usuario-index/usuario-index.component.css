@@ -1,3 +1,37 @@
 .grid-container {
   padding: 20px;
 }
+
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.usuario-card {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.dirmet-card {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.dirmet-content {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -10px;
+}
+
+.dirmet-item {
+  flex-basis: calc(33.33% - 20px);
+  padding: 10px;
+}
+
+button.agregar-direccion, .agregar-metodopago {
+  background-color: #dddddd;
+}

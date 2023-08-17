@@ -1,25 +1,27 @@
 <div class="grid-container">
-  <div class="filter-container" [formGroup]="filtroForm">
-    <mat-form-field class="full-width">
-      <mat-label>Filtrar por categorías</mat-label>
-      <mat-select formControlName="filtroCategoria" placeholder="Categorías" multiple>
-        <mat-option *ngFor="let c of categoriasList" [value]="c.id">{{ c.descripcion }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Filtrar por nombre</mat-label>
-      <input matInput formControlName="filtroNombre" placeholder="Nombre" />
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Filtrar por precio</mat-label>
-      <mat-select formControlName="filtroPrecio">
-        <mat-option value="">Todos</mat-option>
-        <mat-option value="menor">Menor a mayor</mat-option>
-        <mat-option value="mayor">Mayor a menor</mat-option>
-      </mat-select>
-    </mat-form-field>
+  <div class="encabezado">
+    <h1>Productos</h1>
+    <div class="filter-container" [formGroup]="filtroForm">
+      <mat-form-field class="full-width">
+        <mat-label>Filtrar por categorías</mat-label>
+        <mat-select formControlName="filtroCategoria" placeholder="Categorías" multiple>
+          <mat-option *ngFor="let c of categoriasList" [value]="c.id">{{ c.descripcion }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Filtrar por nombre</mat-label>
+        <input matInput formControlName="filtroNombre" placeholder="Nombre" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Filtrar por precio</mat-label>
+        <mat-select formControlName="filtroPrecio">
+          <mat-option value="">Todos</mat-option>
+          <mat-option value="menor">Menor a mayor</mat-option>
+          <mat-option value="mayor">Mayor a menor</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </div>
-  <h1>Productos</h1>
   <div class="grid-list">
     <mat-card class="product-card" *ngFor="let item of ordenarProductos(aplicarFiltros())">
       <img mat-card-image [src]="obtenerImagen(item.fotos[0].url)" alt="Foto de {{ item.nombre }}" />

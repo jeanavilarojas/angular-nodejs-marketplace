@@ -2,6 +2,20 @@
   padding: 20px;
 }
 
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filter-container mat-form-field:not(:last-child) {
+  margin-right: 10px; /* Ajusta el espaciado entre los controles de los filtros */
+}
+
+.filter-container mat-form-field:last-child {
+  margin-right: 0; /* Elimina el espaciado en el último filtro (Filtrar por precio) */
+}
+
 .grid-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
