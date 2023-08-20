@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+
 // Definir clase con las propiedades que es necesario que gestione el carrito
 export class ItemCart {
   idItem: number;
@@ -139,6 +140,25 @@ export class CartService {
       });
     }
     return total;
+  }
+
+  updateCartItemQuantity(producto: any, cantidad: number) {
+    // Verificar que la cantidad sea válida (mayor que cero)
+    if (cantidad > 0) {
+      // Obtener el valor actual del carrito
+      let listCart = this.cart.getValue();
+      // Buscar el producto en el carrito
+      let objIndex = listCart.findIndex((obj) => obj.idItem === producto.id);
+      if (objIndex !== -1) {
+        // Actualizar la cantidad del producto en el carrito
+        listCart[objIndex].cantidad = cantidad;
+        listCart[objIndex].subtotal = this.calculoSubtotal(listCart[objIndex]);
+        // Actualizar el valor del carrito y el total
+        this.cart.next(listCart);
+        this.qtyItems.next(this.quantityItems());
+        this.saveCart();
+      }
+    }
   }
 
   //Borra toda los items del carrito

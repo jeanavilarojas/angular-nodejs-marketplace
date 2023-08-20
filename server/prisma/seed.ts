@@ -22,8 +22,8 @@ async function main() {
   const hashedPassword = bcrypt.hashSync("123456", saltRounds);
 
   // Usuarios
+  // Instancia del usuario 1
   await prisma.usuario.create({
-    // Instancia de usuario 1
     data: {
       nombre: "Nathalie",
       apellidos: "Paniagua López",
@@ -51,7 +51,7 @@ async function main() {
             tipoPago: "Tarjeta de crédito",
             proveedor: "Visa",
             numeroCuenta: "4611-3114-3565-6339",
-            fechaExpiracion: "05/28",
+            fechaExpiracion: "05/2028",
           },
         ],
       },
@@ -59,8 +59,8 @@ async function main() {
     include: { roles: true, }
   });
 
+  // Instancia del usuario 2
   await prisma.usuario.create({
-    // Instancia de usuario 2
     data: {
       nombre: "Dayana",
       apellidos: "Álvarez Salas",
@@ -88,7 +88,7 @@ async function main() {
             tipoPago: "Tarjeta de crédito",
             proveedor: "Mastercard",
             numeroCuenta: "5187-1656-8860-4920",
-            fechaExpiracion: "09/25",
+            fechaExpiracion: "09/2025",
           },
         ],
       },
@@ -96,8 +96,8 @@ async function main() {
     include: { roles: true, }
   });
 
+  // Instancia del usuario 3
   await prisma.usuario.create({
-    // Instancia de usuario 3
     data: {
       nombre: "Manuel",
       apellidos: "Álvarez Campos",
@@ -124,8 +124,8 @@ async function main() {
           {
             tipoPago: "Tarjeta de crédito",
             proveedor: "American Express",
-            numeroCuenta: "323-690-683-147-159",
-            fechaExpiracion: "11/25",
+            numeroCuenta: "3236-9068-3147-1592",
+            fechaExpiracion: "11/2025",
           },
         ],
       },
@@ -133,8 +133,8 @@ async function main() {
     include: { roles: true, }
   });
 
+  // Instancia del usuario 4
   await prisma.usuario.create({
-    // Instancia de usuario 4
     data: {
       nombre: "Jean Franco",
       apellidos: "Ávila Rojas",
@@ -162,7 +162,7 @@ async function main() {
             tipoPago: "Tarjeta de crédito",
             proveedor: "Visa",
             numeroCuenta: "4966-7837-8117-8343",
-            fechaExpiracion: "12/25",
+            fechaExpiracion: "12/2025",
           },
         ],
       },
@@ -170,8 +170,8 @@ async function main() {
     include: { roles: true, }
   });
 
+  // Instancia del usuario 5
   await prisma.usuario.create({
-    // Instancia de usuario 5
     data: {
       nombre: "Kattia",
       apellidos: "Rojas Trejos",
@@ -199,7 +199,7 @@ async function main() {
             tipoPago: "Tarjeta de crédito",
             proveedor: "Mastercard",
             numeroCuenta: "	5594-3566-7133-4156",
-            fechaExpiracion: "03/25",
+            fechaExpiracion: "03/2025",
           },
         ],
       },
@@ -208,8 +208,8 @@ async function main() {
   });
 
   // Productos
+  // Instancia del producto 1
   await prisma.producto.create({
-    // Instancia de producto 1
     data: {
       nombre: "Camiseta cuello redondo",
       descripcion: "Camiseta cuello redondo",
@@ -236,8 +236,8 @@ async function main() {
     },
   });
 
+  // Instancia del producto 2
   await prisma.producto.create({
-    // Instancia de producto 2
     data: {
       nombre: "Camisa tipo polo",
       descripcion: "Camisa tipo polo",
@@ -264,8 +264,8 @@ async function main() {
     },
   });
 
+  // Instancia del producto 3
   await prisma.producto.create({
-    // Instancia de producto 3
     data: {
       nombre: "Camiseta tipo Dry-Fit",
       descripcion: "Camiseta tipo Dry-Fit",
@@ -292,8 +292,8 @@ async function main() {
     },
   });
 
+  // Instancia del producto 4
   await prisma.producto.create({
-    // Instancia de producto 4
     data: {
       nombre: "Gorra tipo Dry-Fit",
       descripcion: "Gorra tipo Dry-Fit",
@@ -320,8 +320,8 @@ async function main() {
     },
   });
 
+  // Instancia del producto 5
   await prisma.producto.create({
-    // Instancia de producto 5
     data: {
       nombre: "Camisa manga larga",
       descripcion: "Camisa manga larga",
@@ -348,8 +348,8 @@ async function main() {
     },
   });
 
+  // Instancia del producto 6
   await prisma.producto.create({
-    // Instancia de producto 6
     data: {
       nombre: "Camisa estilo Columbia",
       descripcion: "Camisa estilo Columbia",
@@ -377,8 +377,8 @@ async function main() {
   });
 
   // Preguntas
+  // Instancia de la pregunta 1
   await prisma.pregunta.create({
-    // Instancia de la pregunta 1
     data: {
       descripcion: "¿Este producto tiene garantía?",
       producto: {
@@ -391,12 +391,40 @@ async function main() {
     include: { respuestas: true },
   });
 
+  // Instancia de la pregunta 2
   await prisma.pregunta.create({
-    // Instancia de la pregunta 2
     data: {
       descripcion: "¿Cuántos colores tienen disponibles?",
       producto: {
-        connect: { id: 1 },
+        connect: { id: 2 },
+      },
+      cliente: {
+        connect: { id: 4 },
+      },
+    },
+    include: { respuestas: true },
+  });
+
+  // Instancia de la pregunta 3
+  await prisma.pregunta.create({
+    data: {
+      descripcion: "¿Cuál es el tiempo estimado de entrega?",
+      producto: {
+        connect: { id: 3 },
+      },
+      cliente: {
+        connect: { id: 4 },
+      },
+    },
+    include: { respuestas: true },
+  });
+
+  // Instancia de la pregunta 4
+  await prisma.pregunta.create({
+    data: {
+      descripcion: "¿Este producto viene con accesorios adicionales?",
+      producto: {
+        connect: { id: 4 },
       },
       cliente: {
         connect: { id: 5 },
@@ -405,12 +433,26 @@ async function main() {
     include: { respuestas: true },
   });
 
+  // Instancia de la pregunta 5
   await prisma.pregunta.create({
-    // Instancia de la pregunta 3
     data: {
-      descripcion: "¿Cuál es el tiempo estimado de entrega?",
+      descripcion: "¿Hay descuentos disponibles para este artículo?",
       producto: {
         connect: { id: 5 },
+      },
+      cliente: {
+        connect: { id: 5 },
+      },
+    },
+    include: { respuestas: true },
+  });
+
+  // Instancia de la pregunta 6
+  await prisma.pregunta.create({
+    data: {
+      descripcion: "¿Puedo programar la entrega del producto?",
+      producto: {
+        connect: { id: 6 },
       },
       cliente: {
         connect: { id: 5 },
@@ -420,10 +462,10 @@ async function main() {
   });
 
   // Respuestas
+  // Instancia de la respuesta 1
   await prisma.respuesta.create({
-    // Instancia de la respuesta 1
     data: {
-      descripcion: "Sí, el producto tiene 1 mes de garantía",
+      descripcion: "Sí, el producto tiene 1 mes de garantía.",
       pregunta: {
         connect: { id: 1 },
       },
@@ -433,23 +475,23 @@ async function main() {
     },
   });
 
+  // Instancia de la respuesta 2
   await prisma.respuesta.create({
-    // Instancia de la respuesta 2
     data: {
-      descripcion: "Contamos con 20 colores diferentes",
+      descripcion: "Contamos con 20 colores diferentes.",
       pregunta: {
         connect: { id: 2 },
       },
       vendedor: {
-        connect: { id: 2 },
+        connect: { id: 3 },
       },
     },
   });
 
+  // Instancia de la respuesta 3
   await prisma.respuesta.create({
-    // Instancia de la respuesta 3
     data: {
-      descripcion: "Normalmente entre 24-48 horas hábiles",
+      descripcion: "Normalmente entre 24-48 horas hábiles.",
       pregunta: {
         connect: { id: 3 },
       },
@@ -459,120 +501,74 @@ async function main() {
     },
   });
 
-  // Pedido
-  await prisma.pedido.create({
-    // Instancia de pedido 1
+  // Instancia de la respuesta 4
+  await prisma.respuesta.create({
     data: {
-      total: 4250,
-      estado: "Finalizado",
-      usuario: {
-        connect: { id: 4 }, // ID del usuario asociado
+      descripcion: "Sí, el producto viene con un set de accesorios adicionales",
+      pregunta: {
+        connect: { id: 4 },
       },
-      productos: {
-        createMany: {
-          data: [{ cantidad: 1, subtotal: 4000, total: 4520, productoId: 1 }],
-        },
+      vendedor: {
+        connect: { id: 3 },
       },
     },
-    include: { productos: true },
   });
 
-  await prisma.pedido.create({
-    // Instancia de pedido 2
+  // Instancia de la respuesta 5
+  await prisma.respuesta.create({
     data: {
-      total: 20340,
-      estado: "Pendiente",
-      usuario: {
-        connect: { id: 4 }, // ID del usuario asociado
+      descripcion: "Actualmente no tenemos descuentos disponibles para este artículo.",
+      pregunta: {
+        connect: { id: 5 },
       },
-      productos: {
-        createMany: {
-          data: [
-            { cantidad: 1, subtotal: 6000, total: 6780, productoId: 2 }, // ID del primer producto asociado
-            { cantidad: 1, subtotal: 12000, total: 13560, productoId: 6 }, // ID del segundo producto asociado
-          ],
-        },
+      vendedor: {
+        connect: { id: 2 },
       },
     },
-    include: { productos: true },
   });
 
-  await prisma.pedido.create({
-    // Instancia de pedido 3
+  // Instancia de la respuesta 6
+  await prisma.respuesta.create({
     data: {
-      total: 9900,
-      estado: "Finalizado",
-      usuario: {
-        connect: { id: 4 }, // ID del usuario asociado
+      descripcion: "Sí, ofrecemos la opción de programar la entrega del producto.",
+      pregunta: {
+        connect: { id: 6 },
       },
-      productos: {
-        createMany: {
-          data: [
-            { cantidad: 1, subtotal: 4000, total: 4520, productoId: 1 }, // ID del primer producto asociado
-            { cantidad: 1, subtotal: 5000, total: 5650, productoId: 4 }, // ID del segundo producto asociado
-          ],
-        },
+      vendedor: {
+        connect: { id: 3 },
       },
     },
-    include: { productos: true },
   });
 
+  // Pedidos
+  // Instancia del pedido 1
   await prisma.pedido.create({
-    // Instancia de pedido 4
     data: {
-      total: 11300,
-      estado: "Pendiente",
+      total: 4520,
+      estado: false,
       usuario: {
-        connect: { id: 5 }, // ID del usuario asociado
+        connect: { id: 4 },
       },
-      productos: {
-        createMany: {
-          data: [{ cantidad: 1, subtotal: 10000, total: 11300, productoId: 5 }],
-        },
+      direccion: {
+        connect: { id: 4 },
+      },
+      metodoPago: {
+        connect: { id: 4 },
       },
     },
-    include: { productos: true },
   });
 
-  await prisma.pedido.create({
-    // Instancia de pedido 5
+  // Compras
+  // Instancia de la compra 1
+  await prisma.compra.create({
     data: {
-      total: 15820,
-      estado: "Finalizado",
-      usuario: {
-        connect: { id: 5 }, // ID del usuario asociado
-      },
-      productos: {
-        createMany: {
-          data: [
-            { cantidad: 1, subtotal: 6000, total: 6780, productoId: 2 }, // ID del primer producto asociado
-            { cantidad: 1, subtotal: 8000, total: 9040, productoId: 3 }, // ID del segundo producto asociado
-          ],
-        },
-      },
+      cantidad: 1,
+      subtotal: 4000,
+      impuestos: 520,
+      total: 4520,
+      productoId: 1,
+      pedidoId: 1,
     },
-    include: { productos: true },
-  });
-
-  await prisma.pedido.create({
-    // Instancia de pedido 6
-    data: {
-      total: 23730,
-      estado: "Pendiente",
-      usuario: {
-        connect: { id: 5 }, // ID del usuario asociado
-      },
-      productos: {
-        createMany: {
-          data: [
-            { cantidad: 1, subtotal: 6000, total: 6780, productoId: 2 }, // ID del primer producto asociado
-            { cantidad: 1, subtotal: 5000, total: 5650, productoId: 4 }, // ID del segundo producto asociado
-            { cantidad: 1, subtotal: 10000, total: 11300, productoId: 5 }, // ID del tercer producto asociado
-          ],
-        },
-      },
-    },
-    include: { productos: true },
   });
 }
 

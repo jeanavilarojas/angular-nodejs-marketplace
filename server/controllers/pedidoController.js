@@ -16,7 +16,7 @@ module.exports.getById = async (request, response, next) => {
     where: { id: pedidoId },
     include: {
       usuario: true,
-      productos: {
+      compras: {
         select: {
           cantidad: true,
           subtotal: true,
@@ -37,7 +37,7 @@ module.exports.getByCliente = async (request, response, next) => {
     orderBy: { fecha: "asc" },
     include: {
       usuario: true,
-      productos: {
+      compras: {
         select: {
           cantidad: true,
           subtotal: true,
@@ -57,15 +57,13 @@ module.exports.getByVendedor = async (request, response, next) => {
     where: {
       productos: {
         some: {
-          producto: {
-            vendedorId: vendedorId,
-          },
+          vendedorId: vendedorId,
         },
       },
     },
     orderBy: { fecha: "asc" },
     include: {
-      productos: {
+      compras: {
         select: {
           cantidad: true,
           subtotal: true,
@@ -79,7 +77,58 @@ module.exports.getByVendedor = async (request, response, next) => {
 };
 
 // Crear un pedido
-module.exports.create = async (request, response, next) => {};
+module.exports.create = async (request, response, next) => {
+  let pedido = request.body;
+  try {
+    const pedidoCreado = await prisma.pedido.create({
+      data: {
+        total: pedido.total,
+        usuarioId: pedido.usuarioId,
+        direccionId: pedido.direccionId,
+        metodoPagoId: pedido.metodoPagoId,
+        compras: {
+          create: pedido.compras,
+        },
+      },
+    });
+
+    // Lógica para actualizar la cantidad disponible de productos
+    for (const compra of pedido.compras) {
+      const productoId = compra.productoId;
+      const cantidadComprada = compra.cantidad;
+      const producto = await prisma.producto.findUnique({
+        where: { id: productoId },
+      });
+      if (producto) {
+        const nuevaCantidad = producto.cantidad - cantidadComprada;
+        await prisma.producto.update({
+          where: { id: productoId },
+          data: { cantidad: nuevaCantidad },
+        });
+      }
+    }
+    response.json(pedidoCreado);
+  } catch (error) {
+    next(error);
+  }
+};
 
 // Actualizar un pedido
 module.exports.update = async (request, response, next) => {};
+
+// Cambiar estado del pedido
+module.exports.updateStatus = async (request, response, next) => {
+  let id = parseInt(request.params.id);
+  const pedidoActual = await prisma.pedido.findUnique({
+    where: { id: id },
+  });
+  try {
+    const updatedPedido = await prisma.pedido.update({
+      where: { id: id },
+      data: { estado: pedidoActual.estado ? true : false },
+    });
+    response.json(updatedPedido);
+  } catch (error) {
+    next(error);
+  }
+};

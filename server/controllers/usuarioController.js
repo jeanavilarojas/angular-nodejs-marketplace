@@ -89,6 +89,23 @@ module.exports.update = async (request, response, next) => {
   }
 };
 
+// Cambiar estado del usuario
+module.exports.updateStatus = async (request, response, next) => {
+  let id = parseInt(request.params.id);
+  const usuarioActual = await prisma.usuario.findUnique({
+    where: { id: id },
+  });
+  try {
+    const updatedUsuario = await prisma.usuario.update({
+      where: { id: id },
+      data: { estado: usuarioActual.estado ? false : true },
+    });
+    response.json(updatedUsuario);
+  } catch (error) {
+    next(error);
+  }
+};
+
 // Iniciar sesión
 module.exports.login = async (request, response, next) => {
   let solicitud = request.body;
@@ -152,21 +169,5 @@ module.exports.login = async (request, response, next) => {
       success: false,
       message: "Error en el servidor",
     });
-  }
-};
-
-module.exports.updateStatus = async (request, response, next) => {
-  let id = parseInt(request.params.id);
-  const usuarioActual = await prisma.usuario.findUnique({
-    where: { id: id },
-  });
-  try {
-    const updatedUsuario = await prisma.usuario.update({
-      where: { id: id },
-      data: { estado: usuarioActual.estado ? false : true },
-    });
-    response.json(updatedUsuario);
-  } catch (error) {
-    next(error);
   }
 };

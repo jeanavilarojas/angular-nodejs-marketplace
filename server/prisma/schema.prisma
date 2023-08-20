@@ -45,7 +45,7 @@ model Direccion {
   telefono        String
   usuarioId       Int
   usuario         Usuario  @relation(fields: [usuarioId], references: [id])
-  compras         Compra[]
+  pedidos         Pedido[]
 }
 
 model MetodoPago {
@@ -56,7 +56,7 @@ model MetodoPago {
   fechaExpiracion String
   usuarioId       Int
   usuario         Usuario  @relation(fields: [usuarioId], references: [id])
-  compras         Compra[]
+  pedidos         Pedido[]
 }
 
 model Categoria {
@@ -94,56 +94,45 @@ model Respuesta {
 }
 
 model Producto {
-  id          Int                @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   nombre      String
   descripcion String
   precio      Float
   cantidad    Int
   estado      String // Nuevo, Usado-Como nuevo, Usado-Buen estado, Usado-Aceptable 
   vendedorId  Int
-  vendedor    Usuario            @relation(fields: [vendedorId], references: [id])
+  vendedor    Usuario     @relation(fields: [vendedorId], references: [id])
   categorias  Categoria[]
   fotos       Foto[]
   preguntas   Pregunta[]
-  pedidos     PedidoOnProducto[]
+  compras     Compra[]
 }
 
 model Pedido {
-  id        Int                @id @default(autoincrement())
-  fecha     DateTime           @default(now())
-  total     Int
-  estado    String // Pendiente, en progreso, entregado o finalizado
-  usuarioId Int
-  usuario   Usuario            @relation(fields: [usuarioId], references: [id])
-  compra    Compra?
-  productos PedidoOnProducto[]
-}
-
-model PedidoOnProducto {
-  cantidad   Int
-  subtotal   Float
-  total      Float
-  pedidoId   Int
-  pedido     Pedido   @relation(fields: [pedidoId], references: [id])
-  productoId Int
-  producto   Producto @relation(fields: [productoId], references: [id])
-
-  @@id([pedidoId, productoId])
+  id           Int        @id @default(autoincrement())
+  fecha        DateTime   @default(now())
+  total        Int
+  estado       Boolean    @default(false) // False = Pendiente, True = Finalizado
+  usuarioId    Int
+  usuario      Usuario    @relation(fields: [usuarioId], references: [id])
+  direccionId  Int
+  direccion    Direccion  @relation(fields: [direccionId], references: [id])
+  metodoPagoId Int
+  metodoPago   MetodoPago @relation(fields: [metodoPagoId], references: [id])
+  compras      Compra[]
 }
 
 model Compra {
-  id           Int         @id @default(autoincrement())
-  cantidad     Int
-  subtotal     Float
-  impuestos    Float
-  total        Float
-  estado       String // Pendiente, en progreso, entregado o finalizado
-  direccionId  Int
-  direccion    Direccion   @relation(fields: [direccionId], references: [id])
-  metodoPagoId Int
-  metodoPago   MetodoPago  @relation(fields: [metodoPagoId], references: [id])
-  pedido       Pedido      @relation(fields: [id], references: [id])
-  evaluacion   Evaluacion?
+  id         Int         @id @default(autoincrement())
+  cantidad   Int
+  subtotal   Float
+  impuestos  Float
+  total      Float
+  productoId Int
+  Producto   Producto    @relation(fields: [productoId], references: [id])
+  pedidoId   Int
+  pedido     Pedido      @relation(fields: [pedidoId], references: [id])
+  evaluacion Evaluacion?
 }
 
 model Evaluacion {
