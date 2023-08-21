@@ -7,7 +7,7 @@
       <p><b>Estado: </b>{{ pedido.estado }}</p>
     </div>
     <div class="pedido-content">
-      <div class="producto-item" *ngFor="let producto of pedido.productos">
+      <div *ngFor="let producto of pedido.compras" class="producto-item">
         <h2><b>{{ producto.producto.nombre }}</b></h2>
         <p>Cantidad: {{ producto.cantidad }}</p>
         <p>Precio unitario: {{ producto.producto.precio | currency : "₡" }}</p>

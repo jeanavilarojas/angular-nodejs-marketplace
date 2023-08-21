@@ -24,56 +24,55 @@
           </div>
         </div>
       </div>
+      <mat-card-content *ngIf="dataSource">
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+          <ng-container matColumnDef="producto">
+            <mat-header-cell *matHeaderCellDef>Producto(s)</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.product.nombre }}</mat-cell>
+            <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+          </ng-container>
+  
+          <ng-container matColumnDef="cantidad">
+            <mat-header-cell *matHeaderCellDef>Cantidad</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <mat-form-field appearance="fill">
+                <input matInput id="cantidad" type="number" [(ngModel)]="element.cantidad" (change)="actualizarCantidad(element)" />
+              </mat-form-field>
+            </mat-cell>
+            <mat-footer-cell *matFooterCellDef class="footer-total">Total</mat-footer-cell>
+          </ng-container>
+  
+          <ng-container matColumnDef="subtotal">
+            <mat-header-cell *matHeaderCellDef>Subtotal</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.subtotal | currency : "₡" }}</mat-cell>
+            <mat-footer-cell *matFooterCellDef class="footer-total">{{ total | currency : "₡" }}</mat-footer-cell>
+          </ng-container>
+  
+          <ng-container matColumnDef="impuestos">
+            <mat-header-cell *matHeaderCellDef> Impuestos </mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.cantidad * element.subtotal * 0.13 | currency : "₡" }}</mat-cell>
+            <mat-footer-cell *matFooterCellDef class="footer-total">{{ total * 0.13 + total | currency : "₡" }}</mat-footer-cell>
+          </ng-container>
+  
+          <ng-container matColumnDef="acciones">
+            <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <button mat-icon-button aria-label="Detalle producto" matTooltip="Detalle producto" (click)="detalleProducto(element.product.id)">
+                <mat-icon>info</mat-icon>
+              </button>
+              <button mat-icon-button aria-label="Eliminar producto" matTooltip="Eliminar producto" (click)="eliminarProducto(element)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-cell>
+            <mat-footer-cell *matFooterCellDef>
+              <button mat-flat-button color="accent" (click)="registrarOrden()">Comprar<mat-icon>shopping_bag</mat-icon></button>
+            </mat-footer-cell>
+          </ng-container>
+  
+          <mat-header-row *matHeaderRowDef="displayedColumns" class="header"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+          <mat-footer-row *matFooterRowDef="displayedColumns" class="footer-row"></mat-footer-row>
+        </mat-table>
+      </mat-card-content>
     </form>
-
-    <mat-card-content *ngIf="dataSource">
-      <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-        <ng-container matColumnDef="producto">
-          <mat-header-cell *matHeaderCellDef>Producto(s)</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{ element.product.nombre }}</mat-cell>
-          <mat-footer-cell *matFooterCellDef></mat-footer-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="cantidad">
-          <mat-header-cell *matHeaderCellDef>Cantidad</mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            <mat-form-field appearance="fill">
-              <input matInput id="cantidad" type="number" [(ngModel)]="element.cantidad" (change)="actualizarCantidad(element)" />
-            </mat-form-field>
-          </mat-cell>
-          <mat-footer-cell *matFooterCellDef class="footer-total">Total</mat-footer-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="subtotal">
-          <mat-header-cell *matHeaderCellDef>Subtotal</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{ element.subtotal | currency : "₡" }}</mat-cell>
-          <mat-footer-cell *matFooterCellDef class="footer-total">{{ total | currency : "₡" }}</mat-footer-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="impuestos">
-          <mat-header-cell *matHeaderCellDef> Impuestos </mat-header-cell>
-          <mat-cell *matCellDef="let element">{{ element.cantidad * element.subtotal * 0.13 | currency : "₡" }}</mat-cell>
-          <mat-footer-cell *matFooterCellDef class="footer-total">{{ total * 0.13 + total | currency : "₡" }}</mat-footer-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="acciones">
-          <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            <button mat-icon-button aria-label="Detalle producto" matTooltip="Detalle producto" (click)="detalleProducto(element.product.id)">
-              <mat-icon>info</mat-icon>
-            </button>
-            <button mat-icon-button aria-label="Eliminar producto" matTooltip="Eliminar producto" (click)="eliminarProducto(element)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </mat-cell>
-          <mat-footer-cell *matFooterCellDef>
-            <button mat-flat-button color="accent" (click)="registrarOrden()">Comprar<mat-icon>shopping_bag</mat-icon></button>
-          </mat-footer-cell>
-        </ng-container>
-
-        <mat-header-row *matHeaderRowDef="displayedColumns" class="header"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-        <mat-footer-row *matFooterRowDef="displayedColumns" class="footer-row"></mat-footer-row>
-      </mat-table>
-    </mat-card-content>
 </div>

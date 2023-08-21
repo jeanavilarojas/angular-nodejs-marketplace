@@ -129,7 +129,7 @@ model Compra {
   impuestos  Float
   total      Float
   productoId Int
-  Producto   Producto    @relation(fields: [productoId], references: [id])
+  producto   Producto    @relation(fields: [productoId], references: [id])
   pedidoId   Int
   pedido     Pedido      @relation(fields: [pedidoId], references: [id])
   evaluacion Evaluacion?

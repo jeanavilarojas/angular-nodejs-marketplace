@@ -9,8 +9,8 @@
     <div class="pedido-content">
       <div class="producto-item">
         <h2><b>Producto(s):</b></h2>
-        <ul *ngIf="pedido.productos">
-          <li *ngFor="let item of pedido.productos"><a [routerLink]="['/producto/detalle', item.producto.id]">{{ item.producto.nombre }}</a></li>
+        <ul *ngIf="pedido.compras">
+          <li *ngFor="let compra of pedido.compras"><a [routerLink]="['/producto/detalle', compra.producto.id]">{{ compra.producto.nombre }}</a></li>
         </ul>
       </div>
     </div>
@@ -20,5 +20,5 @@
         <mat-icon>keyboard_arrow_right</mat-icon>
       </button>
     </div>
-  </div>
+  </div>  
 </div>

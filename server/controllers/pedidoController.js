@@ -55,9 +55,11 @@ module.exports.getByVendedor = async (request, response, next) => {
   let vendedorId = parseInt(request.params.vendedorId);
   const pedidos = await prisma.pedido.findMany({
     where: {
-      productos: {
+      compras: {
         some: {
-          vendedorId: vendedorId,
+          producto: {
+            vendedorId: vendedorId,
+          },
         },
       },
     },
