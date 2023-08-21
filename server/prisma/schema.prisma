@@ -80,7 +80,7 @@ model Pregunta {
   producto    Producto   @relation(fields: [productoId], references: [id])
   clienteId   Int
   cliente     Usuario    @relation(fields: [clienteId], references: [id])
-  respuestas  Respuesta?
+  respuesta   Respuesta?
 }
 
 model Respuesta {

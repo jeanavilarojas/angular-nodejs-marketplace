@@ -71,18 +71,13 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
 
   // Crear pregunta
   crearPregunta(id: number) {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = false;
-    dialogConfig.data = { id: id };
-    this.dialog.open(ProductoPreguntaComponent, dialogConfig);
+    this.router.navigate(['/pregunta', id]);
   }
 
   // Crear respuesta
-  crearRespuesta(preguntaId: number) {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = false;
-    dialogConfig.data = { preguntaId: preguntaId };
-    this.dialog.open(ProductoRespuestaComponent, dialogConfig);
+  crearRespuesta(id: number) {
+    this.router.navigate(['/respuesta', id]
+    );
   }
 
   // Agregar al carrito

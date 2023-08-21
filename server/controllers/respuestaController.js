@@ -19,23 +19,27 @@ module.exports.getById = async (request, response, next) => {
   response.json(respuesta);
 };
 
+// Obtener respuesta por ID de la pregunta
+module.exports.getRespuestaPregunta = async (request, response, next) => {
+  let preguntaId = parseInt(request.params.id);
+  const respuestas = await prisma.respuesta.findMany({
+    where: { preguntaId: preguntaId },
+    include: { vendedor: true, pregunta: true },
+  });
+  response.json(respuestas);
+};
+
 // Crear una respuesta
 module.exports.create = async (request, response, next) => {
   try {
     const respuesta = request.body;
-    const pregunta = await prisma.pregunta.findUnique({
-      where: { id: respuesta.preguntaId },
-      select: { productoId: true },
-    });
-    if (!pregunta) {
-      return response.status(404).json({ error: "Pregunta no encontrada" });
-    }
     const createRespuesta = await prisma.respuesta.create({
       data: {
         descripcion: respuesta.descripcion,
         pregunta: { connect: { id: respuesta.preguntaId } },
         vendedorId: respuesta.vendedorId,
       },
+      include: { vendedor: true, pregunta: true },
     });
     response.json(createRespuesta);
   } catch (error) {
