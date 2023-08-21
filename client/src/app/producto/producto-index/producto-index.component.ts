@@ -4,6 +4,8 @@ import { Subject, takeUntil } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GenericService } from 'src/app/share/generic.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { CartService } from 'src/app/share/cart.service';
+import { NotificacionService, TipoMessage } from 'src/app/share/notification.service';
 
 @Component({
   selector: 'app-producto-index',
@@ -16,7 +18,13 @@ export class ProductoIndexComponent implements OnInit {
   filtroForm: FormGroup;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private gService: GenericService, private sanitizer: DomSanitizer, private router: Router, private fb: FormBuilder) {
+  constructor(
+    private gService: GenericService,
+    private sanitizer: DomSanitizer,
+    private router: Router,
+    private fb: FormBuilder,
+    private cartService: CartService,
+    private notificacion: NotificacionService) {
     this.listaProductos();
     this.listaCategorias();
   }
@@ -88,6 +96,21 @@ export class ProductoIndexComponent implements OnInit {
   // Direccionar a la página de detalle
   detalleProducto(id: number) {
     this.router.navigate(['/producto/detalle', id]);
+  }
+
+  // Agregar al carrito
+  agregarCarrito(id: number) {
+    this.gService
+      .get('producto', id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        this.cartService.addToCart(data);
+        this.notificacion.mensaje(
+          'Orden',
+          'Producto: ' + data.producto + ' agregado al carrito',
+          TipoMessage.success
+        )
+      });
   }
 
   ngOnDestroy() {

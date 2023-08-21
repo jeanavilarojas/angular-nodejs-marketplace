@@ -83,7 +83,13 @@ export class PedidoCarritoComponent {
       this.noti.mensaje('Error', 'La cantidad seleccionada no es válida', TipoMessage.error);
     }
   }
-  eliminarItem(item: any) {
+
+  // Direccionar a la página de detalle
+  detalleProducto(id: number) {
+    this.router.navigate(['/producto/detalle', id]);
+  }
+
+  eliminarProducto(item: any) {
     this.cartService.removeFromCart(item);
     this.total = this.cartService.getTotal();
     this.noti.mensaje('Pedido', 'Producto eliminado', TipoMessage.warning);

@@ -399,7 +399,7 @@ async function main() {
         connect: { id: 2 },
       },
       cliente: {
-        connect: { id: 4 },
+        connect: { id: 5 },
       },
     },
     include: { respuestas: true },
@@ -441,7 +441,7 @@ async function main() {
         connect: { id: 5 },
       },
       cliente: {
-        connect: { id: 5 },
+        connect: { id: 4 },
       },
     },
     include: { respuestas: true },
@@ -504,7 +504,7 @@ async function main() {
   // Instancia de la respuesta 4
   await prisma.respuesta.create({
     data: {
-      descripcion: "Sí, el producto viene con un set de accesorios adicionales",
+      descripcion: "Sí, el producto viene con un set de accesorios adicionales.",
       pregunta: {
         connect: { id: 4 },
       },

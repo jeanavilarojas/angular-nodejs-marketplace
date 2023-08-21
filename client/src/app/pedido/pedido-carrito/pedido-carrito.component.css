@@ -2,17 +2,18 @@
   padding: 20px;
 }
 
-.pedido-card {
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
-}
-
-.pedido-header {
+.encabezado {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.filter-container mat-form-field:not(:last-child) {
+  margin-right: 10px; /* Ajusta el espaciado entre los controles de los filtros */
+}
+
+.filter-container mat-form-field:last-child {
+  margin-right: 0; /* Elimina el espaciado en el último filtro (Filtrar por precio) */
 }
 
 .pedido-header h2,

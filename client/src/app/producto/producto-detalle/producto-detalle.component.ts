@@ -7,6 +7,8 @@ import { GenericService } from 'src/app/share/generic.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ProductoPreguntaComponent } from '../producto-pregunta/producto-pregunta.component';
 import { ProductoRespuestaComponent } from '../producto-respuesta/producto-respuesta.component';
+import { CartService } from 'src/app/share/cart.service';
+import { NotificacionService, TipoMessage } from 'src/app/share/notification.service';
 
 @Component({
   selector: 'app-producto-detalle',
@@ -25,7 +27,14 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
   producto: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private route: ActivatedRoute, private dialog: MatDialog, private router: Router, private gService: GenericService, private sanitizer: DomSanitizer) { }
+  constructor(
+    private route: ActivatedRoute,
+    private dialog: MatDialog,
+    private router: Router,
+    private gService: GenericService,
+    private sanitizer: DomSanitizer,
+    private cartService: CartService,
+    private notificacion: NotificacionService) { }
 
   ngOnInit() {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params) => {
@@ -74,6 +83,21 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
     dialogConfig.disableClose = false;
     dialogConfig.data = { preguntaId: preguntaId };
     this.dialog.open(ProductoRespuestaComponent, dialogConfig);
+  }
+
+  // Agregar al carrito
+  agregarCarrito(id: number) {
+    this.gService
+      .get('producto', id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        this.cartService.addToCart(data);
+        this.notificacion.mensaje(
+          'Orden',
+          'Producto: ' + data.producto + ' agregado al carrito',
+          TipoMessage.success
+        )
+      });
   }
 
   ngOnDestroy() {

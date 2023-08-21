@@ -1,134 +1,79 @@
-<mat-card class="box">
-  <mat-card-title>Pedido de Compra</mat-card-title>
-  <mat-card-content>
-    Fecha: {{ fecha | date : "dd/MM/yyyy" }}
-  </mat-card-content>
-  <form [formGroup]="pedidosForm" novalidate>
-    <div class="row">
-      <div class="col">
-        <div *ngIf="usuarioInfo?.direcciones[0] ?? false">
-          <mat-form-field class="full-width">
-            <mat-select placeholder="Direccion" formControlName="direccion">
-              <mat-option
-                *ngFor="let d of usuarioInfo.direcciones"
-                [value]="d.id"
-              >
-                {{ d.canton }}
-              </mat-option>
-            </mat-select>
-            <mat-error> Direccion es <strong>requerido</strong> </mat-error>
-          </mat-form-field>
+<div class="grid-container">
+    <form [formGroup]="pedidosForm" novalidate>
+      <div class="encabezado">
+        <div>
+          <h1>Carrito de compras</h1>
+          <p>Fecha: {{ fecha | date : "dd/MM/yyyy" }}</p>
+        </div>
+        <div>
+          <div *ngIf="usuarioInfo?.direcciones[0] ?? false">
+            <mat-form-field class="full-width">
+              <mat-select formControlName="direccion" placeholder="Dirección">
+                <mat-option *ngFor="let d of usuarioInfo.direcciones" [value]="d.id">{{ d.direccionExacta }}</mat-option>
+              </mat-select>
+              <mat-error>La dirección es requerida</mat-error>
+            </mat-form-field>
+          </div>
+          <div *ngIf="usuarioInfo?.metodosPago[0] ?? false">
+            <mat-form-field class="full-width">
+              <mat-select formControlName="metodoPago" placeholder="Método de pago">
+                <mat-option *ngFor="let m of usuarioInfo.metodosPago" [value]="m.id">{{ m.numeroCuenta }}</mat-option>
+              </mat-select>
+              <mat-error>El método de pago es requiredo</mat-error>
+            </mat-form-field>
+          </div>
         </div>
       </div>
-      <div class="col">
-        <div *ngIf="usuarioInfo?.metodosPago[0] ?? false">
-          <mat-form-field class="full-width">
-            <mat-select
-              placeholder="Metodo de pago"
-              formControlName="metodoPago"
-            >
-              <mat-option
-                *ngFor="let m of usuarioInfo.metodosPago"
-                [value]="m.id"
-              >
-                {{ m.proveedor }}
-              </mat-option>
-            </mat-select>
-            <mat-error> Type is <strong>required</strong> </mat-error>
-          </mat-form-field>
-        </div>
-        <div *ngIf="!usuarioInfo?.metodosPago[0] ?? false">
-          <button routerLink="">Digite un metodo de pago</button>
-        </div>
-      </div>
-    </div>
-  </form>
-</mat-card>
+    </form>
 
-<mat-card class="box">
-  <mat-card-content *ngIf="dataSource">
-    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-      <ng-container matColumnDef="producto">
-        <mat-header-cell *matHeaderCellDef> Producto </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          {{ element.product.nombre }}
-        </mat-cell>
+    <mat-card-content *ngIf="dataSource">
+      <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="producto">
+          <mat-header-cell *matHeaderCellDef>Producto(s)</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.product.nombre }}</mat-cell>
+          <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+        </ng-container>
 
-        <mat-footer-cell *matFooterCellDef></mat-footer-cell>
-      </ng-container>
+        <ng-container matColumnDef="cantidad">
+          <mat-header-cell *matHeaderCellDef>Cantidad</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <mat-form-field appearance="fill">
+              <input matInput id="cantidad" type="number" [(ngModel)]="element.cantidad" (change)="actualizarCantidad(element)" />
+            </mat-form-field>
+          </mat-cell>
+          <mat-footer-cell *matFooterCellDef class="footer-total">Total</mat-footer-cell>
+        </ng-container>
 
-      <ng-container matColumnDef="precio">
-        <mat-header-cell *matHeaderCellDef> Precio </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          {{ element.product.Precio | currency }}
-        </mat-cell>
-        <mat-footer-cell *matFooterCellDef></mat-footer-cell>
-      </ng-container>
+        <ng-container matColumnDef="subtotal">
+          <mat-header-cell *matHeaderCellDef>Subtotal</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.subtotal | currency : "₡" }}</mat-cell>
+          <mat-footer-cell *matFooterCellDef class="footer-total">{{ total | currency : "₡" }}</mat-footer-cell>
+        </ng-container>
 
-      <ng-container matColumnDef="cantidad">
-        <mat-header-cell *matHeaderCellDef> Cantidad </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          <mat-form-field appearance="fill">
-            <input
-              matInput
-              id="cantidad "
-              type="number"
-              class="form-control mb-2"
-              [(ngModel)]="element.cantidad"
-              (change)="actualizarCantidad(element)"
-            />
-          </mat-form-field>
-        </mat-cell>
-        <mat-footer-cell *matFooterCellDef class="footer-total"
-          >Total
-        </mat-footer-cell>
-      </ng-container>
+        <ng-container matColumnDef="impuestos">
+          <mat-header-cell *matHeaderCellDef> Impuestos </mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.cantidad * element.subtotal * 0.13 | currency : "₡" }}</mat-cell>
+          <mat-footer-cell *matFooterCellDef class="footer-total">{{ total * 0.13 + total | currency : "₡" }}</mat-footer-cell>
+        </ng-container>
 
-      <ng-container matColumnDef="impuestos">
-        <mat-header-cell *matHeaderCellDef> Impuestos </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          {{ element.cantidad * element.subtotal * 0.13 | currency }}
-        </mat-cell>
-        <mat-footer-cell *matFooterCellDef class="footer-total">{{
-          total * 0.13 + total | currency
-        }}</mat-footer-cell>
-      </ng-container>
+        <ng-container matColumnDef="acciones">
+          <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button mat-icon-button aria-label="Detalle producto" matTooltip="Detalle producto" (click)="detalleProducto(element.product.id)">
+              <mat-icon>info</mat-icon>
+            </button>
+            <button mat-icon-button aria-label="Eliminar producto" matTooltip="Eliminar producto" (click)="eliminarProducto(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-cell>
+          <mat-footer-cell *matFooterCellDef>
+            <button mat-flat-button color="accent" (click)="registrarOrden()">Comprar<mat-icon>shopping_bag</mat-icon></button>
+          </mat-footer-cell>
+        </ng-container>
 
-      <ng-container matColumnDef="subtotal">
-        <mat-header-cell *matHeaderCellDef> Subtotal </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          {{ element.subtotal | currency }}
-        </mat-cell>
-        <mat-footer-cell *matFooterCellDef class="footer-total">{{
-          total | currency
-        }}</mat-footer-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="acciones">
-        <mat-header-cell *matHeaderCellDef> Acciones</mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          <button mat-icon-button (click)="eliminarItem(element)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </mat-cell>
-        <mat-footer-cell *matFooterCellDef></mat-footer-cell>
-      </ng-container>
-
-      <mat-header-row
-        *matHeaderRowDef="displayedColumns"
-        class="header"
-      ></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-      <mat-footer-row
-        *matFooterRowDef="displayedColumns"
-        class="footer-row"
-      ></mat-footer-row>
-    </mat-table>
-  </mat-card-content>
-  <mat-card-actions align="end">
-    <button mat-flat-button color="accent" (click)="registrarOrden()">
-      Comprar
-      <mat-icon>shopping_bag</mat-icon>
-    </button>
-  </mat-card-actions>
-</mat-card>
+        <mat-header-row *matHeaderRowDef="displayedColumns" class="header"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        <mat-footer-row *matFooterRowDef="displayedColumns" class="footer-row"></mat-footer-row>
+      </mat-table>
+    </mat-card-content>
+</div>
