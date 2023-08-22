@@ -1,29 +1,29 @@
-<form [formGroup]="preguntaForm" (ngSubmit)="isCreate ? crearPregunta(): updatePregunta"  novalidate >
-  <input type="hidden" formControlName="id" />
-  <input type="hidden" formControlName="clienteId" />
-  <input type="hidden" formControlName="productoId" />
-  <mat-card class="shipping-card"> 
-    <mat-card-header>
-      <mat-card-title>{{titleForm}} Pregunta</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="row">
-        <div class="col">
-          <mat-form-field class="full-width">
-            <input matInput formControlName="Pregunta" maxlength="20" placeholder="Pregunta" >
-            <mat-hint align="end"> / 20</mat-hint>
-            <mat-error *ngIf="errorHandling('Pregunta','required')">
-              Pregunta es <strong>requerido</strong>
-            </mat-error>
-          </mat-form-field>
+<div class="grid-container">
+  <div class="encabezado">
+    <h1>{{ titleForm }} pregunta</h1>
+  </div>
+  <form [formGroup]="preguntaForm" (ngSubmit)="isCreate ? crearPregunta(): actualizarPregunta()"  novalidate >
+    <input type="hidden" formControlName="id" />
+    <input type="hidden" formControlName="clienteId" />
+    <input type="hidden" formControlName="productoId" />
+    <mat-card class="producto-card"> 
+      <mat-card-content>
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <mat-label>Pregunta</mat-label>
+              <input matInput formControlName="descripcion" maxlength="100" placeholder="Pregunta" >
+              <mat-hint align="end"> / 100</mat-hint>
+              <mat-error *ngIf="errorHandling('descripcion','required')">La pregunta es requerida</mat-error>
+            </mat-form-field>
+          </div>
         </div>
-      </div>
-      
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button aria-label="Agregar pregunta" (click)="crearPregunta()">Guardar
-        <mat-icon>add</mat-icon>
-      </button>
-    </mat-card-actions>
-  </mat-card>
-</form>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button aria-label="Agregar pregunta" (click)="crearPregunta()">Agregar pregunta
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

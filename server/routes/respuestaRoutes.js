@@ -8,7 +8,7 @@ const respuestaController = require("../controllers/respuestaController");
 // locahost:3000/respuesta/
 router.get("/", respuestaController.get);
 router.get("/:id", respuestaController.getById);
-router.get("/:id", respuestaController.getRespuestaPregunta);
+router.get("/pregunta/:id", respuestaController.getByPreguntaId);
 router.post("/", respuestaController.create);
 
 module.exports = router;

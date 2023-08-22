@@ -54,16 +54,16 @@
           <b>Pregunta:</b> {{ pregunta.descripcion }}
         </p>
       </div>
-      <div class="respuesta" *ngIf="pregunta.respuestas">
+      <div class="respuesta" *ngIf="pregunta.respuesta">
         <div class="pregunta-respuesta-header">
-          <p><b>Vendedor:</b> {{ pregunta.respuestas.vendedor.nombre }}</p>
-          <p><b>Fecha:</b> {{ pregunta.respuestas.fecha | date }}</p>
+          <p><b>Vendedor:</b> {{ pregunta.respuesta.vendedor.nombre }}</p>
+          <p><b>Fecha:</b> {{ pregunta.respuesta.fecha | date }}</p>
         </div>
         <p class="pregunta-respuesta">
-          <b>Respuesta:</b> {{ pregunta.respuestas.descripcion }}
+          <b>Respuesta:</b> {{ pregunta.respuesta.descripcion }}
         </p>
       </div>
-      <button mat-button aria-label="Agregar respuesta" class="agregar-respuesta" *ngIf="!pregunta.respuestas?.id" (click)="crearRespuesta(pregunta.id)">Agregar respuesta
+      <button mat-button aria-label="Agregar respuesta" class="agregar-respuesta" *ngIf="!pregunta.respuesta?.id" (click)="crearRespuesta(pregunta.id)">Agregar respuesta
         <mat-icon>add</mat-icon>
       </button>
     </div>

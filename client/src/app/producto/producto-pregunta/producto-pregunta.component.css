@@ -1,8 +1,27 @@
-.dashboard-card {
-  margin: 2%;
+.grid-container {
+  padding: 20px;
 }
 
-.dashboard-card-content {
-  text-align: left;
-  line-height: 1.5em;
+.producto-card {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.col {
+  flex: 1;
+}
+
+.col:last-child {
+  margin-right: 0;
 }

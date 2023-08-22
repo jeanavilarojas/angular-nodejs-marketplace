@@ -20,7 +20,7 @@ module.exports.getById = async (request, response, next) => {
 };
 
 // Obtener respuesta por ID de la pregunta
-module.exports.getRespuestaPregunta = async (request, response, next) => {
+module.exports.getByPreguntaId = async (request, response, next) => {
   let preguntaId = parseInt(request.params.id);
   const respuestas = await prisma.respuesta.findMany({
     where: { preguntaId: preguntaId },
@@ -36,10 +36,9 @@ module.exports.create = async (request, response, next) => {
     const createRespuesta = await prisma.respuesta.create({
       data: {
         descripcion: respuesta.descripcion,
-        pregunta: { connect: { id: respuesta.preguntaId } },
+        preguntaId: respuesta.preguntaId,
         vendedorId: respuesta.vendedorId,
       },
-      include: { vendedor: true, pregunta: true },
     });
     response.json(createRespuesta);
   } catch (error) {

@@ -1,41 +1,26 @@
-<form [formGroup]="respuestaForm" (ngSubmit)="crearRespuesta()" novalidate>
-  <input type="hidden" formControlName="id" />
-  <input type="hidden" formControlName="vendedorId" />
-  <input type="hidden" formControlName="productoId" />
-  <mat-card class="shipping-card">
-    <mat-card-header>
-      <mat-card-title>{{ titleForm }} Respuesta</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="row">
-        <div class="col">
-          <mat-form-field class="full-width">
-            <input
-              matInput
-              formControlName="descripcion"
-              maxlength="60"
-              placeholder="Descripcion"
-            />
-            <mat-hint align="end"> / 20</mat-hint>
-            <mat-error *ngIf="errorHandling('descripcion', 'required')">
-              El mensaje es <strong>requerido</strong>
-            </mat-error>
-            <mat-error *ngIf="errorHandling('descripcion', 'minlength')">
-              Descripción debe tener <strong>3 caracteres</strong>
-            </mat-error>
-          </mat-form-field>
+<div class="grid-container">
+  <div class="encabezado">
+    <h1>{{ titleForm }} respuesta</h1>
+  </div>
+  <form [formGroup]="respuestaForm" (ngSubmit)="crearRespuesta()" novalidate >
+    <mat-card class="producto-card"> 
+      <mat-card-content>
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <mat-label>Respuesta</mat-label>
+              <input matInput formControlName="descripcion" maxlength="100" placeholder="Respuesta" >
+              <mat-hint align="end"> / 100</mat-hint>
+              <mat-error *ngIf="errorHandling('descripcion','required')">La respuesta es requerida</mat-error>
+            </mat-form-field>
+          </div>
         </div>
-      </div>
-    </mat-card-content>
-    <mat-card-actions>
-      <button
-        mat-button
-        aria-label="Agregar Respuesta"
-        (click)="crearRespuesta()"
-      >
-        Enviar
-        <mat-icon>add</mat-icon>
-      </button>
-    </mat-card-actions>
-  </mat-card>
-</form>
+      </mat-card-content>
+      <mat-card-actions>
+        <button type="submit" mat-button aria-label="Agregar respuesta">Agregar respuesta
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

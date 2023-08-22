@@ -24,7 +24,7 @@ module.exports.getById = async (request, response, next) => {
       preguntas: {
         include: {
           cliente: true,
-          respuestas: {
+          respuesta: {
             include: {
               vendedor: true,
             },

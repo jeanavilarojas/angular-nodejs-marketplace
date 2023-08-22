@@ -12,26 +12,9 @@ import { GenericService } from 'src/app/share/generic.service';
 })
 export class ProductoRespuestaComponent {
   destroy$: Subject<boolean> = new Subject<boolean>();
-  // Titulo
   titleForm: string = 'Crear';
-  // Respuesta del API crear/modificar
-  respRespuesta: any;
-  // Respuesta a actualizar
-  respuestaInfo: any;
-  // Sí es submit
-  submitted = false;
-  // Nombre del formulario
   respuestaForm: FormGroup;
-  // id del Detalle
-  idRespuesta: number;
-  // Sí es crear
-  isCreate: boolean = true;
-  // ID del producto
-  idProducto: number = 0;
-  // ID de la pregunta
   idPregunta: number;
-  currentUser: any;
-  idUsuario: number;
 
   constructor(
     private fb: FormBuilder,
@@ -42,53 +25,27 @@ export class ProductoRespuestaComponent {
   ) {
     this.formularioReactive();
     this.idPregunta = +this.activeRouter.snapshot.paramMap.get('id');
-    // this.listaProductos();
-    this.idUsuario = this.authService.usuarioId;
-    console.log(this.idUsuario);
-    console.log(this.idPregunta);
   }
-  ngOnInit(): void {
-    this.idPregunta = +this.activeRouter.snapshot.paramMap.get('id');
-    // Obtenemos el ID del usuario autenticado (ajusta según tu servicio)
-    this.idUsuario = this.authService.usuarioId;
 
+  ngOnInit(): void {
     this.activeRouter.params.subscribe((params: Params) => {
       const idRespuesta = params['id'];
       if (idRespuesta !== undefined) {
-        this.gService
-          .get('respuesta', idRespuesta)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((data: any) => {
-            this.respRespuesta = data;
-            this.respuestaForm.patchValue({
-              descripcion: this.respRespuesta.descripcion
-            });
-          });
       }
     });
   }
 
   formularioReactive() {
-    //[null, Validators.required]
     this.respuestaForm = this.fb.group({
-      id: [null, null],
-      descripcion: [
-        null,
-        Validators.compose([Validators.required, Validators.minLength(3)]),
-
-      ],
-      productoId: [null, Validators.required],
-      vendedorId: [null, Validators.required],
-
+      descripcion: [null, Validators.compose([Validators.required, Validators.minLength(3)])],
     });
   }
+
   public errorHandling = (control: string, error: string) => {
     return this.respuestaForm.controls[control].hasError(error);
   };
 
   crearRespuesta(): void {
-    //Establecer submit verdaderot
-    this.submitted = true;
     if (this.respuestaForm.invalid) {
       return;
     }
@@ -96,30 +53,23 @@ export class ProductoRespuestaComponent {
     const nuevaRespuesta = {
       descripcion,
       preguntaId: this.idPregunta,
-      vendedorId: this.idUsuario,
-      productoId: this.idProducto // Ajusta según tu lógica
+      vendedorId: this.authService.usuarioId,
     };
-
-    // Acción API create enviando toda la informacion del formulario
     this.gService
       .create('respuesta', nuevaRespuesta)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data: any) => {
-          //Obtener respuesta
-          this.respRespuesta = data;
-          console.log(data);
-          this.router.navigate(['/producto/detalle', this.idPregunta]);
+          console.log('Respuesta creada con éxito:', data);
+          this.router.navigate(['/producto/detalle/']);
         },
         (error: any) => {
-          console.error('Error al crear la pregunta:', error);
-          // Manejar el error aquí, por ejemplo, mostrar un mensaje de error al usuario
+          console.error('Error al crear la respuesta:', error);
         }
       );
   }
 
   onReset() {
-    this.submitted = false;
     this.respuestaForm.reset();
   }
 
@@ -129,7 +79,6 @@ export class ProductoRespuestaComponent {
 
   ngOnDestroy() {
     this.destroy$.next(true);
-    // Desinscribirse
-    this.destroy$.unsubscribe
+    this.destroy$.unsubscribe();
   }
 }

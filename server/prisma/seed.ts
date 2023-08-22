@@ -388,7 +388,7 @@ async function main() {
         connect: { id: 4 },
       },
     },
-    include: { respuestas: true },
+    include: { respuesta: true },
   });
 
   // Instancia de la pregunta 2
@@ -402,7 +402,7 @@ async function main() {
         connect: { id: 5 },
       },
     },
-    include: { respuestas: true },
+    include: { respuesta: true },
   });
 
   // Instancia de la pregunta 3
@@ -416,7 +416,7 @@ async function main() {
         connect: { id: 4 },
       },
     },
-    include: { respuestas: true },
+    include: { respuesta: true },
   });
 
   // Instancia de la pregunta 4
@@ -430,7 +430,7 @@ async function main() {
         connect: { id: 5 },
       },
     },
-    include: { respuestas: true },
+    include: { respuesta: true },
   });
 
   // Instancia de la pregunta 5
@@ -444,7 +444,7 @@ async function main() {
         connect: { id: 4 },
       },
     },
-    include: { respuestas: true },
+    include: { respuesta: true },
   });
 
   // Instancia de la pregunta 6
@@ -458,7 +458,7 @@ async function main() {
         connect: { id: 5 },
       },
     },
-    include: { respuestas: true },
+    include: { respuesta: true },
   });
 
   // Respuestas

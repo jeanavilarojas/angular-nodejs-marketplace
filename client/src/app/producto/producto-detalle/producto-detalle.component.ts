@@ -71,12 +71,12 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
 
   // Crear pregunta
   crearPregunta(id: number) {
-    this.router.navigate(['/pregunta', id]);
+    this.router.navigate(['/pregunta/crear', id]);
   }
 
   // Crear respuesta
   crearRespuesta(id: number) {
-    this.router.navigate(['/respuesta', id]
+    this.router.navigate(['/respuesta/crear', id]
     );
   }
 
