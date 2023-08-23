@@ -39,15 +39,15 @@
   <!-- Sección de preguntas y respuestas -->
   <div class="preguntas-respuestas">
     <div class="encabezado">
-      <h2>Preguntas y Respuestas</h2>
-      <button mat-button aria-label="Agregar pregunta" *ngIf="isAutenticated" (click)="crearPregunta(producto.id)">Agregar pregunta
+      <h2>Preguntas y respuestas</h2>
+      <button mat-button aria-label="Agregar pregunta" *ngIf="isAutenticated && isCliente" (click)="crearPregunta(producto.id)">Agregar pregunta
         <mat-icon>add</mat-icon>
       </button>
     </div>
     <div *ngFor="let pregunta of producto.preguntas" class="pregunta-respuesta-card">
       <div class="pregunta">
         <div class="pregunta-respuesta-header">
-          <p><b>Usuario:</b> {{ pregunta.cliente.nombre }}</p>
+          <p><b>Usuario:</b> {{ pregunta.cliente.nombre }} {{ pregunta.cliente.apellidos }}</p>
           <p><b>Fecha:</b> {{ pregunta.fecha | date }}</p>
         </div>
         <p class="pregunta-respuesta">
@@ -56,14 +56,14 @@
       </div>
       <div class="respuesta" *ngIf="pregunta.respuesta">
         <div class="pregunta-respuesta-header">
-          <p><b>Vendedor:</b> {{ pregunta.respuesta.vendedor.nombre }}</p>
+          <p><b>Vendedor:</b> {{ pregunta.respuesta.vendedor.nombre }} {{ pregunta.respuesta.vendedor.apellidos }}</p>
           <p><b>Fecha:</b> {{ pregunta.respuesta.fecha | date }}</p>
         </div>
         <p class="pregunta-respuesta">
           <b>Respuesta:</b> {{ pregunta.respuesta.descripcion }}
         </p>
       </div>
-      <button mat-button aria-label="Agregar respuesta" class="agregar-respuesta" *ngIf="isAutenticated && !pregunta.respuesta?.id" (click)="crearRespuesta(pregunta.id)">Agregar respuesta
+      <button mat-button aria-label="Agregar respuesta" class="agregar-respuesta" *ngIf="isAutenticated && !isCliente || isVendedor && !pregunta.respuesta?.id" (click)="crearRespuesta(pregunta.id)">Agregar respuesta
         <mat-icon>add</mat-icon>
       </button>
     </div>

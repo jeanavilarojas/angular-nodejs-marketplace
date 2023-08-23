@@ -16,7 +16,7 @@
     <button mat-icon-button aria-label="Cuenta" [matTooltip]="tooltipText" [matMenuTriggerFor]="usuarioMenu">
       <mat-icon class="navbar-icon">account_circle</mat-icon>
     </button>
-    <button mat-icon-button aria-label="Carrito" matTooltip="Carrito" [matBadge]="qtyItems.toString()" (click)="pedidoCarrito(usuarioId)">
+    <button mat-icon-button aria-label="Carrito" matTooltip="Carrito" [matBadge]="qtyItems.toString()" *ngIf="isAutenticated && isCliente" (click)="pedidoCarrito(usuarioId)">
       <mat-icon class="navbar-icon">local_mall</mat-icon>
     </button>
 

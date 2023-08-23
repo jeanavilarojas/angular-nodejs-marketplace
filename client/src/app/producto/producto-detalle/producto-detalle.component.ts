@@ -27,6 +27,8 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
   isAutenticated: boolean;
   currentUser: any;
   usuarioId: number;
+  isVendedor: boolean = false;
+  isCliente: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -44,6 +46,10 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
         (valor) => (this.isAutenticated = valor)
       );
     });
+    // Verificar si el usuario es vendedor
+    this.isVendedor = this.authService.isVendedor;
+    // Verificar si el usuario es cliente
+    this.isCliente = this.authService.isCliente;
     // Subscripción al booleano que indica si esta autenticado
     this.authService.isAuthenticated.subscribe((valor) => {
       this.isAutenticated = valor;
@@ -101,7 +107,7 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
         this.cartService.addToCart(data);
         this.notificacion.mensaje(
           'Orden',
-          'Producto: ' + data.producto + ' agregado al carrito',
+          'Producto agregado al carrito',
           TipoMessage.success
         )
       });

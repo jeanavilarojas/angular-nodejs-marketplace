@@ -47,10 +47,8 @@ export class HeaderComponent implements OnInit {
       }
       // Verificar si el usuario es administrador
       this.isAdmin = this.authService.isAdmin;
-
       // Verificar si el usuario es vendedor
       this.isVendedor = this.authService.isVendedor;
-
       // Verificar si el usuario es cliente
       this.isCliente = this.authService.isCliente;
     });

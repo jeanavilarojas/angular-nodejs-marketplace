@@ -107,7 +107,7 @@ export class ProductoIndexComponent implements OnInit {
         this.cartService.addToCart(data);
         this.notificacion.mensaje(
           'Orden',
-          'Producto: ' + data.producto + ' agregado al carrito',
+          'Producto agregado al carrito',
           TipoMessage.success
         )
       });
