@@ -9,6 +9,10 @@
   margin-bottom: 20px;
 }
 
+ul{
+  margin-bottom: 0px;
+}
+
 .pedido-header {
   display: flex;
   justify-content: space-between;

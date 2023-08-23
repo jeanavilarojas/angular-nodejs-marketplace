@@ -4,10 +4,10 @@
     <div class="pedido-header">
       <h2>Pedido {{ pedido.id }}</h2>
       <p><b>Fecha: </b>{{ pedido.fecha | date }}</p>
-      <p><b>Estado: </b>{{ pedido.estado }}</p>
+      <p><b>Estado: </b>{{ pedido.estado ? 'Finalizado' : 'Pendiente' }}</p>
     </div>
     <div class="pedido-content">
-      <div class="producto-item" *ngFor="let producto of pedido.productos">
+      <div class="producto-item" *ngFor="let producto of pedido.compras">
         <h2><b><a [routerLink]="['/producto/detalle', producto.producto.id]">{{ producto.producto.nombre }}</a></b></h2>
         <p>Cantidad: {{ producto.cantidad }}</p>
         <p>Precio unitario: {{ producto.producto.precio | currency : "₡" }}</p>
