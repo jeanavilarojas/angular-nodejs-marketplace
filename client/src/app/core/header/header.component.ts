@@ -16,29 +16,43 @@ export class HeaderComponent implements OnInit {
   qtyItems: number = 0;
   sesion: boolean = false;
   isTrue: number = 0;
+  isAdmin: boolean = false;
+  isVendedor: boolean = false;
+  isCliente: boolean = false;
 
   constructor(
     private authService: AuthenticationService,
     private cartService: CartService,
     private router: Router
-  ) { }
+  ) {
+    this.qtyItems = this.cartService.quantityItems();
+  }
 
   ngOnInit(): void {
     // Subscripción a la información del usuario actual
     this.authService.currentUser.subscribe((x) => {
       this.currentUser = x;
       this.authService.isAuthenticated.subscribe(
-        (valor) => (this.isAutenticated = valor) 
+        (valor) => (this.isAutenticated = valor)
       );
       this.cartService.countItems.subscribe((value) => {
         this.qtyItems = value;
       });
       // Actualizar el texto del tooltip si el usuario está logueado
       if (this.currentUser && this.currentUser.usuario) {
-        this.tooltipText = this.currentUser.usuario.nombre + ' ' + this.currentUser.usuario.apellidos;
+        this.tooltipText =
+          this.currentUser.usuario.nombre + ' ' + this.currentUser.usuario.apellidos;
       } else {
         this.tooltipText = 'Cuenta';
       }
+      // Verificar si el usuario es administrador
+      this.isAdmin = this.authService.isAdmin;
+
+      // Verificar si el usuario es vendedor
+      this.isVendedor = this.authService.isVendedor;
+
+      // Verificar si el usuario es cliente
+      this.isCliente = this.authService.isCliente;
     });
 
     // Subscripción al booleano que indica si esta autenticado
@@ -66,19 +80,19 @@ export class HeaderComponent implements OnInit {
   }
 
   pedidosCliente(id: number) {
-    this.router.navigate(['/pedido/cliente', id])
+    this.router.navigate(['/pedido/cliente', id]);
   }
 
   pedidosVendedor(id: number) {
-    this.router.navigate(['/pedido/vendedor', id])
+    this.router.navigate(['/pedido/vendedor', id]);
   }
 
   productosVendedor(id: number) {
-    this.router.navigate(['/producto/vendedor', id])
+    this.router.navigate(['/producto/vendedor', id]);
   }
 
   pedidoCarrito(id: number) {
-    this.router.navigate(['/pedido/carrito', id])
+    this.router.navigate(['/pedido/carrito', id]);
   }
 
   // Cerrar la sesión del usuario

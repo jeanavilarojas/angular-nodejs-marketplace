@@ -9,37 +9,30 @@ import { CartService } from './cart.service';
   providedIn: 'root',
 })
 export class AuthenticationService {
-  //Header para afirmar el tipo de contenido JSON
-  //URL del API
   ServerUrl = environment.apiURL;
-  //Variable observable para gestionar la información del usuario, con características especiales
   private currentUserSubject: BehaviorSubject<any>;
-  //Variable observable para gestionar la información del usuario
   public currentUser: Observable<any>;
-  //Booleano para estado de usuario autenticado
-  private authenticated = new BehaviorSubject<boolean>(false); 
+  private authenticated = new BehaviorSubject<boolean>(false);
   usuarioId: number;
+  isAdmin: boolean = false;
+  isVendedor: boolean = false;
+  isCliente: boolean = false;
 
-  //Inyectar cliente HTTP para las solicitudes al API
-  constructor(private http: HttpClient, private cartService:CartService) {
-    //Obtener los datos del usuario en localStorage, si existe
+  constructor(private http: HttpClient, private cartService: CartService) {
     this.currentUserSubject = new BehaviorSubject<any>(
       JSON.parse(localStorage.getItem('currentUser'))
     );
-    //Establecer un observable para acceder a los datos del usuario
     this.currentUser = this.currentUserSubject.asObservable();
     this.currentUser.subscribe((data) => {
-      this.usuarioId = data.usuario.id
-    })
-    console.log(this.currentUser)
+      this.usuarioId = data.usuario.id;
+      this.roles();
+    });
   }
 
-  //Obtener el valor del usuario actual
   public get currentUserValue(): any {
     return this.currentUserSubject.value;
   }
 
-  //Establecer booleano verificando si esta autenticado
   get isAuthenticated() {
     if (this.currentUserValue != null) {
       this.authenticated.next(true);
@@ -49,17 +42,16 @@ export class AuthenticationService {
     return this.authenticated.asObservable();
   }
 
-  //Crear usuario
   createUser(usuario: any): Observable<any> {
     return this.http.post<any>(this.ServerUrl + 'usuario/register', usuario);
   }
 
-  // Login
   loginUser(usuario: any): Observable<any> {
+    this.isAdmin = false;
+    this.isVendedor = false;
+    this.isCliente = false;
     return this.http.post<any>(this.ServerUrl + 'usuario/login', usuario).pipe(
       map((usuario) => {
-        // almacene los detalles del usuario y el token jwt
-        // en el almacenamiento local para mantener al usuario conectado entre las actualizaciones de la página
         localStorage.setItem('currentUser', JSON.stringify(usuario.data));
         this.authenticated.next(true);
         this.currentUserSubject.next(usuario.data);
@@ -68,17 +60,33 @@ export class AuthenticationService {
     );
   }
 
-  // Logout de usuario autentificado
+  roles() {
+    const user = this.currentUserValue;
+    if (user && user.usuario && user.usuario.roles) {
+      for (let i = 0; i < user.usuario.roles.length; i++) {
+        switch (user.usuario.roles[i].descripcion) {
+          case 'Administrador':
+            this.isAdmin = true;
+            break;
+          case 'Vendedor':
+            this.isVendedor = true;
+            break;
+          case 'Cliente':
+            this.isCliente = true;
+            break;
+          default:
+            break;
+        }
+      }
+    }
+  }
+
   logout() {
     let usuario = this.currentUserSubject.value;
     if (usuario) {
-      // eliminar usuario del almacenamiento local para cerrar la sesión del usuario
       localStorage.removeItem('currentUser');
-      //Eliminarlo del observable del usuario actual
       this.currentUserSubject.next(null);
-      //Eliminarlo del observable del boleano si esta autenticado
       this.authenticated.next(false);
-      //Eliminar carrito
       this.cartService.deleteCart();
       return true;
     }

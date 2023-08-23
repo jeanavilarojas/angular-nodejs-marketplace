@@ -36,15 +36,15 @@
   <mat-toolbar-row class="navbar-bottom">
     <span class="navbar-spacer"></span>
     <div>
-      <a mat-button aria-label="Pedidos" [ngClass]="'nav-link'" (click)="pedidosCliente(usuarioId)">Pedidos cliente</a>
-      <a mat-button aria-label="Productos" [routerLink]="'/productos/cliente'" [ngClass]="'nav-link'">Productos cliente</a>
-      <a mat-button aria-label="Pedidos" [ngClass]="'nav-link'" (click)="pedidosVendedor(usuarioId)">Pedidos vendedor</a>
-      <a mat-button aria-label="Productos" [ngClass]="'nav-link'" (click)="productosVendedor(usuarioId)">Productos vendedor</a>      
+      <a mat-button aria-label="Pedidos" [ngClass]="'nav-link'" *ngIf="isAutenticated && isCliente" (click)="pedidosCliente(usuarioId)">Pedidos cliente</a>
+      <a mat-button aria-label="Productos" [routerLink]="'/productos/cliente'" [ngClass]="'nav-link'">Productos</a>
+      <a mat-button aria-label="Pedidos" [ngClass]="'nav-link'" *ngIf="isAutenticated && isVendedor" (click)="pedidosVendedor(usuarioId)">Pedidos vendedor</a>
+      <a mat-button aria-label="Productos" [ngClass]="'nav-link'" *ngIf="isAutenticated && isVendedor" (click)="productosVendedor(usuarioId)">Productos vendedor</a>      
       <mat-menu #mantenimientosMenu="matMenu">
         <button mat-menu-item aria-label="Productos" [routerLink]="'/productos/administrador'" [ngClass]="'nav-link'">Productos</button>
         <button mat-menu-item aria-label="Usuarios" [routerLink]="'/usuarios/administrador'" [ngClass]="'nav-link'">Usuarios</button>
       </mat-menu>
-      <a mat-button aria-label="Mantenimientos" [matMenuTriggerFor]="mantenimientosMenu">Mantenimientos</a>
+      <a mat-button aria-label="Mantenimientos" *ngIf="isAutenticated && isAdmin" [matMenuTriggerFor]="mantenimientosMenu">Mantenimientos</a>
     </div>
   </mat-toolbar-row>
 </mat-toolbar>

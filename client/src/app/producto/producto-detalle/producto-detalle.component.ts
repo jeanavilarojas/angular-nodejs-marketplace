@@ -1,14 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Subject, takeUntil } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GenericService } from 'src/app/share/generic.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { ProductoPreguntaComponent } from '../producto-pregunta/producto-pregunta.component';
-import { ProductoRespuestaComponent } from '../producto-respuesta/producto-respuesta.component';
 import { CartService } from 'src/app/share/cart.service';
 import { NotificacionService, TipoMessage } from 'src/app/share/notification.service';
+import { AuthenticationService } from 'src/app/share/authentication.service';
 
 @Component({
   selector: 'app-producto-detalle',
@@ -26,17 +24,31 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
   productoId: number;
   producto: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  isAutenticated: boolean;
+  currentUser: any;
+  usuarioId: number;
 
   constructor(
     private route: ActivatedRoute,
-    private dialog: MatDialog,
     private router: Router,
     private gService: GenericService,
+    private authService: AuthenticationService,
     private sanitizer: DomSanitizer,
     private cartService: CartService,
     private notificacion: NotificacionService) { }
 
   ngOnInit() {
+    this.authService.currentUser.subscribe((x) => {
+      this.currentUser = x;
+      this.authService.isAuthenticated.subscribe(
+        (valor) => (this.isAutenticated = valor)
+      );
+    });
+    // Subscripción al booleano que indica si esta autenticado
+    this.authService.isAuthenticated.subscribe((valor) => {
+      this.isAutenticated = valor;
+    });
+    this.usuarioId = this.authService.usuarioId;
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       this.productoId = Number(params['id']);
       if (!isNaN(this.productoId)) {
