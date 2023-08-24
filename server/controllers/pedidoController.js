@@ -16,6 +16,8 @@ module.exports.getById = async (request, response, next) => {
     where: { id: pedidoId },
     include: {
       usuario: true,
+      direccion: true,
+      metodoPago: true,
       compras: {
         select: {
           cantidad: true,
@@ -37,6 +39,8 @@ module.exports.getByCliente = async (request, response, next) => {
     orderBy: { fecha: "asc" },
     include: {
       usuario: true,
+      direccion: true,
+      metodoPago: true,
       compras: {
         select: {
           cantidad: true,
@@ -65,6 +69,9 @@ module.exports.getByVendedor = async (request, response, next) => {
     },
     orderBy: { fecha: "asc" },
     include: {
+      usuario: true,
+      direccion: true,
+      metodoPago: true,
       compras: {
         select: {
           cantidad: true,

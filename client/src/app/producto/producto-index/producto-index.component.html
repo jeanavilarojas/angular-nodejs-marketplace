@@ -35,7 +35,7 @@
       </mat-card-content>
       <mat-card-actions>
         <button mat-button aria-label="Detalle del producto" (click)="detalleProducto(item.id)">Detalles<mat-icon>info</mat-icon></button>
-        <button mat-button aria-label="Agregar al carrito" (click)="agregarCarrito(item.id)">Comprar<mat-icon>add_shopping_cart</mat-icon></button>
+        <button mat-button aria-label="Agregar al carrito" *ngIf="isAutenticated" (click)="agregarCarrito(item.id)">Comprar<mat-icon>add_shopping_cart</mat-icon></button>
       </mat-card-actions>
     </mat-card>
   </div>

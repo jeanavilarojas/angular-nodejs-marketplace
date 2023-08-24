@@ -5,6 +5,32 @@
       <h2>Pedido {{ pedido.id }}</h2>
       <p><b>Fecha: </b>{{ pedido.fecha | date }}</p>
       <p><b>Estado: </b>{{ pedido.estado ? 'Finalizado' : 'Pendiente' }}</p>
+      <button mat-button aria-label="Editar estado" matTooltip="Actualizar estado a Finalizado" *ngIf="isAdmin || isVendedor && !pedido.estado">Editar estado
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+    <div class="informacion-usuario">
+      <div class="columna-usuario">
+        <h2>Cliente</h2>
+        <p><b>Nombre: </b>{{ pedido.usuario.nombre }} {{ pedido.usuario.apellidos }}</p>
+        <p><b>Identificación: </b>{{ pedido.usuario.identificacion }}</p>
+        <p><b>Teléfono: </b>{{ pedido.usuario.telefono }}</p>
+        <p><b>Correo: </b>{{ pedido.usuario.correo }}</p>
+      </div>
+      <div class="columna-usuario">
+        <h2>Dirección</h2>
+        <p><b>Provincia: </b>{{ pedido.direccion.provincia }}</p>
+        <p><b>Cantón: </b>{{ pedido.direccion.canton }}</p>
+        <p><b>Distrito: </b>{{ pedido.direccion.distrito }}</p>
+        <p><b>Dirección exacta: </b>{{ pedido.direccion.direccionExacta }}</p>
+      </div>
+      <div class="columna-usuario">
+        <h2>Método de pago</h2>
+        <p><b>Tipo de pago: </b>{{ pedido.metodoPago.tipoPago }}</p>
+        <p><b>Proveedor: </b>{{ pedido.metodoPago.proveedor }}</p>
+        <p><b>Número de cuenta: </b>{{ ocultarNumerosTarjeta(pedido.metodoPago.numeroCuenta) }}</p>
+        <p><b>Fecha de expiración: </b>{{ pedido.metodoPago.fechaExpiracion }}</p>
+      </div>
     </div>
     <div class="pedido-content">
       <div class="producto-item" *ngFor="let producto of pedido.compras">

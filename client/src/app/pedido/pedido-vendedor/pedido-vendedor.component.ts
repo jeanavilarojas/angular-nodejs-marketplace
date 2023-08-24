@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GenericService } from 'src/app/share/generic.service';
+import { NotificacionService, TipoMessage } from 'src/app/share/notification.service';
 
 @Component({
   selector: 'app-pedido-vendedor',
@@ -13,7 +14,7 @@ export class PedidoVendedorComponent {
   pedidos: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private gService: GenericService, private route: ActivatedRoute, private router: Router) {
+  constructor(private gService: GenericService, private route: ActivatedRoute, private router: Router, private notification: NotificacionService) {
     let id = this.route.snapshot.paramMap.get('id');
     this.id = +id;
     if (!isNaN(Number(this.id))) {
@@ -33,7 +34,7 @@ export class PedidoVendedorComponent {
   }
 
   // Direccionar a la página de editar
-  editarPedido(id: number) {
+  detallePedido(id: number) {
     this.router.navigate(['/pedido/detalle', id]);
   }
 

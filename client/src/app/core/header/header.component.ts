@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/share/authentication.service';
+import { NotificacionService, TipoMessage } from 'src/app/share/notification.service';
 import { CartService } from 'src/app/share/cart.service';
 import { Router } from '@angular/router';
 
@@ -22,6 +23,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private authService: AuthenticationService,
+    private notificacionService: NotificacionService,
     private cartService: CartService,
     private router: Router
   ) {
@@ -98,6 +100,7 @@ export class HeaderComponent implements OnInit {
     this.sesion = false;
     localStorage.clear();
     this.authService.logout();
+    this.notificacionService.mensaje('Éxito', 'La sesión ha sido cerrada correctamente', TipoMessage.success);
     this.router.navigate(['usuario/login']);
   }
 }

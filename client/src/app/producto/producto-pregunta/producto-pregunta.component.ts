@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthenticationService } from 'src/app/share/authentication.service';
+import { NotificacionService, TipoMessage } from 'src/app/share/notification.service';
 import { GenericService } from 'src/app/share/generic.service';
 
 @Component({
@@ -28,7 +29,8 @@ export class ProductoPreguntaComponent implements OnInit {
     private gService: GenericService,
     private router: Router,
     private activeRouter: ActivatedRoute,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private notificacionService: NotificacionService
   ) {
     this.formularioReactive();
     this.productoID = +this.activeRouter.snapshot.paramMap.get('id');
@@ -86,10 +88,12 @@ export class ProductoPreguntaComponent implements OnInit {
         (data: any) => {
           this.respPregunta = data;
           console.log(data);
+          this.notificacionService.mensaje('Éxito', 'La pregunta se ha creado correctamente', TipoMessage.success);
           this.router.navigate(['/producto/detalle', this.productoID]);
         },
         (error: any) => {
           console.error('Error al crear la pregunta:', error);
+          this.notificacionService.mensaje('Error', 'No se pudo crear la pregunta', TipoMessage.error);
         }
       );
   }

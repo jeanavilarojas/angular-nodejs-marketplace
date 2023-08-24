@@ -24,6 +24,21 @@
   margin: 10px;
 }
 
+.informacion-usuario {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -10px;
+}
+
+.columna-usuario {
+  flex-basis: calc(33.33% - 20px);
+  padding: 15px;
+}
+
+.columna-usuario h2 {
+  margin: 15px 0px 0px 0px;
+}
+
 .pedido-content a {
   color: #303030;
 }

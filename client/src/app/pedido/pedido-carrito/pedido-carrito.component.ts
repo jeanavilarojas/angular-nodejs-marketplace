@@ -160,6 +160,16 @@ export class PedidoCarritoComponent {
     }
   }
 
+  ocultarNumerosTarjeta(numeroCuenta: string): string {
+    const partes = numeroCuenta.split('-'); // Divide el número en partes por guiones
+    const ultimaParte = partes[partes.length - 1]; // Obtiene la última parte (últimos 4 dígitos)
+    // Genera asteriscos para las partes anteriores
+    const partesOcultas = partes.slice(0, -1).map(parte => '*'.repeat(parte.length));
+    // Combina las partes ocultas y la última parte con guiones
+    const numeroOculto = [...partesOcultas, ultimaParte].join('-');
+    return numeroOculto;
+  }
+
   onBack() {
     this.router.navigate(['/productos/cliente']);
   }

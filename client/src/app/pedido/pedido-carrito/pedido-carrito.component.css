@@ -8,12 +8,14 @@
   align-items: center;
 }
 
-.filter-container mat-form-field:not(:last-child) {
-  margin-right: 10px; /* Ajusta el espaciado entre los controles de los filtros */
+.encabezado-derecha {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-.filter-container mat-form-field:last-child {
-  margin-right: 0; /* Elimina el espaciado en el último filtro (Filtrar por precio) */
+.direccion-field {
+  margin-right: 10px;
 }
 
 .pedido-header h2,

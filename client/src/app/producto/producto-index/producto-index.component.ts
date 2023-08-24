@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { GenericService } from 'src/app/share/generic.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CartService } from 'src/app/share/cart.service';
+import { AuthenticationService } from 'src/app/share/authentication.service';
 import { NotificacionService, TipoMessage } from 'src/app/share/notification.service';
 
 @Component({
@@ -16,6 +17,8 @@ export class ProductoIndexComponent implements OnInit {
   datos: any[] = [];
   categoriasList: any;
   filtroForm: FormGroup;
+  currentUser: any;
+  isAutenticated: boolean;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -24,6 +27,7 @@ export class ProductoIndexComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private cartService: CartService,
+    private authService: AuthenticationService,
     private notificacion: NotificacionService) {
     this.listaProductos();
     this.listaCategorias();
@@ -37,6 +41,12 @@ export class ProductoIndexComponent implements OnInit {
     });
     this.listaProductos();
     this.listaCategorias();
+    this.authService.currentUser.subscribe((x) => {
+      this.currentUser = x;
+      this.authService.isAuthenticated.subscribe(
+        (valor) => (this.isAutenticated = valor)
+      );
+    });
   }
 
   // Listar los productos llamando al API

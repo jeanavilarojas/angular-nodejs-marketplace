@@ -1,13 +1,10 @@
 <div class="grid-container">
     <form [formGroup]="pedidosForm" novalidate>
       <div class="encabezado">
-        <div>
-          <h1>Carrito de compras</h1>
-          <p>Fecha: {{ fecha | date : "dd/MM/yyyy" }}</p>
-        </div>
-        <div>
+        <h1>Carrito de compras</h1>
+        <div class="encabezado-derecha">
           <div *ngIf="usuarioInfo?.direcciones[0] ?? false">
-            <mat-form-field class="full-width">
+            <mat-form-field class="direccion-field">
               <mat-select formControlName="direccion" placeholder="Dirección">
                 <mat-option *ngFor="let d of usuarioInfo.direcciones" [value]="d.id">{{ d.direccionExacta }}</mat-option>
               </mat-select>
@@ -15,11 +12,11 @@
             </mat-form-field>
           </div>
           <div *ngIf="usuarioInfo?.metodosPago[0] ?? false">
-            <mat-form-field class="full-width">
+            <mat-form-field>
               <mat-select formControlName="metodoPago" placeholder="Método de pago">
-                <mat-option *ngFor="let m of usuarioInfo.metodosPago" [value]="m.id">{{ m.numeroCuenta }}</mat-option>
+                <mat-option *ngFor="let m of usuarioInfo.metodosPago" [value]="m.id">{{ ocultarNumerosTarjeta(m.numeroCuenta) }}</mat-option>
               </mat-select>
-              <mat-error>El método de pago es requiredo</mat-error>
+              <mat-error>El método de pago es requerido</mat-error>
             </mat-form-field>
           </div>
         </div>

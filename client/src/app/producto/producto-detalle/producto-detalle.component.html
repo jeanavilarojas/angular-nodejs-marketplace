@@ -28,7 +28,7 @@
           <p><b>Cantidad: </b>{{ producto.cantidad }}</p>
           <p><b>Categorías: </b>{{ obtenerCategorias() }}</p>
           <p><b>Estado: </b>{{ producto.estado }}</p>
-          <button mat-button aria-label="Agregar al carrito" (click)="agregarCarrito(producto.id)">Agregar al carrito
+          <button mat-button aria-label="Agregar al carrito" *ngIf="isAutenticated" (click)="agregarCarrito(producto.id)">Agregar al carrito
             <mat-icon>add_shopping_cart</mat-icon>
           </button>
         </div>

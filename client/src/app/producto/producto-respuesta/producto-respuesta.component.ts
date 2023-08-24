@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthenticationService } from 'src/app/share/authentication.service';
+import { NotificacionService, TipoMessage } from 'src/app/share/notification.service';
 import { GenericService } from 'src/app/share/generic.service';
 
 @Component({
@@ -21,7 +22,8 @@ export class ProductoRespuestaComponent {
     private gService: GenericService,
     private router: Router,
     private activeRouter: ActivatedRoute,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private notificacionService: NotificacionService
   ) {
     this.formularioReactive();
     this.idPregunta = +this.activeRouter.snapshot.paramMap.get('id');
@@ -61,10 +63,12 @@ export class ProductoRespuestaComponent {
       .subscribe(
         (data: any) => {
           console.log('Respuesta creada con éxito:', data);
+          this.notificacionService.mensaje('Éxito', 'La respuesta se ha creado correctamente', TipoMessage.success);
           this.router.navigate(['/producto/detalle/']);
         },
         (error: any) => {
           console.error('Error al crear la respuesta:', error);
+          this.notificacionService.mensaje('Error', 'No se pudo crear la respuesta', TipoMessage.error);
         }
       );
   }

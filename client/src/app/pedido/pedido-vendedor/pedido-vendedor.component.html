@@ -17,8 +17,8 @@
     </div>
     <div class="pedido-footer">
       <h2 class="pedido-total"><b>Total del pedido: {{ pedido.total | currency : "₡" }}</b></h2>
-      <button mat-button aria-label="Editar pedido" matTooltip="Editar pedido" (click)="editarPedido(pedido.id)">Editar pedido
-        <mat-icon>edit</mat-icon>
+      <button mat-button aria-label="Detalle pedido" matTooltip="Detalle pedido" (click)="detallePedido(pedido.id)">Ver Detalle
+        <mat-icon>keyboard_arrow_right</mat-icon>
       </button>
     </div>
   </div>
